@@ -149,7 +149,7 @@
 
   <section id="video" style="padding: 60px 20px; text-align: center;">
     <h2 style="margin-bottom: 20px;">🎥 المحاضرة</h2>
-    <iframe width="800" height="450" src="https://www.youtube.com/embed/YOUTUBE_watch?v=zW9ZX-SZKtE" frameborder="0" allowfullscreen style="max-width: 100%; border-radius: 12px;"></iframe>
+    <iframe width="800" height="450" src="https://www.youtube.com/embed/zW9ZX-SZKtE" frameborder="0" allowfullscreen style="max-width: 100%; border-radius: 12px;"></iframe>
   </section>
 
   <footer>
