@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>أكاديمية الطاقة الشمسية</title>
+  <title>رحلة المهندس المحترف</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     * {
@@ -131,7 +131,7 @@
 <body>
 
   <header>
-    <h1>أكاديمية الطاقة الشمسية</h1>
+    <h1>رحلة المهندس المحترف</h1>
     <nav>
       <a href="#about">عن الدورة</a>
       <a href="#video">فيديو</a>
@@ -143,17 +143,17 @@
     <div class="hero-content">
       <h2>ابدأ رحلتك في تعلم الطاقة الشمسية</h2>
       <p>دورة شاملة تبدأ من الأساسيات حتى الاحتراف، مصممة للمهندسين والفنيين والمهتمين بمجال الطاقة المتجددة.</p>
-      <a href="#video" class="button">شاهد مقدمة الدورة</a>
+      <a href="#video" class="button">شاهد الحاضرة</a>
     </div>
   </section>
 
   <section id="video" style="padding: 60px 20px; text-align: center;">
-    <h2 style="margin-bottom: 20px;">🎥 فيديو تعريفي</h2>
-    <iframe width="800" height="450" src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID" frameborder="0" allowfullscreen style="max-width: 100%; border-radius: 12px;"></iframe>
+    <h2 style="margin-bottom: 20px;">🎥 المحاضرة</h2>
+    <iframe width="800" height="450" src="https://www.youtube.com/embed/watch?v=zW9ZX-SZKtE" frameborder="0" allowfullscreen style="max-width: 100%; border-radius: 12px;"></iframe>
   </section>
 
   <footer>
-    &copy; 2025 جميع الحقوق محفوظة - أكاديمية الطاقة الشمسية
+    &copy; 2025 جميع الحقوق محفوظة -   رحلة المهندس المحترف
   </footer>
 
 </body>
