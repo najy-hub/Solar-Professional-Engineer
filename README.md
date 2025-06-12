@@ -139,13 +139,15 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h2>ابدأ رحلتك في تعلم الطاقة الشمسية</h2>
-      <p>دورة شاملة تبدأ من الأساسيات حتى الاحتراف، مصممة للمهندسين والفنيين والمهتمين بمجال الطاقة المتجددة.</p>
-      <a href="#video" class="button">شاهد الحاضرة</a>
-    </div>
-  </section>
+ <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1605027990126-22433d32b1b8?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; position: relative;">
+  <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.65); z-index:1;"></div>
+  <div class="hero-content" style="position: relative; z-index: 2; text-align: center; padding: 100px 20px;">
+    <h2 style="font-size: 36px; margin-bottom: 20px; color: #fff;">رحلتك تبدأ من هنا</h2>
+    <p style="font-size: 18px; color: #ccc; margin-bottom: 30px;">دورة متكاملة لتعلم تصميم وتنفيذ أنظمة الطاقة الشمسية بطرق عملية وعلمية.</p>
+    <a href="#video" class="button" style="padding: 12px 30px; background-color: #ffba00; color: #000; font-weight: bold; border-radius: 8px; font-size: 18px; text-decoration: none;">شاهد المقدمة</a>
+  </div>
+</section>
+
 
   <section id="video" style="padding: 60px 20px; text-align: center;">
     <h2 style="margin-bottom: 20px;">🎥 المحاضرة</h2>
