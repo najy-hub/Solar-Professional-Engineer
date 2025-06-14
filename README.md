@@ -161,6 +161,42 @@
       style="max-width: 100%; border-radius: 12px;">
     </iframe>
   </section>
+<section id="comments" style="padding: 60px 20px; max-width: 800px; margin: auto;">
+  <h2 style="margin-bottom: 20px; text-align: center;">💬 التعليقات والأسئلة</h2>
+  
+  <form onsubmit="handleCommentSubmit(event)" style="display: flex; flex-direction: column; gap: 15px;">
+    <input type="text" id="commentName" placeholder="الاسم" required style="padding: 10px; border-radius: 6px; border: none;">
+    <textarea id="commentText" placeholder="اكتب سؤالك أو تعليقك هنا..." required style="padding: 10px; border-radius: 6px; border: none; min-height: 100px;"></textarea>
+    <button type="submit" style="background-color: #ffba00; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">
+      إرسال التعليق
+    </button>
+  </form>
+
+  <div id="commentsList" style="margin-top: 40px;">
+    <!-- سيتم عرض التعليقات هنا -->
+  </div>
+</section>
+
+<script>
+  function handleCommentSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById("commentName").value;
+    const text = document.getElementById("commentText").value;
+    if (!name || !text) return;
+
+    const comment = document.createElement("div");
+    comment.style.background = "#1e1e1e";
+    comment.style.padding = "15px";
+    comment.style.marginTop = "15px";
+    comment.style.borderRadius = "8px";
+
+    comment.innerHTML = `<strong>${name}</strong><p style="margin-top: 5px;">${text}</p>`;
+    document.getElementById("commentsList").prepend(comment);
+
+    document.getElementById("commentName").value = "";
+    document.getElementById("commentText").value = "";
+  }
+</script>
 
   <footer>
     &copy; 2025 جميع الحقوق محفوظة - رحلة المهندس المحترف
