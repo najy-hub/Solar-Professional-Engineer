@@ -46,7 +46,7 @@
 
     .hero {
       position: relative;
-      background-image: url('Image/hero.png');
+      background-image: url('Images/hero.png');
       background-size: cover;
       background-position: center;
       height: 100vh;
