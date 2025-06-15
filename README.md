@@ -161,21 +161,16 @@
       style="max-width: 100%; border-radius: 12px;">
     </iframe>
   </section>
-<section id="comments" style="padding: 60px 20px; max-width: 800px; margin: auto;">
-  <h2 style="margin-bottom: 20px; text-align: center;">💬 التعليقات والأسئلة</h2>
-  
-  <form onsubmit="handleCommentSubmit(event)" style="display: flex; flex-direction: column; gap: 15px;">
-    <input type="text" id="commentName" placeholder="الاسم" required style="padding: 10px; border-radius: 6px; border: none;">
-    <textarea id="commentText" placeholder="اكتب سؤالك أو تعليقك هنا..." required style="padding: 10px; border-radius: 6px; border: none; min-height: 100px;"></textarea>
-    <button type="submit" style="background-color: #ffba00; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">
-      إرسال التعليق
-    </button>
+<section id="comments" style="padding: 60px 20px; text-align: center; background-color: #1a1a1a;">
+  <h2 style="color: #fff; margin-bottom: 20px;">💬 التعليقات والأسئلة</h2>
+  <form id="commentForm" style="max-width: 600px; margin: auto;" onsubmit="submitComment(event)">
+    <input type="text" name="name" placeholder="اسمك" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: none;" />
+    <textarea name="comment" placeholder="اكتب سؤالك أو تعليقك" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: none;"></textarea>
+    <button type="submit" style="padding: 12px 30px; background-color: #ffba00; color: #000; font-weight: bold; border: none; border-radius: 8px;">أرسل</button>
   </form>
-
-  <div id="commentsList" style="margin-top: 40px;">
-    <!-- سيتم عرض التعليقات هنا -->
-  </div>
+  <div id="commentSuccess" style="margin-top: 20px; color: #0f0;">✅ تم إرسال تعليقك بنجاح</div>
 </section>
+
 
 <script>
   function handleCommentSubmit(e) {
@@ -201,6 +196,26 @@
   <footer>
     &copy; 2025 جميع الحقوق محفوظة - رحلة المهندس المحترف
   </footer>
+<script>
+  document.getElementById("commentSuccess").style.display = "none";
+
+  function submitComment(e) {
+    e.preventDefault();
+    const form = document.getElementById("commentForm");
+    const formData = new FormData(form);
+
+    fetch("https://script.google.com/macros/s/AKfycbw2i_ecHj1z0RjYR_gnp3WkKkjnaNm-zJVPUpOQUyObV9qxLR75J_zovq-AxmfNvFHYgA/exec", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+      form.reset();
+      document.getElementById("commentSuccess").style.display = "block";
+    })
+    .catch(err => alert("حدث خطأ أثناء الإرسال"));
+  }
+</script>
 
 </body>
 </html>
