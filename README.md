@@ -161,15 +161,30 @@
       style="max-width: 100%; border-radius: 12px;">
     </iframe>
   </section>
-<section id="comments" style="padding: 60px 20px; text-align: center; background-color: #1a1a1a;">
-  <h2 style="color: #fff; margin-bottom: 20px;">💬 التعليقات والأسئلة</h2>
-  <form id="commentForm" style="max-width: 600px; margin: auto;" onsubmit="submitComment(event)">
-    <input type="text" name="name" placeholder="اسمك" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: none;" />
-    <textarea name="comment" placeholder="اكتب سؤالك أو تعليقك" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: none;"></textarea>
-    <button type="submit" style="padding: 12px 30px; background-color: #ffba00; color: #000; font-weight: bold; border: none; border-radius: 8px;">أرسل</button>
+<section id="comments" style="padding: 40px 20px; max-width: 800px; margin: auto;">
+  <h2>💬 التعليقات</h2>
+
+  <form id="commentForm" onsubmit="submitComment(event)" style="margin-bottom: 30px;">
+    <input type="text" name="name" placeholder="اسمك" required style="width:100%; padding:10px; margin-bottom:10px;" />
+    <textarea name="comment" placeholder="اكتب تعليقك هنا" required style="width:100%; padding:10px; margin-bottom:10px;"></textarea>
+
+    <label>⭐ التقييم:</label>
+    <select name="rating" required style="padding: 8px; margin-bottom: 10px;">
+      <option value="5">5 نجوم</option>
+      <option value="4">4 نجوم</option>
+      <option value="3">3 نجوم</option>
+      <option value="2">2 نجمة</option>
+      <option value="1">1 نجمة</option>
+    </select>
+
+    <button type="submit" style="padding:10px 20px; background:#ffba00; color:#000; font-weight:bold; border-radius:6px;">أرسل التعليق</button>
   </form>
-  <div id="commentSuccess" style="margin-top: 20px; color: #0f0;">✅ تم إرسال تعليقك بنجاح</div>
+
+  <div id="commentsContainer">
+    <p>جارٍ تحميل التعليقات...</p>
+  </div>
 </section>
+
 
 
 <script>
@@ -197,24 +212,47 @@
     &copy; 2025 جميع الحقوق محفوظة - رحلة المهندس المحترف
   </footer>
 <script>
-  document.getElementById("commentSuccess").style.display = "none";
-
-  function submitComment(e) {
-    e.preventDefault();
-    const form = document.getElementById("commentForm");
+  async function submitComment(event) {
+    event.preventDefault();
+    const form = document.getElementById('commentForm');
     const formData = new FormData(form);
+    
+    const data = {
+      name: formData.get('name'),
+      comment: formData.get('comment'),
+      rating: formData.get('rating'),
+    };
 
-    fetch("https://script.google.com/macros/s/AKfycbw2i_ecHj1z0RjYR_gnp3WkKkjnaNm-zJVPUpOQUyObV9qxLR75J_zovq-AxmfNvFHYgA/exec", {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.text())
-    .then(data => {
-      form.reset();
-      document.getElementById("commentSuccess").style.display = "block";
-    })
-    .catch(err => alert("حدث خطأ أثناء الإرسال"));
+    await fetch('https://script.google.com/macros/s/AKfycbwMPaKP0nVZVkTZOc9y9cm_GdK5ILcFwIuQhYyPGNo0KfDXoqy9PYTH9d-c0UfADNKhSw/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    alert("✅ تم إرسال التعليق!");
+    form.reset();
+    loadComments(); // لتحديث القائمة
   }
+
+  async function loadComments() {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwMPaKP0nVZVkTZOc9y9cm_GdK5ILcFwIuQhYyPGNo0KfDXoqy9PYTH9d-c0UfADNKhSw/exec');
+    const comments = await response.json();
+
+    const container = document.getElementById('commentsContainer');
+    container.innerHTML = '';
+
+    comments.reverse().forEach(c => {
+      const ratingStars = '⭐'.repeat(Number(c.rating));
+      container.innerHTML += `
+        <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px;">
+          <strong>${c.name}</strong> <span style="color:#ffba00;">${ratingStars}</span>
+          <p>${c.comment}</p>
+        </div>`;
+    });
+  }
+
+  window.onload = loadComments;
 </script>
 
 </body>
