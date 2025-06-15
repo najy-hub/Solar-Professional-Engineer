@@ -279,7 +279,7 @@
   <div id="comments"></div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/PASTE_YOUR_SCRIPT_URL_HERE/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwf8tweD-5tqM_YmtW0STnFn3rwpharalcK8tvb4t68jJs59V5SSwf4VDdhT4txUj760w/exec";
 
     document.getElementById("commentForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -378,7 +378,7 @@
       rating: formData.get('rating'),
     };
 
-    await fetch('https://script.google.com/macros/s/AKfycbwMPaKP0nVZVkTZOc9y9cm_GdK5ILcFwIuQhYyPGNo0KfDXoqy9PYTH9d-c0UfADNKhSw/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbwf8tweD-5tqM_YmtW0STnFn3rwpharalcK8tvb4t68jJs59V5SSwf4VDdhT4txUj760w/exec', {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
@@ -391,7 +391,7 @@
   }
 
   async function loadComments() {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwMPaKP0nVZVkTZOc9y9cm_GdK5ILcFwIuQhYyPGNo0KfDXoqy9PYTH9d-c0UfADNKhSw/exec');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwf8tweD-5tqM_YmtW0STnFn3rwpharalcK8tvb4t68jJs59V5SSwf4VDdhT4txUj760w/exec');
     const comments = await response.json();
 
     const container = document.getElementById('commentsContainer');
