@@ -161,52 +161,207 @@
       style="max-width: 100%; border-radius: 12px;">
     </iframe>
   </section>
-<section id="comments" style="padding: 40px 20px; max-width: 800px; margin: auto;">
-  <h2>💬 التعليقات</h2>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قسم التعليقات</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
 
-  <form id="commentForm" onsubmit="submitComment(event)" style="margin-bottom: 30px;">
-    <input type="text" name="name" placeholder="اسمك" required style="width:100%; padding:10px; margin-bottom:10px;" />
-    <textarea name="comment" placeholder="اكتب تعليقك هنا" required style="width:100%; padding:10px; margin-bottom:10px;"></textarea>
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-    <label>⭐ التقييم:</label>
-    <select name="rating" required style="padding: 8px; margin-bottom: 10px;">
-      <option value="5">5 نجوم</option>
-      <option value="4">4 نجوم</option>
-      <option value="3">3 نجوم</option>
-      <option value="2">2 نجمة</option>
-      <option value="1">1 نجمة</option>
+    form {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #2c2c2c;
+      color: #fff;
+    }
+
+    button {
+      background: #ffc107;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e0a800;
+    }
+
+    .comment {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .reply {
+      margin-right: 20px;
+      background: #262626;
+    }
+
+    .rating {
+      color: gold;
+    }
+
+    .reply-button {
+      font-size: 13px;
+      color: #00c3ff;
+      cursor: pointer;
+      margin-top: 5px;
+      display: inline-block;
+    }
+
+    .reply-form {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💬 قسم التعليقات</h2>
+
+  <form id="commentForm">
+    <label>الاسم:</label>
+    <input type="text" name="name" required>
+
+    <label>البريد الإلكتروني (اختياري):</label>
+    <input type="email" name="email">
+
+    <label>التقييم:</label>
+    <select name="rating">
+      <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+      <option value="4">⭐️⭐️⭐️⭐️</option>
+      <option value="3">⭐️⭐️⭐️</option>
+      <option value="2">⭐️⭐️</option>
+      <option value="1">⭐️</option>
     </select>
 
-    <button type="submit" style="padding:10px 20px; background:#ffba00; color:#000; font-weight:bold; border-radius:6px;">أرسل التعليق</button>
+    <label>التعليق:</label>
+    <textarea name="comment" required></textarea>
+
+    <input type="hidden" name="parentId" value="">
+    <button type="submit">إرسال</button>
   </form>
 
-  <div id="commentsContainer">
-    <p>جارٍ تحميل التعليقات...</p>
-  </div>
-</section>
+  <div id="comments"></div>
 
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/PASTE_YOUR_SCRIPT_URL_HERE/exec";
 
+    document.getElementById("commentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
 
-<script>
-  function handleCommentSubmit(e) {
-    e.preventDefault();
-    const name = document.getElementById("commentName").value;
-    const text = document.getElementById("commentText").value;
-    if (!name || !text) return;
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+      }).then(() => {
+        alert("✅ تم إرسال التعليق");
+        form.reset();
+        loadComments();
+      });
+    });
 
-    const comment = document.createElement("div");
-    comment.style.background = "#1e1e1e";
-    comment.style.padding = "15px";
-    comment.style.marginTop = "15px";
-    comment.style.borderRadius = "8px";
+    function createCommentHtml(comment, allComments) {
+      const div = document.createElement("div");
+      div.className = "comment" + (comment.parentId ? " reply" : "");
+      div.innerHTML = `
+        <strong>${comment.name}</strong>
+        <div class="rating">⭐️ × ${comment.rating}</div>
+        <p>${comment.comment}</p>
+        ${!comment.parentId ? `<span class="reply-button" onclick="showReplyForm(${comment.id})">رد</span>` : ""}
+        <form class="reply-form" id="replyForm-${comment.id}">
+          <input type="text" name="name" placeholder="اسمك" required>
+          <input type="email" name="email" placeholder="بريدك">
+          <textarea name="comment" placeholder="ردك" required></textarea>
+          <input type="hidden" name="rating" value="5">
+          <input type="hidden" name="parentId" value="${comment.id}">
+          <button type="submit">إرسال الرد</button>
+        </form>
+      `;
 
-    comment.innerHTML = `<strong>${name}</strong><p style="margin-top: 5px;">${text}</p>`;
-    document.getElementById("commentsList").prepend(comment);
+      div.querySelector("form")?.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const replyForm = e.target;
+        const replyData = new FormData(replyForm);
 
-    document.getElementById("commentName").value = "";
-    document.getElementById("commentText").value = "";
-  }
-</script>
+        fetch(scriptURL, {
+          method: 'POST',
+          body: replyData
+        }).then(() => {
+          alert("✅ تم إرسال الرد");
+          loadComments();
+        });
+      });
+
+      return div;
+    }
+
+    function loadComments() {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const commentSection = document.getElementById("comments");
+          commentSection.innerHTML = "";
+          const parents = data.filter(c => !c.parentId);
+          const replies = data.filter(c => c.parentId);
+
+          parents.forEach(parent => {
+            const parentDiv = createCommentHtml(parent);
+            commentSection.appendChild(parentDiv);
+
+            replies.filter(r => r.parentId == parent.id).forEach(reply => {
+              const replyDiv = createCommentHtml(reply);
+              commentSection.appendChild(replyDiv);
+            });
+          });
+        });
+    }
+
+    function showReplyForm(id) {
+      document.getElementById(`replyForm-${id}`).style.display = 'block';
+    }
+
+    // تحميل التعليقات تلقائياً عند فتح الصفحة
+    loadComments();
+  </script>
+</body>
+</html>
+
 
   <footer>
     &copy; 2025 جميع الحقوق محفوظة - رحلة المهندس المحترف
