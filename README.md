@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -222,7 +222,7 @@
   <header>
     <h1>رحلة المهندس المحترف</h1>
     <nav>
-      <a href="#about">عن الدورة</a>
+     
       <a href="#video">فيديو</a>
       <a href="#comments-section">التعليقات</a>
     </nav>
