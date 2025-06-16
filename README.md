@@ -318,6 +318,83 @@
     }
 
     window.onload = loadComments;
+    <script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwf8tweD-5tqM_YmtW0STnFn3rwpharalcK8tvb4t68jJs59V5SSwf4VDdhT4txUj760w/exec";
+  const adminEmail = "your-email@gmail.com"; // 🔒 بريدك أنت لإظهار زر الرد فقط لك
+
+  document.getElementById("commentForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: formData,
+    }).then(() => {
+      alert("✅ تم إرسال التعليق");
+      form.reset();
+      loadComments();
+    });
+  });
+
+  function createCommentHtml(comment, replies) {
+    const div = document.createElement("div");
+    div.className = "comment-card";
+    div.innerHTML = `
+      <div class="comment-name">${comment.name}</div>
+      <div class="comment-stars">${'⭐️'.repeat(comment.rating)}</div>
+      <div class="comment-text">${comment.comment}</div>
+    `;
+
+    // عرض الردود التابعة للتعليق
+    const replyContainer = document.createElement("div");
+    replies.forEach(reply => {
+      const replyDiv = document.createElement("div");
+      replyDiv.className = "reply-card";
+      replyDiv.innerHTML = `<strong>${reply.name}:</strong> ${reply.comment}`;
+      replyContainer.appendChild(replyDiv);
+    });
+    div.appendChild(replyContainer);
+
+    // زر رد فقط للمشرف (البريد الذي تحدده أنت)
+    const userEmail = ""; // ⚠️ يمكن جعله ديناميكياً عبر تسجيل دخول مستقبلاً
+    if (userEmail === adminEmail) {
+      const replyBtn = document.createElement("button");
+      replyBtn.textContent = "رد";
+      replyBtn.style.marginTop = "10px";
+      replyBtn.onclick = () => {
+        const form = document.getElementById("commentForm");
+        form.parentId.value = comment.rowId;
+        form.scrollIntoView({ behavior: "smooth" });
+      };
+      div.appendChild(replyBtn);
+    }
+
+    return div;
+  }
+
+  function loadComments() {
+    fetch(scriptURL)
+      .then(res => res.json())
+      .then(data => {
+        const commentSection = document.getElementById("comments");
+        commentSection.innerHTML = "";
+
+        // ترتيب حسب التعليقات الأصلية والردود
+        const parents = data.filter(c => !c.parentId);
+        const replies = data.filter(c => c.parentId);
+
+        // إظهار التعليقات والردود
+        parents.reverse().forEach(parent => {
+          const childReplies = replies.filter(r => r.parentId === parent.rowId);
+          commentSection.appendChild(createCommentHtml(parent, childReplies));
+        });
+      });
+  }
+
+  window.onload = loadComments;
+</script>
+
   </script>
 </body>
 </html>
