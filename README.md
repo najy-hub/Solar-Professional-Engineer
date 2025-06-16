@@ -179,7 +179,7 @@
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycby3WcuXOblJAmygxP84x707jO7B5f04ru2wILg8n1ax_9T4oZD4J05mDNbqIq-F45DK3A/exec";
-    const adminEmail = "your@email.com"; // ← استبدله ببريدك (مستقبلاً يمكن تطويره لتسجيل دخول)
+    const adminEmail = "najycosa238@gmail.com"; // ← استبدله ببريدك (مستقبلاً يمكن تطويره لتسجيل دخول)
 
     document.getElementById("commentForm").addEventListener("submit", function(e) {
       e.preventDefault();
