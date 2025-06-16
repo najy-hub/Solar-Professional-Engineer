@@ -393,7 +393,6 @@
   }
 
   window.onload = loadComments;
-</script>
 
   </script>
 </body>
