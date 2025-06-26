@@ -72,6 +72,7 @@
       border: none;
       display: block;
       margin: auto;
+      loading: lazy;
     }
 
     .quiz {
@@ -141,9 +142,7 @@
     </div>
   </nav>
 
-  <main id="weeks">
-    <!-- سيتم إدراج جميع الأسابيع ديناميكيًا هنا -->
-  </main>
+  <main id="weeks"></main>
 
   <footer>
     جميع الحقوق محفوظة &copy; 2025
@@ -170,7 +169,7 @@
       for (let j = 1; j <= 5; j++) {
         const li = document.createElement("li");
         li.className = "video-item";
-        li.innerHTML = `<h4>📘 المحاضرة ${j}</h4><iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>`;
+        li.innerHTML = `<h4>📘 المحاضرة ${j}</h4><iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>`;
         ul.appendChild(li);
       }
 
