@@ -1,152 +1,206 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>رحلة المهندس المحترف</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رحلة المهندس المحترف - المحتوى</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    body {
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Cairo', sans-serif;
-      background-color: #111;
-      color: #fff;
-      margin: 0;
-      padding: 0;
     }
+
+    body {
+      background: linear-gradient(to right, #0f0f0f, #1c1c1c);
+      color: #fff; display: flex; flex-direction: column;
+      min-height: 100vh;
+    }
+
     header {
-      background-color: #1c1c1c;
+      background: #111;
       padding: 20px;
       text-align: center;
-      font-size: 24px;
-      font-weight: bold;
+      border-bottom: 1px solid #333;
     }
+
+    header h1 {
+      font-size: 24px;
+    }
+
     .container {
       display: flex;
-      flex-direction: row;
+      flex: 1;
+    }
+
+    aside {
+      width: 280px;
+      background: #222;
       padding: 20px;
+      overflow-y: auto;
     }
+
     .accordion {
-      width: 30%;
-      margin-left: 20px;
-    }
-    .accordion-item {
-      background-color: #222;
+      background-color: #333;
+      color: #fff;
+      cursor: pointer;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      text-align: right;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s;
       border-radius: 8px;
       margin-bottom: 10px;
-      overflow: hidden;
     }
-    .accordion-header {
-      padding: 15px;
-      cursor: pointer;
-      background-color: #333;
-    }
-    .accordion-header:hover {
+
+    .accordion.active, .accordion:hover {
       background-color: #444;
     }
-    .accordion-body {
+
+    .panel {
+      padding: 0 15px;
       display: none;
-      padding: 15px;
-      background-color: #2a2a2a;
+      flex-direction: column;
+      background-color: #2c2c2c;
+      margin-bottom: 10px;
+      border-radius: 0 0 8px 8px;
     }
-    .accordion-body button {
-      display: block;
-      width: 100%;
-      margin: 5px 0;
+
+    .video-button {
+      background: none;
+      color: #ffc107;
       padding: 10px;
-      background-color: #444;
-      color: #fff;
+      text-align: right;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
+      font-size: 15px;
+      border-bottom: 1px solid #444;
     }
-    .accordion-body button:hover {
-      background-color: #555;
+
+    .video-button:hover {
+      color: #fff;
     }
-    .video-player {
+
+    main {
       flex: 1;
-      padding: 0 20px;
+      padding: 20px;
     }
+
+    .video-container {
+      max-width: 100%;
+      height: auto;
+    }
+
     iframe {
       width: 100%;
-      height: 400px;
-      border-radius: 12px;
+      height: 450px;
       border: none;
+      border-radius: 12px;
+    }
+
+    .locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .locked::after {
+      content: '🔒 سيفتح لاحقًا';
+      display: block;
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      aside {
+        width: 100%;
+        order: 2;
+      }
+      main {
+        order: 1;
+      }
+      iframe {
+        height: 250px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>رحلة المهندس المحترف</header>
+
+  <header>
+    <h1>رحلة المهندس المحترف - منصة المحتوى</h1>
+  </header>
+
   <div class="container">
-    <div class="accordion" id="weekList">
-      <!-- الأسابيع تظهر هنا -->
-    </div>
-    <div class="video-player">
-      <h2 id="video-title">حدد فيديو لعرضه</h2>
-      <iframe id="main-video" src="" allowfullscreen></iframe>
-    </div>
+    <aside id="weeks">
+      <!-- سيتم توليد القائمة تلقائياً -->
+    </aside>
+    <main>
+      <h2 id="video-title">اختر محاضرة من القائمة</h2>
+      <div class="video-container">
+        <iframe id="video-frame" src="" allowfullscreen></iframe>
+      </div>
+    </main>
   </div>
 
   <script>
-    const weeks = 14;
-    const videosPerWeek = 5;
-    const firstAccess = new Date(localStorage.getItem('firstAccess') || new Date());
-    localStorage.setItem('firstAccess', firstAccess);
+    const startDate = new Date("2024-06-01");
+    const today = new Date();
+    const msInDay = 1000 * 60 * 60 * 24;
+    const daysPassed = Math.floor((today - startDate) / msInDay);
+    const currentWeek = Math.min(Math.floor(daysPassed / 7) + 1, 14);
 
-    const weekList = document.getElementById('weekList');
-    const videoFrame = document.getElementById('main-video');
-    const videoTitle = document.getElementById('video-title');
+    const videoData = Array.from({ length: 14 }, (_, weekIdx) => ({
+      week: weekIdx + 1,
+      videos: Array.from({ length: 5 }, (_, vidIdx) => ({
+        title: `📘 المحاضرة ${vidIdx + 1}`,
+        url: `https://www.youtube.com/embed/dQw4w9WgXcQ` // يمكن استبداله
+      }))
+    }));
 
-    const videoLinks = {
-      1: [
-        { title: "مقدمة الأسبوع 1", link: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "الدرس 2", link: "https://www.youtube.com/embed/video2" },
-        { title: "الدرس 3", link: "https://www.youtube.com/embed/video3" },
-        { title: "الدرس 4", link: "https://www.youtube.com/embed/video4" },
-        { title: "اختبار الأسبوع", link: "https://www.youtube.com/embed/quiz1" },
-      ],
-      // باقي الأسابيع يتم تعبئتها بنفس الطريقة
-    };
+    const weeksContainer = document.getElementById("weeks");
 
-    for (let i = 1; i <= weeks; i++) {
-      const now = new Date();
-      const availableDate = new Date(firstAccess);
-      availableDate.setDate(availableDate.getDate() + (i - 1) * 7);
+    videoData.forEach(({ week, videos }) => {
+      const isUnlocked = week <= currentWeek;
 
-      const item = document.createElement("div");
-      item.className = "accordion-item";
+      const accordion = document.createElement("button");
+      accordion.className = "accordion" + (!isUnlocked ? " locked" : "");
+      accordion.textContent = `الأسبوع ${week}`;
 
-      const header = document.createElement("div");
-      header.className = "accordion-header";
-      header.textContent = `الأسبوع ${i}`;
+      const panel = document.createElement("div");
+      panel.className = "panel";
 
-      const body = document.createElement("div");
-      body.className = "accordion-body";
+      videos.forEach(video => {
+        const btn = document.createElement("button");
+        btn.className = "video-button";
+        btn.textContent = video.title;
+        btn.onclick = () => {
+          document.getElementById("video-title").textContent = video.title;
+          document.getElementById("video-frame").src = video.url;
+        };
+        panel.appendChild(btn);
+      });
 
-      if (now >= availableDate && videoLinks[i]) {
-        videoLinks[i].forEach(video => {
-          const btn = document.createElement("button");
-          btn.textContent = video.title;
-          btn.onclick = () => {
-            videoFrame.src = video.link;
-            videoTitle.textContent = video.title;
-          };
-          body.appendChild(btn);
-        });
-      } else {
-        const msg = document.createElement("div");
-        msg.innerHTML = "🔒 سيتم فتح هذا الأسبوع قريبًا.";
-        msg.style.padding = "10px";
-        body.appendChild(msg);
-      }
-
-      header.onclick = () => {
-        body.style.display = (body.style.display === "block") ? "none" : "block";
+      accordion.onclick = function () {
+        this.classList.toggle("active");
+        const isOpen = panel.style.display === "flex";
+        panel.style.display = isOpen ? "none" : "flex";
       };
 
-      item.appendChild(header);
-      item.appendChild(body);
-      weekList.appendChild(item);
-    }
+      if (isUnlocked) {
+        weeksContainer.appendChild(accordion);
+        weeksContainer.appendChild(panel);
+      } else {
+        accordion.disabled = true;
+        weeksContainer.appendChild(accordion);
+      }
+    });
   </script>
+
 </body>
 </html>
