@@ -103,7 +103,8 @@
       <option value="">اختر الأسبوع</option>
       <script>
         for (let i = 1; i <= 14; i++) {
-          document.write(`<option value="week${i}">الأسبوع ${i}</option>`);
+          const label = i <= 7 ? `الأسبوع ${i} - Basic` : `الأسبوع ${i} - Professional`;
+          document.write(`<option value="week${i}">${label}</option>`);
         }
       </script>
     </select>
@@ -111,7 +112,7 @@
 
   <main id="weeks">
     <div class="week-content" id="week1">
-      <h2>الأسبوع 1</h2>
+      <h2>الأسبوع 1 - Basic</h2>
       <ul class="video-list">
         <li class="video-item">
           <h4>📘 المحاضرة الأولى: مقدمة الدورة</h4>
