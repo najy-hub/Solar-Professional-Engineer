@@ -72,7 +72,6 @@
       border: none;
       display: block;
       margin: auto;
-      loading: lazy;
     }
 
     .quiz {
@@ -91,8 +90,49 @@
       text-decoration: underline;
     }
 
-    .locked-option::after {
-      content: ' 🔒';
+    #progressBar {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+    }
+
+    #progressBarInner {
+      height: 100%;
+      background: #ffc107;
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+    }
+
+    .expand-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 6px 12px;
+      font-size: 14px;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .week-navigation {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .week-navigation button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background: #ffc107;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
     }
 
     @media (max-width: 768px) {
@@ -113,36 +153,16 @@
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
   </header>
 
-  <nav>
-    <div class="select-group">
-      <div class="category-label">Basic</div>
-      <select onchange="changeWeek(this)">
-        <option value="">اختر الأسبوع</option>
-        <option value="week1">الأسبوع 1</option>
-        <option value="week2">الأسبوع 2</option>
-        <option value="week3">الأسبوع 3</option>
-        <option value="week4">الأسبوع 4</option>
-        <option value="week5">الأسبوع 5</option>
-        <option value="week6">الأسبوع 6</option>
-        <option value="week7">الأسبوع 7</option>
-      </select>
-    </div>
-    <div class="select-group">
-      <div class="category-label">Professional</div>
-      <select onchange="changeWeek(this)">
-        <option value="">اختر الأسبوع</option>
-        <option value="week8">الأسبوع 8</option>
-        <option value="week9">الأسبوع 9</option>
-        <option value="week10">الأسبوع 10</option>
-        <option value="week11">الأسبوع 11</option>
-        <option value="week12">الأسبوع 12</option>
-        <option value="week13">الأسبوع 13</option>
-        <option value="week14">الأسبوع 14</option>
-      </select>
-    </div>
-  </nav>
+  <div id="progressBar">
+    <div id="progressBarInner"></div>
+  </div>
 
   <main id="weeks"></main>
+
+  <div class="week-navigation">
+    <button onclick="navigateWeek(-1)">⬅️ السابق</button>
+    <button onclick="navigateWeek(1)">التالي ➡️</button>
+  </div>
 
   <footer>
     جميع الحقوق محفوظة &copy; 2025
@@ -154,6 +174,7 @@
     }
 
     const weeksContainer = document.getElementById("weeks");
+    let currentWeek = null;
 
     for (let i = 1; i <= 14; i++) {
       const weekDiv = document.createElement("div");
@@ -161,15 +182,30 @@
       weekDiv.id = `week${i}`;
 
       const type = i <= 7 ? 'Basic' : 'Professional';
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const allowedDate = new Date(startDate);
+      allowedDate.setDate(startDate.getDate() + (i - 1) * 7);
+      const currentDate = new Date();
+
       const title = document.createElement("h2");
       title.textContent = `الأسبوع ${i} - ${type}`;
+
+      if (currentDate < allowedDate) {
+        title.innerHTML += " 🔒";
+      } else {
+        title.innerHTML += " ✅";
+      }
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
       for (let j = 1; j <= 5; j++) {
         const li = document.createElement("li");
         li.className = "video-item";
-        li.innerHTML = `<h4>📘 المحاضرة ${j}</h4><iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>`;
+        li.innerHTML = `
+          <h4>📘 المحاضرة ${j}</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
+          <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
+        `;
         ul.appendChild(li);
       }
 
@@ -183,25 +219,59 @@
       weeksContainer.appendChild(weekDiv);
     }
 
-    function changeWeek(selectElement) {
-      const weekId = selectElement.value;
+    function updateProgressBar() {
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+      const weekUnlocked = Math.min(14, Math.floor(diffInDays / 7) + 1);
+      const percentage = (weekUnlocked / 14) * 100;
+      document.getElementById("progressBarInner").style.width = `${percentage}%`;
+    }
+
+    function changeWeekId(weekNumber) {
       const allWeeks = document.querySelectorAll(".week-content");
       allWeeks.forEach(div => div.style.display = "none");
 
-      if (weekId) {
-        const startDate = new Date(localStorage.getItem("courseStartDate"));
-        const currentDate = new Date();
-        const weekNumber = parseInt(weekId.replace("week", ""));
-        const allowedDate = new Date(startDate);
-        allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const allowedDate = new Date(startDate);
+      allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
 
-        if (currentDate >= allowedDate) {
-          document.getElementById(weekId).style.display = "block";
-        } else {
-          alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-        }
+      if (currentDate >= allowedDate) {
+        document.getElementById(`week${weekNumber}`).style.display = "block";
+        currentWeek = weekNumber;
+      } else {
+        alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
       }
     }
+
+    function navigateWeek(step) {
+      if (currentWeek === null) return;
+      const nextWeek = currentWeek + step;
+      if (nextWeek >= 1 && nextWeek <= 14) {
+        changeWeekId(nextWeek);
+      }
+    }
+
+    function expandVideo(button) {
+      const iframe = button.previousElementSibling;
+      if (iframe.style.width !== "100vw") {
+        iframe.style.width = "100vw";
+        iframe.style.height = "90vh";
+        iframe.style.position = "fixed";
+        iframe.style.top = "5vh";
+        iframe.style.left = "0";
+        iframe.style.zIndex = "9999";
+        iframe.style.borderRadius = "0";
+        button.textContent = "❌ إغلاق الفيديو";
+      } else {
+        iframe.removeAttribute("style");
+        button.textContent = "🔍 توسيع الفيديو";
+      }
+    }
+
+    changeWeekId(1);
+    updateProgressBar();
   </script>
 </body>
 </html>
