@@ -1,206 +1,100 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>رحلة المهندس المحترف - المحتوى</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رحلة المهندس المحترف - محتوى الدورة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
-
+    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
     body {
-      background: linear-gradient(to right, #0f0f0f, #1c1c1c);
-      color: #fff; display: flex; flex-direction: column;
-      min-height: 100vh;
+      margin: 0; background-color: #121212; color: #fff; display: flex;
     }
-
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #333;
+    .sidebar {
+      width: 260px; background: #1f1f1f; padding: 20px; height: 100vh;
+      position: fixed; overflow-y: auto; border-left: 1px solid #333;
     }
-
-    header h1 {
-      font-size: 24px;
+    .sidebar h2 { font-size: 20px; color: #ffba00; margin-bottom: 20px; }
+    .week-link {
+      padding: 10px; margin-bottom: 10px; border-radius: 8px;
+      background-color: #2a2a2a; text-decoration: none; color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.3s;
     }
-
-    .container {
-      display: flex;
-      flex: 1;
+    .week-link:hover { background-color: #383838; }
+    .locked { opacity: 0.6; cursor: not-allowed; }
+    .main-content {
+      margin-right: 280px; padding: 30px; flex: 1;
     }
-
-    aside {
-      width: 280px;
-      background: #222;
-      padding: 20px;
-      overflow-y: auto;
+    .video-block {
+      margin-bottom: 40px;
     }
-
-    .accordion {
-      background-color: #333;
-      color: #fff;
-      cursor: pointer;
-      padding: 15px;
-      width: 100%;
-      border: none;
-      text-align: right;
-      outline: none;
-      font-size: 16px;
-      transition: 0.3s;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .accordion.active, .accordion:hover {
-      background-color: #444;
-    }
-
-    .panel {
-      padding: 0 15px;
-      display: none;
-      flex-direction: column;
-      background-color: #2c2c2c;
-      margin-bottom: 10px;
-      border-radius: 0 0 8px 8px;
-    }
-
-    .video-button {
-      background: none;
-      color: #ffc107;
-      padding: 10px;
-      text-align: right;
-      border: none;
-      cursor: pointer;
-      font-size: 15px;
-      border-bottom: 1px solid #444;
-    }
-
-    .video-button:hover {
-      color: #fff;
-    }
-
-    main {
-      flex: 1;
-      padding: 20px;
-    }
-
-    .video-container {
-      max-width: 100%;
-      height: auto;
-    }
-
-    iframe {
-      width: 100%;
-      height: 450px;
-      border: none;
-      border-radius: 12px;
-    }
-
-    .locked {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .locked::after {
-      content: '🔒 سيفتح لاحقًا';
-      display: block;
-      color: red;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      aside {
-        width: 100%;
-        order: 2;
-      }
-      main {
-        order: 1;
-      }
-      iframe {
-        height: 250px;
-      }
+    .video-title { margin-bottom: 10px; font-weight: bold; font-size: 18px; color: #ffba00; }
+    iframe { width: 100%; height: 400px; border-radius: 12px; border: none; }
+    .locked-msg {
+      text-align: center; padding: 60px; font-size: 18px;
+      background-color: #222; border-radius: 12px; border: 1px dashed #ffba00;
     }
   </style>
 </head>
 <body>
+  <div class="sidebar">
+    <h2>الأسابيع</h2>
+    <div id="weekList"></div>
+  </div>
 
-  <header>
-    <h1>رحلة المهندس المحترف - منصة المحتوى</h1>
-  </header>
-
-  <div class="container">
-    <aside id="weeks">
-      <!-- سيتم توليد القائمة تلقائياً -->
-    </aside>
-    <main>
-      <h2 id="video-title">اختر محاضرة من القائمة</h2>
-      <div class="video-container">
-        <iframe id="video-frame" src="" allowfullscreen></iframe>
-      </div>
-    </main>
+  <div class="main-content" id="mainContent">
+    <div class="locked-msg" id="lockedMessage">🔒 المحتوى غير متاح حاليًا. سيتم فتحه بعد مرور أسبوع من تاريخ التسجيل.</div>
   </div>
 
   <script>
-    const startDate = new Date("2024-06-01");
-    const today = new Date();
-    const msInDay = 1000 * 60 * 60 * 24;
-    const daysPassed = Math.floor((today - startDate) / msInDay);
-    const currentWeek = Math.min(Math.floor(daysPassed / 7) + 1, 14);
+    const firstLoginDate = new Date(localStorage.getItem('firstLogin')) || new Date();
+    if (!localStorage.getItem('firstLogin')) {
+      localStorage.setItem('firstLogin', firstLoginDate);
+    }
 
-    const videoData = Array.from({ length: 14 }, (_, weekIdx) => ({
-      week: weekIdx + 1,
-      videos: Array.from({ length: 5 }, (_, vidIdx) => ({
-        title: `📘 المحاضرة ${vidIdx + 1}`,
-        url: `https://www.youtube.com/embed/dQw4w9WgXcQ`
-      }))
+    const weekData = Array.from({ length: 14 }, (_, i) => ({
+      week: i + 1,
+      videos: [
+        { title: "محاضرة 1", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
+        { title: "محاضرة 2", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
+        { title: "محاضرة 3", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
+        { title: "محاضرة 4", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
+        { title: "محاضرة 5", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" }
+      ]
     }));
 
-    const weeksContainer = document.getElementById("weeks");
+    const weekList = document.getElementById('weekList');
+    const mainContent = document.getElementById('mainContent');
+    const now = new Date();
 
-    videoData.forEach(({ week, videos }) => {
-      const isUnlocked = week <= currentWeek;
-
-      const accordion = document.createElement("button");
-      accordion.className = "accordion" + (!isUnlocked ? " locked" : "");
-      accordion.textContent = `الأسبوع ${week}`;
-
-      const panel = document.createElement("div");
-      panel.className = "panel";
-
-      videos.forEach(video => {
-        const btn = document.createElement("button");
-        btn.className = "video-button";
-        btn.textContent = video.title;
-        btn.onclick = () => {
-          document.getElementById("video-title").textContent = video.title;
-          document.getElementById("video-frame").src = video.url;
-        };
-        panel.appendChild(btn);
-      });
-
-      accordion.onclick = function () {
-        this.classList.toggle("active");
-        const isOpen = panel.style.display === "flex";
-        panel.style.display = isOpen ? "none" : "flex";
+    weekData.forEach(({ week }, index) => {
+      const weekAvailable = now - new Date(firstLoginDate) >= index * 7 * 24 * 60 * 60 * 1000;
+      const link = document.createElement('a');
+      link.className = 'week-link' + (weekAvailable ? '' : ' locked');
+      link.href = '#';
+      link.innerHTML = `الأسبوع ${week} ${!weekAvailable ? '<span>🔒</span>' : ''}`;
+      link.onclick = (e) => {
+        e.preventDefault();
+        if (!weekAvailable) return;
+        renderWeek(week);
       };
-
-      if (isUnlocked) {
-        weeksContainer.appendChild(accordion);
-        weeksContainer.appendChild(panel);
-      } else {
-        accordion.disabled = true;
-        weeksContainer.appendChild(accordion);
-      }
+      weekList.appendChild(link);
     });
-  </script>
 
+    function renderWeek(weekNum) {
+      const week = weekData.find(w => w.week === weekNum);
+      mainContent.innerHTML = `<h2>الأسبوع ${weekNum}</h2>`;
+      week.videos.forEach(video => {
+        const block = document.createElement('div');
+        block.className = 'video-block';
+        block.innerHTML = `
+          <div class="video-title">🎥 ${video.title}</div>
+          <iframe src="${video.url}" allowfullscreen></iframe>
+        `;
+        mainContent.appendChild(block);
+      });
+    }
+  </script>
 </body>
 </html>
