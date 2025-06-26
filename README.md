@@ -1,14 +1,25 @@
-<!-- هذا مجرد تمهيد للهيكل العام. سيتم استكماله تدريجياً حسب الطلب -->
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>منصة رحلة المهندس - المحتوى الأسبوعي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Cairo', sans-serif; background: #111; color: #fff; margin: 0; padding: 0; }
-    header, footer { background: #1c1c1c; padding: 20px; text-align: center; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
+      background: #1c1c1c;
+      padding: 20px;
+      text-align: center;
+    }
+
     nav select {
       padding: 10px;
       margin: 20px auto;
@@ -18,12 +29,71 @@
       border: 1px solid #444;
       border-radius: 6px;
     }
-    .week-content { display: none; padding: 20px; }
-    iframe { width: 100%; max-width: 800px; height: 400px; margin-bottom: 20px; border-radius: 10px; }
-    .quiz { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-top: 20px; }
+
+    .week-content {
+      display: none;
+      padding: 20px;
+    }
+
+    .video-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .video-item {
+      margin-bottom: 30px;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .video-item h4 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #ffca28;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      border-radius: 10px;
+      border: none;
+      display: block;
+      margin: auto;
+    }
+
+    .quiz {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .quiz a {
+      color: #ffc107;
+      text-decoration: none;
+    }
+
+    .quiz a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        height: 250px;
+      }
+
+      .video-item h4 {
+        font-size: 16px;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
   </header>
@@ -31,7 +101,6 @@
   <nav>
     <select id="weekSelector" onchange="changeWeek()">
       <option value="">اختر الأسبوع</option>
-      <!-- سيتم توليد 14 أسبوع -->
       <script>
         for (let i = 1; i <= 14; i++) {
           document.write(`<option value="week${i}">الأسبوع ${i}</option>`);
@@ -40,24 +109,37 @@
     </select>
   </nav>
 
-  <!-- محتوى الأسابيع -->
   <main id="weeks">
-    <!-- مثال على أسبوع 1، سيتم تكرار الشكل لبقية الأسابيع ديناميكيًا لاحقًا -->
     <div class="week-content" id="week1">
       <h2>الأسبوع 1</h2>
-      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+      <ul class="video-list">
+        <li class="video-item">
+          <h4>📘 المحاضرة الأولى: مقدمة الدورة</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+        </li>
+        <li class="video-item">
+          <h4>📘 المحاضرة الثانية: المفاهيم الأساسية</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+        </li>
+        <li class="video-item">
+          <h4>📘 المحاضرة الثالثة: مكونات النظام</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+        </li>
+        <li class="video-item">
+          <h4>📘 المحاضرة الرابعة: أنواع الأنظمة</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+        </li>
+        <li class="video-item">
+          <h4>📘 المحاضرة الخامسة: الحسابات الأساسية</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+        </li>
+      </ul>
 
       <div class="quiz">
-        <h3>اختبار الأسبوع</h3>
+        <h3>📝 اختبار الأسبوع</h3>
         <p><a href="#">رابط الاختبار</a></p>
       </div>
     </div>
-
-    <!-- سيتم تكرار بقية الأسابيع ديناميكيًا -->
   </main>
 
   <footer>
@@ -65,7 +147,6 @@
   </footer>
 
   <script>
-    // تحديد أول دخول في الجلسة
     if (!localStorage.getItem("courseStartDate")) {
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
