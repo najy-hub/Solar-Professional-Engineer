@@ -3,98 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>رحلة المهندس المحترف - محتوى الدورة</title>
+  <title>دروس الدورة</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
     body {
-      margin: 0; background-color: #121212; color: #fff; display: flex;
+      font-family: 'Cairo', sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      display: flex;
     }
+
     .sidebar {
-      width: 260px; background: #1f1f1f; padding: 20px; height: 100vh;
-      position: fixed; overflow-y: auto; border-left: 1px solid #333;
+      width: 300px;
+      background-color: #1a1a1a;
+      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      right: 0;
+      top: 0;
+      border-left: 1px solid #333;
     }
-    .sidebar h2 { font-size: 20px; color: #ffba00; margin-bottom: 20px; }
-    .week-link {
-      padding: 10px; margin-bottom: 10px; border-radius: 8px;
-      background-color: #2a2a2a; text-decoration: none; color: #fff;
-      display: flex; justify-content: space-between; align-items: center;
+
+    .accordion {
+      background-color: #2a2a2a;
+      color: #fff;
+      cursor: pointer;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      text-align: right;
+      outline: none;
+      font-size: 18px;
+      margin-bottom: 8px;
+      border-radius: 8px;
       transition: background 0.3s;
     }
-    .week-link:hover { background-color: #383838; }
-    .locked { opacity: 0.6; cursor: not-allowed; }
+
+    .accordion.locked {
+      background-color: #444;
+      cursor: not-allowed;
+      position: relative;
+    }
+
+    .accordion.locked::after {
+      content: '\1F512';
+      position: absolute;
+      left: 10px;
+    }
+
+    .panel {
+      padding: 0 12px;
+      display: none;
+      background-color: #1f1f1f;
+      border-radius: 0 0 8px 8px;
+      margin-bottom: 10px;
+    }
+
+    .panel iframe {
+      width: 100%;
+      height: 250px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
     .main-content {
-      margin-right: 280px; padding: 30px; flex: 1;
+      margin-right: 320px;
+      padding: 20px;
     }
-    .video-block {
-      margin-bottom: 40px;
-    }
-    .video-title { margin-bottom: 10px; font-weight: bold; font-size: 18px; color: #ffba00; }
-    iframe { width: 100%; height: 400px; border-radius: 12px; border: none; }
-    .locked-msg {
-      text-align: center; padding: 60px; font-size: 18px;
-      background-color: #222; border-radius: 12px; border: 1px dashed #ffba00;
+
+    .locked-message {
+      color: #ff9800;
+      font-size: 14px;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>الأسابيع</h2>
-    <div id="weekList"></div>
+
+  <div class="sidebar" id="weeksList">
+    <!-- سيتم توليد الأسابيع هنا -->
   </div>
 
-  <div class="main-content" id="mainContent">
-    <div class="locked-msg" id="lockedMessage">🔒 المحتوى غير متاح حاليًا. سيتم فتحه بعد مرور أسبوع من تاريخ التسجيل.</div>
+  <div class="main-content">
+    <h1>🎓 المحتوى التدريبي</h1>
+    <p>اختر أحد الأسابيع من القائمة اليمنى.</p>
   </div>
 
   <script>
-    const firstLoginDate = new Date(localStorage.getItem('firstLogin')) || new Date();
-    if (!localStorage.getItem('firstLogin')) {
-      localStorage.setItem('firstLogin', firstLoginDate);
-    }
+    const userStartDate = new Date("2025-06-01T00:00:00"); // تاريخ أول دخول للمتدرب
+    const today = new Date();
+    const weeksContainer = document.getElementById("weeksList");
 
-    const weekData = Array.from({ length: 14 }, (_, i) => ({
-      week: i + 1,
-      videos: [
-        { title: "محاضرة 1", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 2", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 3", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 4", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 5", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" }
-      ]
-    }));
+    for (let week = 1; week <= 14; week++) {
+      const weekOpenDate = new Date(userStartDate);
+      weekOpenDate.setDate(userStartDate.getDate() + (week - 1) * 7);
+      const isOpen = today >= weekOpenDate;
 
-    const weekList = document.getElementById('weekList');
-    const mainContent = document.getElementById('mainContent');
-    const now = new Date();
+      const button = document.createElement("button");
+      button.className = "accordion" + (isOpen ? "" : " locked");
+      button.innerHTML = `الأسبوع ${week}`;
 
-    weekData.forEach(({ week }, index) => {
-      const weekAvailable = now - new Date(firstLoginDate) >= index * 7 * 24 * 60 * 60 * 1000;
-      const link = document.createElement('a');
-      link.className = 'week-link' + (weekAvailable ? '' : ' locked');
-      link.href = '#';
-      link.innerHTML = `الأسبوع ${week} ${!weekAvailable ? '<span>🔒</span>' : ''}`;
-      link.onclick = (e) => {
-        e.preventDefault();
-        if (!weekAvailable) return;
-        renderWeek(week);
+      const panel = document.createElement("div");
+      panel.className = "panel";
+
+      if (isOpen) {
+        for (let v = 1; v <= 5; v++) {
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://www.youtube.com/embed/VIDEO_ID_WEEK${week}_VID${v}`;
+          iframe.title = `محاضرة ${v}`;
+          panel.appendChild(iframe);
+        }
+      } else {
+        const lockedMsg = document.createElement("div");
+        lockedMsg.className = "locked-message";
+        lockedMsg.textContent = "🚫 سيتم فتح هذا الأسبوع لاحقًا حسب الجدول.";
+        panel.appendChild(lockedMsg);
+      }
+
+      button.onclick = function() {
+        if (!isOpen) return;
+        this.classList.toggle("active");
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
       };
-      weekList.appendChild(link);
-    });
 
-    function renderWeek(weekNum) {
-      const week = weekData.find(w => w.week === weekNum);
-      mainContent.innerHTML = `<h2>الأسبوع ${weekNum}</h2>`;
-      week.videos.forEach(video => {
-        const block = document.createElement('div');
-        block.className = 'video-block';
-        block.innerHTML = `
-          <div class="video-title">🎥 ${video.title}</div>
-          <iframe src="${video.url}" allowfullscreen></iframe>
-        `;
-        mainContent.appendChild(block);
-      });
+      weeksContainer.appendChild(button);
+      weeksContainer.appendChild(panel);
     }
   </script>
+
 </body>
 </html>
