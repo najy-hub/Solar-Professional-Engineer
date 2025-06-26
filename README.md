@@ -1,182 +1,152 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>دورة رحلة المهندس المحترف</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رحلة المهندس المحترف</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', sans-serif;
-    }
-
     body {
-      display: flex;
+      font-family: 'Cairo', sans-serif;
       background-color: #111;
       color: #fff;
-      min-height: 100vh;
+      margin: 0;
+      padding: 0;
     }
-
-    .sidebar {
-      width: 250px;
-      background-color: #1a1a1a;
+    header {
+      background-color: #1c1c1c;
       padding: 20px;
-      border-left: 4px solid #ffc107;
-      overflow-y: auto;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
     }
-
-    .sidebar h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #ffc107;
+    .container {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
     }
-
     .accordion {
+      width: 30%;
+      margin-left: 20px;
+    }
+    .accordion-item {
       background-color: #222;
-      border: none;
-      color: #fff;
-      padding: 15px;
-      text-align: right;
-      width: 100%;
-      outline: none;
-      font-size: 16px;
       border-radius: 8px;
       margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .accordion-header {
+      padding: 15px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .accordion:hover {
       background-color: #333;
     }
-
-    .accordion.locked {
+    .accordion-header:hover {
       background-color: #444;
-      color: #999;
-      cursor: not-allowed;
     }
-
-    .accordion.locked::after {
-      content: '🔒';
-      float: left;
-    }
-
-    .panel {
-      padding: 0 15px;
+    .accordion-body {
       display: none;
-      flex-direction: column;
-      background-color: #1f1f1f;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #2a2a2a;
     }
-
-    .panel iframe {
-      margin: 15px 0;
-      border-radius: 8px;
+    .accordion-body button {
+      display: block;
       width: 100%;
-      max-width: 700px;
-      height: 400px;
-    }
-
-    .panel h3 {
-      margin: 10px 0;
-      font-size: 18px;
-      color: #ffba00;
-    }
-
-    .content {
-      flex: 1;
-      padding: 40px;
-    }
-
-    .locked-message {
-      background-color: #333;
-      color: #ff6666;
+      margin: 5px 0;
       padding: 10px;
+      background-color: #444;
+      color: #fff;
+      border: none;
       border-radius: 6px;
-      margin-top: 10px;
+      cursor: pointer;
     }
-
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      .sidebar {
-        width: 100%;
-        border-left: none;
-        border-bottom: 4px solid #ffc107;
-      }
+    .accordion-body button:hover {
+      background-color: #555;
+    }
+    .video-player {
+      flex: 1;
+      padding: 0 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>أسابيع الدورة</h2>
-    <div id="accordionContainer"></div>
-  </div>
-
-  <div class="content">
-    <h1>مرحبًا بك في الدورة التدريبية</h1>
-    <p>اختر الأسبوع من القائمة لعرض المحاضرات الخاصة به.</p>
+  <header>رحلة المهندس المحترف</header>
+  <div class="container">
+    <div class="accordion" id="weekList">
+      <!-- الأسابيع تظهر هنا -->
+    </div>
+    <div class="video-player">
+      <h2 id="video-title">حدد فيديو لعرضه</h2>
+      <iframe id="main-video" src="" allowfullscreen></iframe>
+    </div>
   </div>
 
   <script>
-    const userStartDate = new Date(localStorage.getItem("startDate") || new Date());
-    localStorage.setItem("startDate", userStartDate);
+    const weeks = 14;
+    const videosPerWeek = 5;
+    const firstAccess = new Date(localStorage.getItem('firstAccess') || new Date());
+    localStorage.setItem('firstAccess', firstAccess);
 
-    const weeksData = Array.from({ length: 14 }, (_, i) => ({
-      title: `الأسبوع ${i + 1}`,
-      videos: [
-        `https://www.youtube.com/embed/zW9ZX-SZKtE?week=${i+1}-1`,
-        `https://www.youtube.com/embed/zW9ZX-SZKtE?week=${i+1}-2`,
-        `https://www.youtube.com/embed/zW9ZX-SZKtE?week=${i+1}-3`,
-        `https://www.youtube.com/embed/zW9ZX-SZKtE?week=${i+1}-4`,
-        `https://www.youtube.com/embed/zW9ZX-SZKtE?week=${i+1}-5`
-      ]
-    }));
+    const weekList = document.getElementById('weekList');
+    const videoFrame = document.getElementById('main-video');
+    const videoTitle = document.getElementById('video-title');
 
-    const accordionContainer = document.getElementById("accordionContainer");
+    const videoLinks = {
+      1: [
+        { title: "مقدمة الأسبوع 1", link: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
+        { title: "الدرس 2", link: "https://www.youtube.com/embed/video2" },
+        { title: "الدرس 3", link: "https://www.youtube.com/embed/video3" },
+        { title: "الدرس 4", link: "https://www.youtube.com/embed/video4" },
+        { title: "اختبار الأسبوع", link: "https://www.youtube.com/embed/quiz1" },
+      ],
+      // باقي الأسابيع يتم تعبئتها بنفس الطريقة
+    };
 
-    weeksData.forEach((week, index) => {
-      const daysSinceStart = (new Date() - new Date(userStartDate)) / (1000 * 60 * 60 * 24);
-      const isUnlocked = daysSinceStart >= (index * 7);
+    for (let i = 1; i <= weeks; i++) {
+      const now = new Date();
+      const availableDate = new Date(firstAccess);
+      availableDate.setDate(availableDate.getDate() + (i - 1) * 7);
 
-      const btn = document.createElement("button");
-      btn.className = "accordion" + (isUnlocked ? "" : " locked");
-      btn.textContent = week.title;
+      const item = document.createElement("div");
+      item.className = "accordion-item";
 
-      const panel = document.createElement("div");
-      panel.className = "panel";
+      const header = document.createElement("div");
+      header.className = "accordion-header";
+      header.textContent = `الأسبوع ${i}`;
 
-      if (!isUnlocked) {
-        const lockedMsg = document.createElement("div");
-        lockedMsg.className = "locked-message";
-        lockedMsg.textContent = "هذا الأسبوع غير متاح بعد. الرجاء العودة لاحقًا.";
-        panel.appendChild(lockedMsg);
-      } else {
-        week.videos.forEach((vid, i) => {
-          const title = document.createElement("h3");
-          title.textContent = `محاضرة ${i + 1}`;
-          const iframe = document.createElement("iframe");
-          iframe.src = vid;
-          iframe.allowFullscreen = true;
-          panel.appendChild(title);
-          panel.appendChild(iframe);
+      const body = document.createElement("div");
+      body.className = "accordion-body";
+
+      if (now >= availableDate && videoLinks[i]) {
+        videoLinks[i].forEach(video => {
+          const btn = document.createElement("button");
+          btn.textContent = video.title;
+          btn.onclick = () => {
+            videoFrame.src = video.link;
+            videoTitle.textContent = video.title;
+          };
+          body.appendChild(btn);
         });
+      } else {
+        const msg = document.createElement("div");
+        msg.innerHTML = "🔒 سيتم فتح هذا الأسبوع قريبًا.";
+        msg.style.padding = "10px";
+        body.appendChild(msg);
       }
 
-      btn.addEventListener("click", function () {
-        if (!isUnlocked) return;
-        this.classList.toggle("active");
-        panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-      });
+      header.onclick = () => {
+        body.style.display = (body.style.display === "block") ? "none" : "block";
+      };
 
-      accordionContainer.appendChild(btn);
-      accordionContainer.appendChild(panel);
-    });
+      item.appendChild(header);
+      item.appendChild(body);
+      weekList.appendChild(item);
+    }
   </script>
 </body>
 </html>
