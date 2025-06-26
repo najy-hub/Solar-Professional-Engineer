@@ -1,99 +1,93 @@
+<!-- هذا مجرد تمهيد للهيكل العام. سيتم استكماله تدريجياً حسب الطلب -->
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>رحلة المهندس المحترف - محتوى الدورة</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <title>منصة رحلة المهندس - المحتوى الأسبوعي</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-    body {
-      margin: 0; background-color: #121212; color: #fff; display: flex;
+    body { font-family: 'Cairo', sans-serif; background: #111; color: #fff; margin: 0; padding: 0; }
+    header, footer { background: #1c1c1c; padding: 20px; text-align: center; }
+    nav select {
+      padding: 10px;
+      margin: 20px auto;
+      display: block;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 6px;
     }
-    .sidebar {
-      width: 260px; background: #1f1f1f; padding: 20px; height: 100vh;
-      position: fixed; overflow-y: auto; border-left: 1px solid #333;
-    }
-    .sidebar h2 { font-size: 20px; color: #ffba00; margin-bottom: 20px; }
-    .week-link {
-      padding: 10px; margin-bottom: 10px; border-radius: 8px;
-      background-color: #2a2a2a; text-decoration: none; color: #fff;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: background 0.3s;
-    }
-    .week-link:hover { background-color: #383838; }
-    .locked { opacity: 0.6; cursor: not-allowed; }
-    .main-content {
-      margin-right: 280px; padding: 30px; flex: 1;
-    }
-    .video-block {
-      margin-bottom: 40px;
-    }
-    .video-title { margin-bottom: 10px; font-weight: bold; font-size: 18px; color: #ffba00; }
-    iframe { width: 100%; height: 400px; border-radius: 12px; border: none; }
-    .locked-msg {
-      text-align: center; padding: 60px; font-size: 18px;
-      background-color: #222; border-radius: 12px; border: 1px dashed #ffba00;
-    }
+    .week-content { display: none; padding: 20px; }
+    iframe { width: 100%; max-width: 800px; height: 400px; margin-bottom: 20px; border-radius: 10px; }
+    .quiz { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-top: 20px; }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>الأسابيع</h2>
-    <div id="weekList"></div>
-  </div>
+  <header>
+    <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
+  </header>
 
-  <div class="main-content" id="mainContent">
-    <div class="locked-msg" id="lockedMessage">🔒 المحتوى غير متاح حاليًا. سيتم فتحه بعد مرور أسبوع من تاريخ التسجيل.</div>
-  </div>
+  <nav>
+    <select id="weekSelector" onchange="changeWeek()">
+      <option value="">اختر الأسبوع</option>
+      <!-- سيتم توليد 14 أسبوع -->
+      <script>
+        for (let i = 1; i <= 14; i++) {
+          document.write(`<option value="week${i}">الأسبوع ${i}</option>`);
+        }
+      </script>
+    </select>
+  </nav>
+
+  <!-- محتوى الأسابيع -->
+  <main id="weeks">
+    <!-- مثال على أسبوع 1، سيتم تكرار الشكل لبقية الأسابيع ديناميكيًا لاحقًا -->
+    <div class="week-content" id="week1">
+      <h2>الأسبوع 1</h2>
+      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
+
+      <div class="quiz">
+        <h3>اختبار الأسبوع</h3>
+        <p><a href="#">رابط الاختبار</a></p>
+      </div>
+    </div>
+
+    <!-- سيتم تكرار بقية الأسابيع ديناميكيًا -->
+  </main>
+
+  <footer>
+    جميع الحقوق محفوظة &copy; 2025
+  </footer>
 
   <script>
-    const firstLoginDate = new Date(localStorage.getItem('firstLogin')) || new Date();
-    if (!localStorage.getItem('firstLogin')) {
-      localStorage.setItem('firstLogin', firstLoginDate);
+    // تحديد أول دخول في الجلسة
+    if (!localStorage.getItem("courseStartDate")) {
+      localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
-    const weekData = Array.from({ length: 14 }, (_, i) => ({
-      week: i + 1,
-      videos: [
-        { title: "محاضرة 1", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 2", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 3", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 4", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" },
-        { title: "محاضرة 5", url: "https://www.youtube.com/embed/zW9ZX-SZKtE" }
-      ]
-    }));
+    function changeWeek() {
+      const selected = document.getElementById("weekSelector").value;
+      const allWeeks = document.querySelectorAll(".week-content");
+      allWeeks.forEach(div => div.style.display = "none");
 
-    const weekList = document.getElementById('weekList');
-    const mainContent = document.getElementById('mainContent');
-    const now = new Date();
+      if (selected) {
+        const startDate = new Date(localStorage.getItem("courseStartDate"));
+        const currentDate = new Date();
+        const weekNumber = parseInt(selected.replace("week", ""));
+        const allowedDate = new Date(startDate);
+        allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
 
-    weekData.forEach(({ week }, index) => {
-      const weekAvailable = now - new Date(firstLoginDate) >= index * 7 * 24 * 60 * 60 * 1000;
-      const link = document.createElement('a');
-      link.className = 'week-link' + (weekAvailable ? '' : ' locked');
-      link.href = '#';
-      link.innerHTML = `الأسبوع ${week} ${!weekAvailable ? '<span>🔒</span>' : ''}`;
-      link.onclick = (e) => {
-        e.preventDefault();
-        if (!weekAvailable) return;
-        renderWeek(week);
-      };
-      weekList.appendChild(link);
-    });
-
-    function renderWeek(weekNum) {
-      const week = weekData.find(w => w.week === weekNum);
-      mainContent.innerHTML = `<h2>الأسبوع ${weekNum}</h2>`;
-      week.videos.forEach(video => {
-        const block = document.createElement('div');
-        block.className = 'video-block';
-        block.innerHTML = `
-          <div class="video-title">🎥 ${video.title}</div>
-          <iframe src="${video.url}" allowfullscreen></iframe>
-        `;
-        mainContent.appendChild(block);
-      });
+        if (currentDate >= allowedDate) {
+          document.getElementById(selected).style.display = "block";
+        } else {
+          alert("🕒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
+        }
+      }
     }
   </script>
 </body>
