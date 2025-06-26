@@ -90,6 +90,10 @@
       text-decoration: underline;
     }
 
+    .locked-option::after {
+      content: ' 🔒';
+    }
+
     @media (max-width: 768px) {
       iframe {
         height: 250px;
@@ -111,7 +115,7 @@
   <nav>
     <div class="select-group">
       <div class="category-label">Basic</div>
-      <select onchange="changeWeek(this.value)">
+      <select onchange="changeWeek(this)">
         <option value="">اختر الأسبوع</option>
         <option value="week1">الأسبوع 1</option>
         <option value="week2">الأسبوع 2</option>
@@ -124,7 +128,7 @@
     </div>
     <div class="select-group">
       <div class="category-label">Professional</div>
-      <select onchange="changeWeek(this.value)">
+      <select onchange="changeWeek(this)">
         <option value="">اختر الأسبوع</option>
         <option value="week8">الأسبوع 8</option>
         <option value="week9">الأسبوع 9</option>
@@ -138,36 +142,7 @@
   </nav>
 
   <main id="weeks">
-    <div class="week-content" id="week1">
-      <h2>الأسبوع 1 - Basic</h2>
-      <ul class="video-list">
-        <li class="video-item">
-          <h4>📘 المحاضرة الأولى: مقدمة الدورة</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-        </li>
-        <li class="video-item">
-          <h4>📘 المحاضرة الثانية: المفاهيم الأساسية</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-        </li>
-        <li class="video-item">
-          <h4>📘 المحاضرة الثالثة: مكونات النظام</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-        </li>
-        <li class="video-item">
-          <h4>📘 المحاضرة الرابعة: أنواع الأنظمة</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-        </li>
-        <li class="video-item">
-          <h4>📘 المحاضرة الخامسة: الحسابات الأساسية</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>
-        </li>
-      </ul>
-
-      <div class="quiz">
-        <h3>📝 اختبار الأسبوع</h3>
-        <p><a href="#">رابط الاختبار</a></p>
-      </div>
-    </div>
+    <!-- سيتم إدراج جميع الأسابيع ديناميكيًا هنا -->
   </main>
 
   <footer>
@@ -179,7 +154,38 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
-    function changeWeek(weekId) {
+    const weeksContainer = document.getElementById("weeks");
+
+    for (let i = 1; i <= 14; i++) {
+      const weekDiv = document.createElement("div");
+      weekDiv.className = "week-content";
+      weekDiv.id = `week${i}`;
+
+      const type = i <= 7 ? 'Basic' : 'Professional';
+      const title = document.createElement("h2");
+      title.textContent = `الأسبوع ${i} - ${type}`;
+
+      const ul = document.createElement("ul");
+      ul.className = "video-list";
+      for (let j = 1; j <= 5; j++) {
+        const li = document.createElement("li");
+        li.className = "video-item";
+        li.innerHTML = `<h4>📘 المحاضرة ${j}</h4><iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen></iframe>`;
+        ul.appendChild(li);
+      }
+
+      const quiz = document.createElement("div");
+      quiz.className = "quiz";
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
+
+      weekDiv.appendChild(title);
+      weekDiv.appendChild(ul);
+      weekDiv.appendChild(quiz);
+      weeksContainer.appendChild(weekDiv);
+    }
+
+    function changeWeek(selectElement) {
+      const weekId = selectElement.value;
       const allWeeks = document.querySelectorAll(".week-content");
       allWeeks.forEach(div => div.style.display = "none");
 
@@ -193,7 +199,7 @@
         if (currentDate >= allowedDate) {
           document.getElementById(weekId).style.display = "block";
         } else {
-          alert("🕒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
+          alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
         }
       }
     }
