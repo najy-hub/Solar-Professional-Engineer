@@ -31,7 +31,6 @@
     .container {
       display: flex;
       flex: 1;
-      flex-direction: row;
     }
 
     aside {
@@ -90,7 +89,6 @@
     }
 
     .video-container {
-      width: 100%;
       max-width: 100%;
       height: auto;
     }
@@ -105,17 +103,14 @@
     .locked {
       opacity: 0.5;
       pointer-events: none;
-      position: relative;
     }
 
     .locked::after {
       content: '🔒 سيفتح لاحقًا';
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
+      display: block;
       color: red;
       font-size: 14px;
+      margin-top: 5px;
     }
 
     @media (max-width: 768px) {
@@ -128,10 +123,9 @@
       }
       main {
         order: 1;
-        padding: 10px;
       }
       iframe {
-        height: 220px;
+        height: 250px;
       }
     }
   </style>
@@ -198,8 +192,13 @@
         panel.style.display = isOpen ? "none" : "flex";
       };
 
-      weeksContainer.appendChild(accordion);
-      if (isUnlocked) weeksContainer.appendChild(panel);
+      if (isUnlocked) {
+        weeksContainer.appendChild(accordion);
+        weeksContainer.appendChild(panel);
+      } else {
+        accordion.disabled = true;
+        weeksContainer.appendChild(accordion);
+      }
     });
   </script>
 
