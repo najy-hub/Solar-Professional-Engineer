@@ -20,10 +20,20 @@
       text-align: center;
     }
 
+    .category-label {
+      font-size: 20px;
+      margin: 20px;
+      color: #ffc107;
+    }
+
+    nav .select-group {
+      margin: 0 auto 30px auto;
+      text-align: center;
+    }
+
     nav select {
       padding: 10px;
-      margin: 20px auto;
-      display: block;
+      margin: 10px;
       background: #222;
       color: #fff;
       border: 1px solid #444;
@@ -99,15 +109,32 @@
   </header>
 
   <nav>
-    <select id="weekSelector" onchange="changeWeek()">
-      <option value="">اختر الأسبوع</option>
-      <script>
-        for (let i = 1; i <= 14; i++) {
-          const label = i <= 7 ? `الأسبوع ${i} - Basic` : `الأسبوع ${i} - Professional`;
-          document.write(`<option value="week${i}">${label}</option>`);
-        }
-      </script>
-    </select>
+    <div class="select-group">
+      <div class="category-label">Basic</div>
+      <select onchange="changeWeek(this.value)">
+        <option value="">اختر الأسبوع</option>
+        <option value="week1">الأسبوع 1</option>
+        <option value="week2">الأسبوع 2</option>
+        <option value="week3">الأسبوع 3</option>
+        <option value="week4">الأسبوع 4</option>
+        <option value="week5">الأسبوع 5</option>
+        <option value="week6">الأسبوع 6</option>
+        <option value="week7">الأسبوع 7</option>
+      </select>
+    </div>
+    <div class="select-group">
+      <div class="category-label">Professional</div>
+      <select onchange="changeWeek(this.value)">
+        <option value="">اختر الأسبوع</option>
+        <option value="week8">الأسبوع 8</option>
+        <option value="week9">الأسبوع 9</option>
+        <option value="week10">الأسبوع 10</option>
+        <option value="week11">الأسبوع 11</option>
+        <option value="week12">الأسبوع 12</option>
+        <option value="week13">الأسبوع 13</option>
+        <option value="week14">الأسبوع 14</option>
+      </select>
+    </div>
   </nav>
 
   <main id="weeks">
@@ -152,20 +179,19 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
-    function changeWeek() {
-      const selected = document.getElementById("weekSelector").value;
+    function changeWeek(weekId) {
       const allWeeks = document.querySelectorAll(".week-content");
       allWeeks.forEach(div => div.style.display = "none");
 
-      if (selected) {
+      if (weekId) {
         const startDate = new Date(localStorage.getItem("courseStartDate"));
         const currentDate = new Date();
-        const weekNumber = parseInt(selected.replace("week", ""));
+        const weekNumber = parseInt(weekId.replace("week", ""));
         const allowedDate = new Date(startDate);
         allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
 
         if (currentDate >= allowedDate) {
-          document.getElementById(selected).style.display = "block";
+          document.getElementById(weekId).style.display = "block";
         } else {
           alert("🕒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
         }
