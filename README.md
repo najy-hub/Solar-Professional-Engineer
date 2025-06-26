@@ -135,6 +135,27 @@
       color: #000;
     }
 
+    .category-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    .category-nav button {
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .category-nav button:hover {
+      background: #666;
+    }
+
     @media (max-width: 768px) {
       iframe {
         height: 250px;
@@ -144,6 +165,11 @@
         font-size: 16px;
         text-align: center;
       }
+
+      .category-nav {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -152,6 +178,11 @@
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
   </header>
+
+  <div class="category-nav">
+    <button onclick="jumpToCategory('Basic')">🧱 Basic</button>
+    <button onclick="jumpToCategory('Professional')">🚀 Professional</button>
+  </div>
 
   <div id="progressBar">
     <div id="progressBarInner"></div>
@@ -175,6 +206,7 @@
 
     const weeksContainer = document.getElementById("weeks");
     let currentWeek = null;
+    const categoryIndexes = { Basic: 1, Professional: 8 };
 
     for (let i = 1; i <= 14; i++) {
       const weekDiv = document.createElement("div");
@@ -268,6 +300,11 @@
         iframe.removeAttribute("style");
         button.textContent = "🔍 توسيع الفيديو";
       }
+    }
+
+    function jumpToCategory(category) {
+      const week = categoryIndexes[category];
+      changeWeekId(week);
     }
 
     changeWeekId(1);
