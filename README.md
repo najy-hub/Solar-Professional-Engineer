@@ -255,14 +255,26 @@
         title.innerHTML += " ✅";
       }
 
-      const ul = document.createElement("ul");
-      ul.className = "video-list";
-      for (let j = 1; j <= 5; j++) {
-        const li = document.createElement("li");
-        li.className = "video-item";
-        li.innerHTML = `
-          <h4>📘 المحاضرة ${j}</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
+      const videoData = {};
+const quizLinks = {};
+const videoData = {
+  1: [
+    { title: "محاضرة 1: مقدمة في الطاقة الشمسية", url: "https://www.youtube.com/embed/VID11" },
+    { title: "محاضرة 2: مكونات النظام الشمسي", url: "https://www.youtube.com/embed/VID12" },
+    { title: "محاضرة 3: أنواع الألواح الشمسية", url: "https://www.youtube.com/embed/VID13" },
+    { title: "محاضرة 4: تركيب الأنظمة", url: "https://www.youtube.com/embed/VID14" },
+    { title: "محاضرة 5: تصميم النظام الشمسي", url: "https://www.youtube.com/embed/VID15" }
+  ],
+  2: [
+    { title: "محاضرة 6: البطاريات وأنواعها", url: "https://www.youtube.com/embed/VID21" },
+    { title: "محاضرة 7: أنظمة الشحن", url: "https://www.youtube.com/embed/VID22" },
+    { title: "محاضرة 8: BMS وكيف يعمل", url: "https://www.youtube.com/embed/VID23" },
+    { title: "محاضرة 9: التوصيلات والحماية", url: "https://www.youtube.com/embed/VID24" },
+    { title: "محاضرة 10: موازنة الأنظمة", url: "https://www.youtube.com/embed/VID25" }
+  ],
+  // كرر بنفس الطريقة حتى الأسبوع 14
+};
+
           <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
         `;
         ul.appendChild(li);
