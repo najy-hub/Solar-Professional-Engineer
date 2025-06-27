@@ -216,6 +216,10 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
+    const weeksContainer = document.getElementById("weeks");
+    let currentWeek = null;
+    const categoryIndexes = { Basic: 1, Professional: 8 };
+
     const videoData = [
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid1" },
@@ -233,15 +237,7 @@
       ]
     ];
 
-    const quizLinks = Object.fromEntries(
-      Array.from({ length: 14 }, (_, i) => [i + 1, `https://example.com/quiz${i + 1}`])
-    );
-
-    const weeksContainer = document.getElementById("weeks");
-    let currentWeek = null;
-    const categoryIndexes = { Basic: 1, Professional: 8 };
-
-    for (let i = 1; i <= 14; i++) {
+    for (let i = 1; i <= videoData.length; i++) {
       const weekDiv = document.createElement("div");
       weekDiv.className = "week-content";
       weekDiv.id = `week${i}`;
@@ -254,16 +250,21 @@
 
       const title = document.createElement("h2");
       title.textContent = `الأسبوع ${i} - ${type}`;
-      title.innerHTML += currentDate < allowedDate ? " 🔒" : " ✅";
+
+      if (currentDate < allowedDate) {
+        title.innerHTML += " 🔒";
+      } else {
+        title.innerHTML += " ✅";
+      }
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
-      videoData[i - 1].forEach(vid => {
+      videoData[i - 1].forEach(video => {
         const li = document.createElement("li");
         li.className = "video-item";
         li.innerHTML = `
-          <h4>${vid.title}</h4>
-          <iframe src="${vid.url}" allowfullscreen loading="lazy"></iframe>
+          <h4>${video.title}</h4>
+          <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
           <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
         `;
         ul.appendChild(li);
@@ -271,7 +272,7 @@
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i]}" target="_blank">رابط الاختبار</a></p>`;
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
@@ -283,13 +284,15 @@
       const startDate = new Date(localStorage.getItem("courseStartDate"));
       const currentDate = new Date();
       const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-      const weekUnlocked = Math.min(14, Math.floor(diffInDays / 7) + 1);
-      const percentage = (weekUnlocked / 14) * 100;
+      const weekUnlocked = Math.min(videoData.length, Math.floor(diffInDays / 7) + 1);
+      const percentage = (weekUnlocked / videoData.length) * 100;
       document.getElementById("progressBarInner").style.width = `${percentage}%`;
     }
 
     function changeWeekId(weekNumber) {
-      document.querySelectorAll(".week-content").forEach(div => div.style.display = "none");
+      const allWeeks = document.querySelectorAll(".week-content");
+      allWeeks.forEach(div => div.style.display = "none");
+
       const startDate = new Date(localStorage.getItem("courseStartDate"));
       const currentDate = new Date();
       const allowedDate = new Date(startDate);
@@ -306,7 +309,7 @@
     function navigateWeek(step) {
       if (currentWeek === null) return;
       const nextWeek = currentWeek + step;
-      if (nextWeek >= 1 && nextWeek <= 14) {
+      if (nextWeek >= 1 && nextWeek <= videoData.length) {
         changeWeekId(nextWeek);
       }
     }
@@ -329,7 +332,8 @@
     }
 
     function jumpToCategory(category) {
-      changeWeekId(categoryIndexes[category]);
+      const week = categoryIndexes[category];
+      changeWeekId(week);
     }
 
     changeWeekId(1);
