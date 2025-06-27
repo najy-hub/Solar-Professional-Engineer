@@ -189,6 +189,7 @@
 </head>
 <body>
   <script>
+    // التحقق من الدخول
     if (localStorage.getItem("loggedIn") !== "true") {
       window.location.href = "https://najy-hub.github.io/Login-Course/";
     }
@@ -230,31 +231,6 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
-    const videoData = {};
-    const quizLinks = {};
-    for (let w = 1; w <= 14; w++) {
-      videoData[w] = [];
-      for (let v = 1; v <= 5; v++) {
-        const videoData = {
-  1: [
-    { title: "محاضرة 1: مقدمة في الطاقة الشمسية", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-    { title: "محاضرة 2: مكونات النظام الشمسي", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-    { title: "محاضرة 3: أنواع الألواح الشمسية", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-    { title: "محاضرة 4: تركيب الأنظمة", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-    { title: "محاضرة 5: تصميم النظام الشمسي", url: "https://www.youtube.com/embed/mNPXseyrxMU" }
-  ],
-  2: [
-    { title: "محاضرة 6: البطاريات وأنواعها", url: "https://www.youtube.com/embed/VID21" },
-    { title: "محاضرة 7: أنظمة الشحن", url: "https://www.youtube.com/embed/VID22" },
-    { title: "محاضرة 8: BMS وكيف يعمل", url: "https://www.youtube.com/embed/VID23" },
-    { title: "محاضرة 9: التوصيلات والحماية", url: "https://www.youtube.com/embed/VID24" },
-    { title: "محاضرة 10: موازنة الأنظمة", url: "https://www.youtube.com/embed/VID25" }
-  ],
-  // كرر بنفس الطريقة حتى الأسبوع 14
-};
-      quizLinks[w] = `https://example.com/quiz${w}`;
-    }
-
     const weeksContainer = document.getElementById("weeks");
     let currentWeek = null;
     const categoryIndexes = { Basic: 1, Professional: 8 };
@@ -281,21 +257,20 @@
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
-      (videoData[i] || []).forEach((vid, idx) => {
+      for (let j = 1; j <= 5; j++) {
         const li = document.createElement("li");
         li.className = "video-item";
         li.innerHTML = `
-          <h4>📘 ${vid.title}</h4>
-          <iframe src="${vid.url}" allowfullscreen loading="lazy"></iframe>
+          <h4>📘 المحاضرة ${j}</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
           <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
         `;
         ul.appendChild(li);
-      });
+      }
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-      const quizUrl = quizLinks[i] || "#";
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizUrl}" target="_blank">رابط الاختبار</a></p>`;
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
