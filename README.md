@@ -18,6 +18,20 @@
       background: #1c1c1c;
       padding: 20px;
       text-align: center;
+      position: relative;
+    }
+
+    #logoutBtn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background: #e53935;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .category-label {
@@ -174,9 +188,16 @@
   </style>
 </head>
 <body>
+  <script>
+    // التحقق من الدخول
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
 
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
+    <button id="logoutBtn" onclick="logout()">🚪 تسجيل الخروج</button>
   </header>
 
   <div class="category-nav">
@@ -200,6 +221,12 @@
   </footer>
 
   <script>
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("courseStartDate");
+      window.location.href = "login.html";
+    }
+
     if (!localStorage.getItem("courseStartDate")) {
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
