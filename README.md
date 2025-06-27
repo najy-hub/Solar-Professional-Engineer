@@ -191,7 +191,7 @@
   <script>
     // التحقق من الدخول
     if (localStorage.getItem("loggedIn") !== "true") {
-      window.location.href = "login.html";
+      window.location.href = "https://github.com/najy-hub/Login-Course";
     }
   </script>
 
