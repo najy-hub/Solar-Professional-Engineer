@@ -223,14 +223,14 @@
     const videoData = [
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid1" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/vid2" },
+        { title: "📘 انواع الالواح ", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
         { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid3" },
         { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid4" },
         { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid5" }
       ],
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/vid7" },
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
         { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
         { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
         { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
@@ -337,15 +337,8 @@ function changeWeekId(weekNumber) {
     }
 
     function jumpToCategory(category) {
-      const allWeeks = document.querySelectorAll(".week-content");
-      allWeeks.forEach(div => {
-        if (div.dataset.type === category) {
-          div.style.display = "block";
-        } else {
-          div.style.display = "none";
-        }
-      });
-      currentWeek = categoryIndexes[category];
+      const week = categoryIndexes[category];
+      changeWeekId(week);
     }
 
     changeWeekId(1);
