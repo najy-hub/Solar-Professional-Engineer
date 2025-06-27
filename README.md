@@ -237,11 +237,11 @@
       for (let v = 1; v <= 5; v++) {
         const videoData = {
   1: [
-    { title: "محاضرة 1: مقدمة في الطاقة الشمسية", url: "https://www.youtube.com/embed/VID11" },
-    { title: "محاضرة 2: مكونات النظام الشمسي", url: "https://www.youtube.com/embed/VID12" },
-    { title: "محاضرة 3: أنواع الألواح الشمسية", url: "https://www.youtube.com/embed/VID13" },
-    { title: "محاضرة 4: تركيب الأنظمة", url: "https://www.youtube.com/embed/VID14" },
-    { title: "محاضرة 5: تصميم النظام الشمسي", url: "https://www.youtube.com/embed/VID15" }
+    { title: "محاضرة 1: مقدمة في الطاقة الشمسية", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+    { title: "محاضرة 2: مكونات النظام الشمسي", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+    { title: "محاضرة 3: أنواع الألواح الشمسية", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+    { title: "محاضرة 4: تركيب الأنظمة", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+    { title: "محاضرة 5: تصميم النظام الشمسي", url: "https://www.youtube.com/embed/mNPXseyrxMU" }
   ],
   2: [
     { title: "محاضرة 6: البطاريات وأنواعها", url: "https://www.youtube.com/embed/VID21" },
