@@ -189,7 +189,6 @@
 </head>
 <body>
   <script>
-    // التحقق من الدخول
     if (localStorage.getItem("loggedIn") !== "true") {
       window.location.href = "https://najy-hub.github.io/Login-Course/";
     }
@@ -231,6 +230,19 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
+    const videoData = {};
+    const quizLinks = {};
+    for (let w = 1; w <= 14; w++) {
+      videoData[w] = [];
+      for (let v = 1; v <= 5; v++) {
+        videoData[w].push({
+          title: `محاضرة ${v} - عنوان توضيحي`,
+          url: `https://www.youtube.com/embed/VID${w}${v}`
+        });
+      }
+      quizLinks[w] = `https://example.com/quiz${w}`;
+    }
+
     const weeksContainer = document.getElementById("weeks");
     let currentWeek = null;
     const categoryIndexes = { Basic: 1, Professional: 8 };
@@ -257,20 +269,21 @@
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
-      for (let j = 1; j <= 5; j++) {
+      (videoData[i] || []).forEach((vid, idx) => {
         const li = document.createElement("li");
         li.className = "video-item";
         li.innerHTML = `
-          <h4>📘 المحاضرة ${j}</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
+          <h4>📘 ${vid.title}</h4>
+          <iframe src="${vid.url}" allowfullscreen loading="lazy"></iframe>
           <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
         `;
         ul.appendChild(li);
-      }
+      });
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
+      const quizUrl = quizLinks[i] || "#";
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizUrl}" target="_blank">رابط الاختبار</a></p>`;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
