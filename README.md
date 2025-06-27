@@ -254,7 +254,18 @@
       } else {
         title.innerHTML += " ✅";
       }
-
+ const ul = document.createElement("ul");
+      ul.className = "video-list";
+      for (let j = 1; j <= 5; j++) {
+        const li = document.createElement("li");
+        li.className = "video-item";
+        li.innerHTML = `
+          <h4>📘 المحاضرة ${j}</h4>
+          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
+          <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
+        `;
+        ul.appendChild(li);
+      }
       const videoData = {};
 const quizLinks = {};
 const videoData = {
