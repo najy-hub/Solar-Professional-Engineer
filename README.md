@@ -337,8 +337,15 @@ function changeWeekId(weekNumber) {
     }
 
     function jumpToCategory(category) {
-      const week = categoryIndexes[category];
-      changeWeekId(week);
+      const allWeeks = document.querySelectorAll(".week-content");
+      allWeeks.forEach(div => {
+        if (div.dataset.type === category) {
+          div.style.display = "block";
+        } else {
+          div.style.display = "none";
+        }
+      });
+      currentWeek = categoryIndexes[category];
     }
 
     changeWeekId(1);
