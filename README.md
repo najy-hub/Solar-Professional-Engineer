@@ -281,13 +281,14 @@
     }
 
     function updateProgressBar() {
-      const startDate = new Date(localStorage.getItem("courseStartDate"));
-      const currentDate = new Date();
-      const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-      const weekUnlocked = Math.min(videoData.length, Math.floor(diffInDays / 7) + 1);
-      const percentage = (weekUnlocked / videoData.length) * 100;
-      document.getElementById("progressBarInner").style.width = `${percentage}%`;
-    }
+  const startDate = new Date(localStorage.getItem("courseStartDate"));
+  const currentDate = new Date();
+  const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+  const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7)); // أضف 1 حتى يبدأ من اليوم الأول
+  const percentage = (weekUnlocked / 14) * 100;
+  document.getElementById("progressBarInner").style.width = `${percentage}%`;
+}
+
 
 function changeWeekId(weekNumber) {
   const allWeeks = document.querySelectorAll(".week-content");
