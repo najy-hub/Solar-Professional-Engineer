@@ -224,7 +224,7 @@
     function logout() {
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("courseStartDate");
-      window.location.href = "login.html";
+      window.location.href = "https://najy-hub.github.io/Login-Course/";
     }
 
     if (!localStorage.getItem("courseStartDate")) {
