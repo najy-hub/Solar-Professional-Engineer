@@ -289,22 +289,26 @@
       document.getElementById("progressBarInner").style.width = `${percentage}%`;
     }
 
-    function changeWeekId(weekNumber) {
-      const allWeeks = document.querySelectorAll(".week-content");
-      allWeeks.forEach(div => div.style.display = "none");
+function changeWeekId(weekNumber) {
+  const allWeeks = document.querySelectorAll(".week-content");
+  allWeeks.forEach(div => div.style.display = "none");
 
-      const startDate = new Date(localStorage.getItem("courseStartDate"));
-      const currentDate = new Date();
-      const allowedDate = new Date(startDate);
-      allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
+  const startDate = new Date(localStorage.getItem("courseStartDate"));
+  const currentDate = new Date();
+  const allowedDate = new Date(startDate);
+  allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
 
-      if (currentDate >= allowedDate) {
-        document.getElementById(`week${weekNumber}`).style.display = "block";
-        currentWeek = weekNumber;
-      } else {
-        alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-      }
+  if (currentDate >= allowedDate) {
+    document.getElementById(`week${weekNumber}`).style.display = "block";
+    currentWeek = weekNumber;
+  } else {
+    alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
+    if (currentWeek !== null) {
+      document.getElementById(`week${currentWeek}`).style.display = "block";
     }
+  }
+}
+
 
     function navigateWeek(step) {
       if (currentWeek === null) return;
