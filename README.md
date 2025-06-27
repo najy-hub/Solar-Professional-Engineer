@@ -216,12 +216,22 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
-    const videoData = Array.from({ length: 14 }, (_, i) =>
-      Array.from({ length: 5 }, (_, j) => ({
-        title: `📘 المحاضرة ${j + 1}`,
-        url: `https://www.youtube.com/embed/zW9ZX-SZKtE`
-      }))
-    );
+    const videoData = [
+      [
+        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid1" },
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/vid2" },
+        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid3" },
+        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid4" },
+        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid5" }
+      ],
+      [
+        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/vid7" },
+        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
+        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
+        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+      ]
+    ];
 
     const quizLinks = Object.fromEntries(
       Array.from({ length: 14 }, (_, i) => [i + 1, `https://example.com/quiz${i + 1}`])
