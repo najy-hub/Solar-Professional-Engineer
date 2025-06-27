@@ -40,20 +40,6 @@
       color: #ffc107;
     }
 
-    nav .select-group {
-      margin: 0 auto 30px auto;
-      text-align: center;
-    }
-
-    nav select {
-      padding: 10px;
-      margin: 10px;
-      background: #222;
-      color: #fff;
-      border: 1px solid #444;
-      border-radius: 6px;
-    }
-
     .week-content {
       display: none;
       padding: 20px;
@@ -189,7 +175,6 @@
 </head>
 <body>
   <script>
-    // التحقق من الدخول
     if (localStorage.getItem("loggedIn") !== "true") {
       window.location.href = "https://najy-hub.github.io/Login-Course/";
     }
@@ -231,6 +216,17 @@
       localStorage.setItem("courseStartDate", new Date().toISOString());
     }
 
+    const videoData = Array.from({ length: 14 }, (_, i) =>
+      Array.from({ length: 5 }, (_, j) => ({
+        title: `📘 المحاضرة ${j + 1}`,
+        url: `https://www.youtube.com/embed/zW9ZX-SZKtE`
+      }))
+    );
+
+    const quizLinks = Object.fromEntries(
+      Array.from({ length: 14 }, (_, i) => [i + 1, `https://example.com/quiz${i + 1}`])
+    );
+
     const weeksContainer = document.getElementById("weeks");
     let currentWeek = null;
     const categoryIndexes = { Basic: 1, Professional: 8 };
@@ -248,29 +244,24 @@
 
       const title = document.createElement("h2");
       title.textContent = `الأسبوع ${i} - ${type}`;
-
-      if (currentDate < allowedDate) {
-        title.innerHTML += " 🔒";
-      } else {
-        title.innerHTML += " ✅";
-      }
+      title.innerHTML += currentDate < allowedDate ? " 🔒" : " ✅";
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
-      for (let j = 1; j <= 5; j++) {
+      videoData[i - 1].forEach(vid => {
         const li = document.createElement("li");
         li.className = "video-item";
         li.innerHTML = `
-          <h4>📘 المحاضرة ${j}</h4>
-          <iframe src="https://www.youtube.com/embed/zW9ZX-SZKtE" allowfullscreen loading="lazy"></iframe>
+          <h4>${vid.title}</h4>
+          <iframe src="${vid.url}" allowfullscreen loading="lazy"></iframe>
           <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
         `;
         ul.appendChild(li);
-      }
+      });
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i]}" target="_blank">رابط الاختبار</a></p>`;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
@@ -288,9 +279,7 @@
     }
 
     function changeWeekId(weekNumber) {
-      const allWeeks = document.querySelectorAll(".week-content");
-      allWeeks.forEach(div => div.style.display = "none");
-
+      document.querySelectorAll(".week-content").forEach(div => div.style.display = "none");
       const startDate = new Date(localStorage.getItem("courseStartDate"));
       const currentDate = new Date();
       const allowedDate = new Date(startDate);
@@ -330,8 +319,7 @@
     }
 
     function jumpToCategory(category) {
-      const week = categoryIndexes[category];
-      changeWeekId(week);
+      changeWeekId(categoryIndexes[category]);
     }
 
     changeWeekId(1);
