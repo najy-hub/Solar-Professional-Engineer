@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>كورس الطاقة الشمسية - رحلة 14 أسبوع</title>
+  <title>كورس الطاقة الشمسية - 14 أسبوع</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     body {
@@ -47,16 +47,22 @@
 <body>
 
 <h1>كورس الطاقة الشمسية</h1>
-<p style="text-align: center;">يتكون هذا الكورس من 14 أسبوعًا، كل أسبوع يحتوي على 5 محاضرات. يتم فتح المحتوى تدريجيًا كل أسبوع.</p>
+<p style="text-align: center;">يتكون هذا الكورس من 14 أسبوعًا، كل أسبوع يحتوي على 5 محاضرات. يتم فتح المحتوى تدريجيًا أسبوعيًا.</p>
 
 <div id="course-content"></div>
 
 <script>
-  const startDate = new Date("2025-07-01"); // 📅 عدل إلى تاريخ بداية الكورس
+  const startDate = new Date("2025-07-01"); // 📅 عدل حسب بداية الكورس
   const totalWeeks = 14;
   const lecturesPerWeek = 5;
   const today = new Date();
   const courseContent = document.getElementById("course-content");
+
+  const bunnyVideos = {
+    1: "https://iframe.mediadelivery.net/play/460802/dce4ee28-5099-44df-9760-dddcf3609a95",
+    2: "https://iframe.mediadelivery.net/play/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6"
+    // ✳️ أضف باقي الروابط هنا حسب الترقيم
+  };
 
   for (let week = 1; week <= totalWeeks; week++) {
     const weekStart = new Date(startDate);
@@ -69,15 +75,22 @@
 
     for (let lecture = 1; lecture <= lecturesPerWeek; lecture++) {
       const lectureNumber = (week - 1) * lecturesPerWeek + lecture;
-      const bunnyId = `video${lectureNumber}`; // ✳️ غير هذا إلى ID الحقيقي إن توفر
-      const videoUrl = `https://iframe.mediadelivery.net/embed/YOUR-BUNNY-STREAM-ID-HERE/${bunnyId}?autoplay=false`;
+      const videoUrl = bunnyVideos[lectureNumber];
 
-      weekDiv.innerHTML += `
-        <div class="lecture">
-          <strong>محاضرة ${lecture}:</strong>
-          <iframe loading="lazy" src="${videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe>
-        </div>
-      `;
+      if (videoUrl) {
+        weekDiv.innerHTML += `
+          <div class="lecture">
+            <strong>محاضرة ${lecture}:</strong>
+            <iframe loading="lazy" src="${videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe>
+          </div>
+        `;
+      } else {
+        weekDiv.innerHTML += `
+          <div class="lecture">
+            <strong>محاضرة ${lecture}:</strong> <span>ستُتاح لاحقًا...</span>
+          </div>
+        `;
+      }
     }
 
     courseContent.appendChild(weekDiv);
