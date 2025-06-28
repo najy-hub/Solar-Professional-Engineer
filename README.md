@@ -64,14 +64,24 @@
       color: #ffca28;
     }
 
-    .video-item iframe {
+    .bunny-video-container {
+      position: relative;
       width: 100%;
-      height: 70vh;
-      max-width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
       border-radius: 10px;
+      background: #000;
+    }
+
+    .bunny-video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
-      display: block;
-      margin: 0 auto;
+      border-radius: 10px;
     }
 
     .quiz {
@@ -145,8 +155,8 @@
     }
 
     @media (max-width: 768px) {
-      .video-item iframe {
-        height: 50vh;
+      .bunny-video-container {
+        padding-bottom: 56.25%;
       }
 
       .video-item h4 {
@@ -250,9 +260,11 @@
       videoData[i - 1].forEach(video => {
         const li = document.createElement("li");
         li.className = "video-item";
-       li.innerHTML = `
+    li.innerHTML = `
   <h4>${video.title}</h4>
-  <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+  <div class="bunny-video-container">
+    <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+  </div>
 `;
 
         ul.appendChild(li);
