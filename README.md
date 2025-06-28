@@ -65,23 +65,26 @@
       color: #ffca28;
     }
 
-    .bunny-video-container {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .bunny-video-container {
+  width: 800px; /* ✅ عرض الكرت والفيديو */
+  aspect-ratio: 16 / 9; /* يحافظ على نسبة 16:9 تلقائيًا */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto; /* ✅ توسيط الكرت في الصفحة */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+}
 
-    .bunny-video-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
+.bunny-video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
 
     .quiz {
       background: #1a1a1a;
