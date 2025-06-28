@@ -64,15 +64,7 @@
       color: #ffca28;
     }
 
-  .bunny-video-container {
-  width: 100%;
-  max-width: 100%;
-  height: 1080px; /* 👈 حجم مناسب لأجهزة سطح المكتب */
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-}
+ 
 
 .bunny-video-container iframe {
   position: absolute;
