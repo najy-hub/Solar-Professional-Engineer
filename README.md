@@ -65,10 +65,10 @@
     }
 
     .bunny-video-container {
-      width: 100%;
-      max-width: 100%;
+      width: 200%;
+      max-width: 200%;
       position: relative;
-      padding-top: 56.25%; /* 16:9 ratio */
+      padding-top: 100%; /* 16:9 ratio */
       background: #000;
       border-radius: 10px;
       overflow: hidden;
