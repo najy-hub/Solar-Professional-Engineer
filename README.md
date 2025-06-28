@@ -66,20 +66,21 @@
 
     .bunny-video-container {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      max-width: 100%;
+      position: relative;
+      padding-top: 56.25%; /* 16:9 ratio */
+      background: #000;
       border-radius: 10px;
       overflow: hidden;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     .bunny-video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
-      display: block;
     }
 
     .quiz {
@@ -153,10 +154,6 @@
     }
 
     @media (max-width: 768px) {
-      .bunny-video-container {
-        aspect-ratio: 16 / 9;
-      }
-
       .video-item h4 {
         font-size: 16px;
         text-align: center;
@@ -219,17 +216,11 @@
     const videoData = [
       [
         { title: "📘 المحاضرة 1", url: "https://iframe.mediadelivery.net/play/460802/dce4ee28-5099-44df-9760-dddcf3609a95" },
-        { title: "📘 انواع الالواح ", url: "https://iframe.mediadelivery.net/play/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6" },
-        { title: "📘 المحاضرة 3", url: "https://iframe.mediadelivery.net/play/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f" },
-        { title: "📘 المحاضرة 4", url: "https://iframe.mediadelivery.net/play/460802/4b7a1509-496d-4d39-ba3c-d635198fa551" },
-        { title: "📘 المحاضرة 5", url: "https://iframe.mediadelivery.net/play/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
+        { title: "📘 انواع الالواح", url: "https://iframe.mediadelivery.net/play/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6" }
       ],
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
-        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
-        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" }
       ]
     ];
 
@@ -246,25 +237,19 @@
 
       const title = document.createElement("h2");
       title.textContent = `الأسبوع ${i} - ${type}`;
-
-      if (currentDate < allowedDate) {
-        title.innerHTML += " 🔒";
-      } else {
-        title.innerHTML += " ✅";
-      }
+      title.innerHTML += currentDate < allowedDate ? " 🔒" : " ✅";
 
       const ul = document.createElement("ul");
       ul.className = "video-list";
       videoData[i - 1].forEach(video => {
         const li = document.createElement("li");
         li.className = "video-item";
-    li.innerHTML = `
-  <h4>${video.title}</h4>
-  <div class="bunny-video-container">
-    <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
-  </div>
-`;
-
+        li.innerHTML = `
+          <h4>${video.title}</h4>
+          <div class="bunny-video-container">
+            <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+          </div>
+        `;
         ul.appendChild(li);
       });
 
@@ -279,58 +264,39 @@
     }
 
     function updateProgressBar() {
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-  const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7)); // أضف 1 حتى يبدأ من اليوم الأول
-  const percentage = (weekUnlocked / 14) * 100;
-  document.getElementById("progressBarInner").style.width = `${percentage}%`;
-}
-
-
-function changeWeekId(weekNumber) {
-  const allWeeks = document.querySelectorAll(".week-content");
-  allWeeks.forEach(div => div.style.display = "none");
-
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const allowedDate = new Date(startDate);
-  allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
-
-  if (currentDate >= allowedDate) {
-    document.getElementById(`week${weekNumber}`).style.display = "block";
-    currentWeek = weekNumber;
-  } else {
-    alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-    if (currentWeek !== null) {
-      document.getElementById(`week${currentWeek}`).style.display = "block";
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+      const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7));
+      const percentage = (weekUnlocked / 14) * 100;
+      document.getElementById("progressBarInner").style.width = `${percentage}%`;
     }
-  }
-}
 
+    function changeWeekId(weekNumber) {
+      const allWeeks = document.querySelectorAll(".week-content");
+      allWeeks.forEach(div => div.style.display = "none");
+
+      const startDate = new Date(localStorage.getItem("courseStartDate"));
+      const currentDate = new Date();
+      const allowedDate = new Date(startDate);
+      allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
+
+      if (currentDate >= allowedDate) {
+        document.getElementById(`week${weekNumber}`).style.display = "block";
+        currentWeek = weekNumber;
+      } else {
+        alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
+        if (currentWeek !== null) {
+          document.getElementById(`week${currentWeek}`).style.display = "block";
+        }
+      }
+    }
 
     function navigateWeek(step) {
       if (currentWeek === null) return;
       const nextWeek = currentWeek + step;
       if (nextWeek >= 1 && nextWeek <= videoData.length) {
         changeWeekId(nextWeek);
-      }
-    }
-
-    function expandVideo(button) {
-      const iframe = button.previousElementSibling;
-      if (iframe.style.width !== "100vw") {
-        iframe.style.width = "100vw";
-        iframe.style.height = "90vh";
-        iframe.style.position = "fixed";
-        iframe.style.top = "5vh";
-        iframe.style.left = "0";
-        iframe.style.zIndex = "9999";
-        iframe.style.borderRadius = "0";
-        button.textContent = "❌ إغلاق الفيديو";
-      } else {
-        iframe.removeAttribute("style");
-        button.textContent = "🔍 توسيع الفيديو";
       }
     }
 
