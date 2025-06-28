@@ -39,16 +39,13 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-    iframe {
+ iframe {
   width: 100%;
-  max-width: 800px; /* ✅ حد أقصى للعرض */
-  height: 920px;
-  border-radius: 0px;
-  margin-top: 0px;
+  height: 1080px; /* كما اخترت أنت */
+  border-radius: 10px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
+
 
     .locked {
       opacity: 0.4;
