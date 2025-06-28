@@ -36,7 +36,7 @@
   max-width: 800px; /* ✅ حد أقصى للعرض */
   height: 1080px;
   border-radius: 0px;
-  margin-top: -5px;
+  margin-top: 100px;
   display: block;
   margin-left: auto;
   margin-right: auto;
