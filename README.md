@@ -29,23 +29,23 @@
       margin-bottom: 10px;
       color: #007b7f;
     }
-    .lecture {
-  margin: 20px auto;
-  padding: 10px;
-  max-width: 850px; /* ✅ عرض الكرت */
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
+ .lecture {
+    margin: 30px auto;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    max-width: 850px; /* هذا هو حجم الكرت */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
 
- iframe {
-  width: 100%;
-  height: 1080px; /* كما اخترت أنت */
-  border-radius: 10px;
-  display: block;
-}
-
+  iframe {
+    width: 100%;
+    height: 1080px;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto;
+  }
 
     .locked {
       opacity: 0.4;
