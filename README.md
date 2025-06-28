@@ -65,23 +65,19 @@
     }
 
     .bunny-video-container {
-      position: relative;
       width: 100%;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      height: 0;
-      overflow: hidden;
+      aspect-ratio: 16 / 9;
       border-radius: 10px;
+      overflow: hidden;
       background: #000;
     }
 
     .bunny-video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 10px;
+      display: block;
     }
 
     .quiz {
@@ -156,7 +152,7 @@
 
     @media (max-width: 768px) {
       .bunny-video-container {
-        padding-bottom: 56.25%;
+        aspect-ratio: 16 / 9;
       }
 
       .video-item h4 {
