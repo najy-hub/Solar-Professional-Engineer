@@ -30,7 +30,15 @@
       color: #007b7f;
     }
     .lecture {
-      margin: 10px 0;
+  margin: 20px auto;
+  padding: 10px;
+  max-width: 850px; /* ✅ عرض الكرت */
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
     iframe {
   width: 100%;
   max-width: 800px; /* ✅ حد أقصى للعرض */
