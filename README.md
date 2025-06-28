@@ -32,9 +32,9 @@
     .lecture {
       margin: 10px 0;
     iframe {
-  width: 50%;
+  width: 100%;
   max-width: 800px; /* ✅ حد أقصى للعرض */
-  height: 1080px;
+  height: 1320px;
   border-radius: 0px;
   margin-top: 0px;
   display: block;
