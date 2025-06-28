@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+OCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -65,16 +65,15 @@
     }
 
     iframe {
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  border-radius: 10px;
-  border: none;
-  display: block;
-  margin: auto;
-}
-
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      border-radius: 10px;
+      border: none;
+      display: block;
+      margin: auto;
+    }
 
     .quiz {
       background: #1a1a1a;
@@ -107,18 +106,6 @@
       background: #ffc107;
       width: 0%;
       transition: width 0.5s ease-in-out;
-    }
-
-    .expand-btn {
-      display: block;
-      margin: 10px auto;
-      padding: 6px 12px;
-      font-size: 14px;
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
     }
 
     .week-navigation {
@@ -160,7 +147,7 @@
 
     @media (max-width: 768px) {
       iframe {
-        height: 250px;
+        height: auto;
       }
 
       .video-item h4 {
