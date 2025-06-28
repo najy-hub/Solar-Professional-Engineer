@@ -65,17 +65,18 @@
       color: #ffca28;
     }
 
-  .bunny-video-container {
-  width: 800px; /* ✅ عرض الكرت والفيديو */
-  aspect-ratio: 16 / 9; /* يحافظ على نسبة 16:9 تلقائيًا */
+ .bunny-video-container {
+  width: 100%;
+  max-width: 800px; /* ✅ الحد الأقصى للكرت على الشاشات الكبيرة */
+  aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
   background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px auto; /* ✅ توسيط الكرت في الصفحة */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 30px auto; /* ✅ توسيط الكرت */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
 }
 
@@ -85,6 +86,7 @@
   border: none;
   display: block;
 }
+
 
     .quiz {
       background: #1a1a1a;
