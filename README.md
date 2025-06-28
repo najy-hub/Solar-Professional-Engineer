@@ -31,13 +31,17 @@
     }
     .lecture {
       margin: 10px 0;
-    }
     iframe {
-      width: 100%;
-      height: 1080px;
-      border-radius: 10px;
-      margin-top: 5px;
-    }
+  width: 100%;
+  max-width: 800px; /* ✅ حد أقصى للعرض */
+  height: 1080px;
+  border-radius: 10px;
+  margin-top: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
     .locked {
       opacity: 0.4;
       pointer-events: none;
