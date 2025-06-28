@@ -222,11 +222,11 @@
 
     const videoData = [
       [
-        { title: "📘 المحاضرة 1", url: "https://iframe.mediadelivery.net/play/460802/dce4ee28-5099-44df-9760-dddcf3609a95" },
-        { title: "📘 انواع الالواح ", url: "https://iframe.mediadelivery.net/play/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6" },
-        { title: "📘 المحاضرة 3", url: "https://iframe.mediadelivery.net/play/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f" },
-        { title: "📘 المحاضرة 4", url: "https://iframe.mediadelivery.net/play/460802/4b7a1509-496d-4d39-ba3c-d635198fa551" },
-        { title: "📘 المحاضرة 5", url: "https://iframe.mediadelivery.net/play/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
+        { title: "📘 المحاضرة 1", url: "https://iframe.mediadelivery.net/embed/460802/dce4ee28-5099-44df-9760-dddcf3609a95" },
+        { title: "📘 انواع الالواح ", url: "https://iframe.mediadelivery.net/embed/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6" },
+        { title: "📘 المحاضرة 3", url: "https://iframe.mediadelivery.net/embed/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f" },
+        { title: "📘 المحاضرة 4", url: "https://iframe.mediadelivery.net/embed/460802/4b7a1509-496d-4d39-ba3c-d635198fa551" },
+        { title: "📘 المحاضرة 5", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
       ],
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
