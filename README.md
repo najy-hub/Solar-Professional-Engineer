@@ -34,7 +34,7 @@
     iframe {
   width: 100%;
   max-width: 800px; /* ✅ حد أقصى للعرض */
-  height: 1320px;
+  height: 920px;
   border-radius: 0px;
   margin-top: 0px;
   display: block;
