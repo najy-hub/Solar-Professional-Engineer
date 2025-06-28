@@ -33,10 +33,10 @@
       margin: 10px 0;
     iframe {
   width: 100%;
-  max-width: 0px; /* ✅ حد أقصى للعرض */
+  max-width: 800px; /* ✅ حد أقصى للعرض */
   height: 1080px;
   border-radius: 0px;
-  margin-top: 0px;
+  margin-top: -5px;
   display: block;
   margin-left: auto;
   margin-right: auto;
