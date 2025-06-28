@@ -88,4 +88,43 @@
     // ✅ روابط Bunny للفيديوهات
     const bunnyVideos = {
       1: "https://iframe.mediadelivery.net/play/460802/dce4ee28-5099-44df-9760-dddcf3609a95",
-      2: "https://
+      2: "https://iframe.mediadelivery.net/play/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6"
+      // ✳️ أضف باقي المحاضرات هنا بنفس النمط: 3: "الرابط", 4: "الرابط", ...
+    };
+
+    for (let week = 1; week <= totalWeeks; week++) {
+      const weekStart = new Date(startDate);
+      weekStart.setDate(startDate.getDate() + (week - 1) * 7);
+
+      const isUnlocked = today >= weekStart;
+      const weekDiv = document.createElement("div");
+      weekDiv.className = `week ${isUnlocked ? "" : "locked"}`;
+      weekDiv.innerHTML = `<h2>الأسبوع ${week}</h2>`;
+
+      for (let lecture = 1; lecture <= lecturesPerWeek; lecture++) {
+        const lectureNumber = (week - 1) * lecturesPerWeek + lecture;
+        const videoUrl = bunnyVideos[lectureNumber];
+
+        if (videoUrl) {
+          weekDiv.innerHTML += `
+            <div class="lecture">
+              <strong>محاضرة ${lecture}:</strong>
+              <iframe loading="lazy" src="${videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          `;
+        } else {
+          weekDiv.innerHTML += `
+            <div class="lecture">
+              <strong>محاضرة ${lecture}:</strong>
+              <span>ستُتاح لاحقًا...</span>
+            </div>
+          `;
+        }
+      }
+
+      courseContent.appendChild(weekDiv);
+    }
+  </script>
+
+</body>
+</html>
