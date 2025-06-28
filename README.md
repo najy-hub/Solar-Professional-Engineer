@@ -44,23 +44,25 @@
       color: #007b7f;
     }
 
-    .lecture {
-      margin: 20px auto;
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 16px;
-      max-width: 850px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+  .lecture {
+  margin: 30px auto;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  width: 800px; /* ✅ نفس عرض الفيديو */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden; /* يمنع تجاوز الحدود */
+}
 
-    iframe {
-      width: 100%;
-      height: 1080px;
-      border-radius: 12px;
-      display: block;
-      margin: 0 auto;
-    }
+iframe {
+  width: 800px;
+  height: 450px; /* أو 1080 إذا أردت، لكن 450 أكثر تناسقًا للعرض الكامل */
+  border: none;
+  border-radius: 0;
+  display: block;
+}
+
 
     .locked .lecture span {
       display: block;
