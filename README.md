@@ -70,13 +70,15 @@
       border-radius: 10px;
       overflow: hidden;
       background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .bunny-video-container iframe {
       width: 100%;
       height: 100%;
       border: none;
-      border-radius: 10px;
       display: block;
     }
 
