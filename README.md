@@ -51,7 +51,7 @@
     }
 
     .video-item {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       background: #1a1a1a;
       border-radius: 0px;
       padding: 0px;
@@ -67,7 +67,7 @@
   .bunny-video-container {
   width: 100%;
   max-width: 100%;
-  height: 720px; /* 👈 حجم مناسب لأجهزة سطح المكتب */
+  height: 1080px; /* 👈 حجم مناسب لأجهزة سطح المكتب */
   background: #000;
   border-radius: 10px;
   overflow: hidden;
