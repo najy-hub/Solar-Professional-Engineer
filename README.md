@@ -64,13 +64,14 @@
       color: #ffca28;
     }
 
-    iframe {
+    .video-item iframe {
       width: 100%;
       height: 70vh;
+      max-width: 100%;
       border-radius: 10px;
       border: none;
       display: block;
-      margin: auto;
+      margin: 0 auto;
     }
 
     .quiz {
@@ -144,7 +145,7 @@
     }
 
     @media (max-width: 768px) {
-      iframe {
+      .video-item iframe {
         height: 50vh;
       }
 
