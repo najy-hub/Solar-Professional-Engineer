@@ -66,9 +66,7 @@
 
     iframe {
       width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
-      height: auto;
+      height: 70vh;
       border-radius: 10px;
       border: none;
       display: block;
@@ -147,7 +145,7 @@
 
     @media (max-width: 768px) {
       iframe {
-        height: auto;
+        height: 50vh;
       }
 
       .video-item h4 {
