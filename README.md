@@ -1,4 +1,4 @@
-OCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -251,11 +251,11 @@ OCTYPE html>
       videoData[i - 1].forEach(video => {
         const li = document.createElement("li");
         li.className = "video-item";
-        li.innerHTML = `
-          <h4>${video.title}</h4>
-          <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
-          <button class="expand-btn" onclick="expandVideo(this)">🔍 توسيع الفيديو</button>
-        `;
+       li.innerHTML = `
+  <h4>${video.title}</h4>
+  <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+`;
+
         ul.appendChild(li);
       });
 
