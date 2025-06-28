@@ -64,24 +64,25 @@
       color: #ffca28;
     }
 
-    .bunny-video-container {
-      width: 200%;
-      max-width: 200%;
-      position: relative;
-      padding-top: 100%; /* 16:9 ratio */
-      background: #000;
-      border-radius: 10px;
-      overflow: hidden;
-    }
+  .bunny-video-container {
+  width: 100%;
+  max-width: 100%;
+  height: 500px; /* 👈 حجم مناسب لأجهزة سطح المكتب */
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
 
-    .bunny-video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+.bunny-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 
     .quiz {
       background: #1a1a1a;
