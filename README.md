@@ -32,11 +32,11 @@
     .lecture {
       margin: 10px 0;
     iframe {
-  width: 100%;
+  width: 50%;
   max-width: 800px; /* ✅ حد أقصى للعرض */
   height: 1080px;
   border-radius: 0px;
-  margin-top: 100px;
+  margin-top: 0px;
   display: block;
   margin-left: auto;
   margin-right: auto;
