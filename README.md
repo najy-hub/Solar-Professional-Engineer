@@ -30,22 +30,23 @@
       color: #007b7f;
     }
  .lecture {
-    margin: 30px auto;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 16px;
-    max-width: 850px; /* هذا هو حجم الكرت */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
+  margin: 30px auto !important;
+  padding: 15px !important;
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 16px !important;
+  max-width: 850px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
 
-  iframe {
-    width: 100%;
-    height: 1080px;
-    border-radius: 12px;
-    display: block;
-    margin: 0 auto;
-  }
+iframe {
+  width: 100% !important;
+  height: 1080px !important;
+  border-radius: 12px !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
 
     .locked {
       opacity: 0.4;
