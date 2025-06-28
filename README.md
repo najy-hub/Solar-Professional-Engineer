@@ -65,14 +65,16 @@
     }
 
     iframe {
-      width: 100%;
-      max-width: 800px;
-      height: 400px;
-      border-radius: 10px;
-      border: none;
-      display: block;
-      margin: auto;
-    }
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 10px;
+  border: none;
+  display: block;
+  margin: auto;
+}
+
 
     .quiz {
       background: #1a1a1a;
