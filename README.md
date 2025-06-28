@@ -51,10 +51,10 @@
     }
 
     .video-item {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       background: #1a1a1a;
-      border-radius: 10px;
-      padding: 15px;
+      border-radius: 0px;
+      padding: 0px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
@@ -79,10 +79,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 70%;
+  height: 100%;
   border: none;
 }
 
+@media (max-width: 768px) {
+  .bunny-video-container {
+    height: 250px;
+  }
+}
 
     .quiz {
       background: #1a1a1a;
