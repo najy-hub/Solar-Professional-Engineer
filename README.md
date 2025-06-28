@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -65,28 +64,27 @@
       color: #ffca28;
     }
 
- .bunny-video-container {
-  width: 100%;
-  max-width: 800px; /* ✅ الحد الأقصى للكرت على الشاشات الكبيرة */
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 30px auto; /* ✅ توسيط الكرت */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
-}
+    .bunny-video-container {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+    }
 
-.bunny-video-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
+    .bunny-video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
 
     .quiz {
       background: #1a1a1a;
@@ -140,15 +138,16 @@
     .category-nav {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       margin-top: 10px;
-      gap: 20px;
+      gap: 10px;
     }
 
     .category-nav button {
       background: #444;
       color: #fff;
       border: none;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
@@ -159,8 +158,8 @@
     }
 
     @media (max-width: 768px) {
-      .bunny-video-container {
-        aspect-ratio: 16 / 9;
+      header h1 {
+        font-size: 20px;
       }
 
       .video-item h4 {
@@ -171,6 +170,17 @@
       .category-nav {
         flex-direction: column;
         align-items: center;
+      }
+
+      #logoutBtn {
+        position: static;
+        margin-top: 10px;
+        display: block;
+      }
+
+      .week-navigation button {
+        width: 100%;
+        margin: 10px 0;
       }
     }
   </style>
