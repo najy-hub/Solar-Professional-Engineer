@@ -246,7 +246,21 @@
         { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
         { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
         { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
-      ]
+      ],
+      [
+        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
+        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
+        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+      ],
+       [
+        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
+        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
+        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
+        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
+        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+      ],
     ];
 const quizLinks = [
     "https://najy-hub.github.io/Assignment1/", "quiz2.html", "quiz3.html", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
