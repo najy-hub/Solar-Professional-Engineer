@@ -248,7 +248,11 @@
         { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
       ]
     ];
-
+const quizLinks = [
+    "quiz1.html", "quiz2.html", "quiz3.html", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
+    "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
+  ];
+    
     for (let i = 1; i <= videoData.length; i++) {
       const weekDiv = document.createElement("div");
       weekDiv.className = "week-content";
@@ -286,7 +290,7 @@
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="#">رابط الاختبار</a></p>`;
+     quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i - 1]}">رابط الاختبار</a></p>`;
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
