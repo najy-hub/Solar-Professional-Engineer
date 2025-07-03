@@ -190,22 +190,32 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-fetch(`${scriptURL}?username=${encodeURIComponent(username)}`)
-  .then(res => res.json())
-  .then(data => {
+const username = localStorage.getItem("studentEmail");
+const scriptURL = "https://script.google.com/macros/s/XXX/exec"; // رابطك الصحيح
+
+const xhr = new XMLHttpRequest();
+xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
+
+xhr.onload = function () {
+  if (xhr.status === 200) {
+    const data = JSON.parse(xhr.responseText);
     if (data.success && data.startDate) {
       const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
       localStorage.setItem("courseStartDate", cleanDate);
-      startCourse();
+      startCourse(); // تابع تشغيل الدورة
     } else {
       alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
     }
-  })
-  .catch(err => {
-    console.error("فشل تحميل تاريخ البداية:", err);
-    alert("حدث خطأ أثناء الاتصال بالخادم.");
-  });
+  } else {
+    alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
+  }
+};
 
+xhr.onerror = function () {
+  alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+};
+
+xhr.send();
 
   </script>
 
