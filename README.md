@@ -265,7 +265,7 @@ xhr.send();
         { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
       ],
       [
-        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
+        { title: "📘 المحاضرة 1", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be" },
         { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
         { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
         { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
