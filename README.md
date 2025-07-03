@@ -188,7 +188,7 @@
 <body>
   <script>
 const username = localStorage.getItem("studentEmail");
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwKdJPMhVFzOyXHmJzNKAq-GePUug0zmcr-yXCPnieSSFokBF6mDb20qRpLSuJoA2KZ8A/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyUhvCxlLnNlRL7_xwh6v0HjYSbMAiao9jZH-7RhIrad-c2X0q5Jm65SLwD0NTdm2zoJA/exec";
 
   fetch(`${scriptURL}?email=${encodeURIComponent(username)}`)
     .then(res => res.json())
