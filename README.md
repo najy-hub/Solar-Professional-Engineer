@@ -194,8 +194,9 @@ fetch(`${scriptURL}?username=${encodeURIComponent(username)}`)
   .then(res => res.json())
   .then(data => {
     if (data.success && data.startDate) {
-      localStorage.setItem("courseStartDate", data.startDate);
-      startCourse(); // تشغيل الكورس بعد تحميل التاريخ
+     localStorage.setItem("courseStartDate", data.startDate);
+changeWeekId(1);
+updateProgressBar();
     } else {
       alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
     }
