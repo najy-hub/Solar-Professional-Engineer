@@ -190,7 +190,7 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbz0LzMEiUDsuY70s89banN81pPX4725cHFB11wqfgXx_wefXG1DKQsgBrIDvdQ_P7RHZA/exec";
 
-  fetch(`${scriptURL}?username=${encodeURIComponent(username)}`)
+  fetch(`${scriptURL}?email=${encodeURIComponent(username)}`)
     .then(res => res.json())
     .then(data => {
       if (data.success && data.startDate) {
