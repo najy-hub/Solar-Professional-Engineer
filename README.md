@@ -190,9 +190,6 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-const username = localStorage.getItem("studentEmail");
-const scriptURL = "https://script.google.com/macros/s/XXX/exec"; // رابطك الصحيح
-
 const xhr = new XMLHttpRequest();
 xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
@@ -331,7 +328,9 @@ const quizLinks = [
 
       const quiz = document.createElement("div");
       quiz.className = "quiz";
-     quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i - 1]}">رابط الاختبار</a></p>`;
+    
+      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i - 1]}" target="_blank">رابط الاختبار</a></p>`;
+
 
       weekDiv.appendChild(title);
       weekDiv.appendChild(ul);
