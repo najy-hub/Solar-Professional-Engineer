@@ -190,21 +190,22 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-  fetch(`${scriptURL}?email=${encodeURIComponent(username)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success && data.startDate) {
-        localStorage.setItem("courseStartDate", data.startDate);
-        changeWeekId(1);
-        updateProgressBar();
-      } else {
-        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
-      }
-    })
-    .catch(err => {
-      console.error("فشل تحميل تاريخ البداية:", err);
-      alert("حدث خطأ أثناء الاتصال بالخادم.");
-    });
+fetch(`${scriptURL}?username=${encodeURIComponent(username)}`)
+  .then(res => res.json())
+  .then(data => {
+    if (data.success && data.startDate) {
+      const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+      localStorage.setItem("courseStartDate", cleanDate);
+      startCourse();
+    } else {
+      alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+    }
+  })
+  .catch(err => {
+    console.error("فشل تحميل تاريخ البداية:", err);
+    alert("حدث خطأ أثناء الاتصال بالخادم.");
+  });
+
 
   </script>
 
