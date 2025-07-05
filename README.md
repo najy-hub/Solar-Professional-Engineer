@@ -64,27 +64,44 @@
       color: #ffca28;
     }
 
-    .bunny-video-container {
-      width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: 1px solid #ccc;
-    }
+.bunny-video-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  transition: transform 0.3s ease;
+}
 
-    .bunny-video-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
+.bunny-video-container:hover {
+  transform: scale(1.01);
+}
+
+.bunny-video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  border-radius: 0; /* مهم حتى لا يتعارض مع border-radius للحاوية */
+}
+
+/* تحسين إضافي لأصغر الشاشات */
+@media (max-width: 600px) {
+  .bunny-video-container {
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    margin: 16px 0;
+  }
+}
+
 
     .quiz {
       background: #1a1a1a;
