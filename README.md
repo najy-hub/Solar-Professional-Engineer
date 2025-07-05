@@ -282,11 +282,11 @@ xhr.send();
         { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
       ],
       [
-        { title: "📘 المحاضرة 1", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
-        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
-        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+        { title: "📘 Lec1:Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be" },
+        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8" },
+        { title: "📘 Lec3 :Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8" },
+        { title: "📘 Lec4 :Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89" },
+        
       ],
       [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
@@ -304,7 +304,7 @@ xhr.send();
       ],
     ];
 const quizLinks = [
-    "https://najy-hub.github.io/Assignment1/", "quiz2.html", "quiz3.html", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
+    "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "quiz3.html", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
     "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
   ];
     
