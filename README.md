@@ -207,7 +207,6 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-<script>
 // تحقق إذا لم تكن الجلسة قد بدأت
 if (!localStorage.getItem("sessionStartTime")) {
   const now = new Date().getTime();
@@ -228,7 +227,6 @@ if (now - sessionStart > oneHour) {
   // إعادة التوجيه لصفحة تسجيل الدخول
   window.location.href = "https://najy-hub.github.io/Login-Course/";
 }
-</script>
 
 
 
