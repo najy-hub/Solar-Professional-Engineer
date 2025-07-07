@@ -203,35 +203,35 @@
   </style>
 </head>
 <body>
-  <script>
-const username = localStorage.getItem("studentEmail");
+<script>
+  const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-const xhr = new XMLHttpRequest();
-xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
-xhr.onload = function () {
-  if (xhr.status === 200) {
-    const data = JSON.parse(xhr.responseText);
-    if (data.success && data.startDate) {
-      const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
-      localStorage.setItem("courseStartDate", cleanDate);
-      startCourse(); // تابع تشغيل الدورة
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      if (data.success && data.startDate) {
+        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+        localStorage.setItem("courseStartDate", cleanDate);
+        startCourse(); // تابع تشغيل الدورة
+      } else {
+        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+      }
     } else {
-      alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+      alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
     }
-  } else {
-    alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
-  }
-};
+  };
 
-xhr.onerror = function () {
-  alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
-};
+  xhr.onerror = function () {
+    alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+  };
 
-xhr.send();
+  xhr.send();
+</script>
 
-  </script>
 
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
