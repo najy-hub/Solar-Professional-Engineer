@@ -204,6 +204,27 @@
 </head>
 <body>
   <script>
+    
+// ✅ بداية: كود الجلسة لمدة ساعة
+const SESSION_DURATION_MINUTES = 60;
+const loginPage = "https://najy-hub.github.io/Login-Course/";
+
+const sessionStart = localStorage.getItem("sessionStartTime");
+
+if (!sessionStart) {
+  localStorage.setItem("sessionStartTime", new Date().getTime());
+} else {
+  const now = new Date().getTime();
+  const elapsedMinutes = (now - parseInt(sessionStart)) / (1000 * 60);
+
+  if (elapsedMinutes >= SESSION_DURATION_MINUTES) {
+    alert("⏰ انتهت صلاحية الجلسة. سيتم تسجيل خروجك الآن.");
+    localStorage.removeItem("sessionStartTime");
+    localStorage.removeItem("loggedIn");
+    window.location.href = loginPage;
+  }
+}
+// ✅ نهاية كود الجلسة
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
