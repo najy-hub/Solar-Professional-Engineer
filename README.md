@@ -207,29 +207,6 @@
 const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-// تحقق إذا لم تكن الجلسة قد بدأت
-if (!localStorage.getItem("sessionStartTime")) {
-  const now = new Date().getTime();
-  localStorage.setItem("sessionStartTime", now);
-}
-
-// التحقق من انتهاء الجلسة بعد ساعة (3600000 ملي ثانية)
-const sessionStart = parseInt(localStorage.getItem("sessionStartTime"), 10);
-const now = new Date().getTime();
-const oneHour = 60 * 60 * 1000;
-
-if (now - sessionStart > oneHour) {
-  // حذف بيانات الدخول والجلسة
-  localStorage.removeItem("sessionStartTime");
-  localStorage.removeItem("loggedIn");
-  localStorage.removeItem("courseStartDate");
-
-  // إعادة التوجيه لصفحة تسجيل الدخول
-  window.location.href = "https://najy-hub.github.io/Login-Course/";
-}
-
-
-
 const xhr = new XMLHttpRequest();
 xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
