@@ -289,11 +289,10 @@
         
       ],
       [
-        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
-        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
-        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
+        { title: "📘 Lec1: Tilt Angle", url: "https://iframe.mediadelivery.net/embed/460802/6483f8fa-5209-4896-889a-91f1dce33ed7" },
+        { title: "📘 Lec2: Inverters 1", url: "https://iframe.mediadelivery.net/embed/460802/bcc34246-6195-4724-b93d-398e7ae15303" },
+        { title: "📘 Lec3: Inverters 2", url: "https://iframe.mediadelivery.net/embed/460802/2e1ee203-6b18-4bb3-9f62-07d3d905f376" },
+    
       ],
        [
         { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
