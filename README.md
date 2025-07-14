@@ -283,7 +283,7 @@
       ],
       [
         { title: "📘 Lec1:Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be" },
-        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8" },
+        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/66b5260c-5552-4a88-8abb-69defa6ac944" },
         { title: "📘 Lec3 :Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8" },
         { title: "📘 Lec4 :Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89" },
         
