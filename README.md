@@ -303,7 +303,7 @@
       ],
     ];
 const quizLinks = [
-    "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "quiz3.html", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
+    "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "https://najy-hub.github.io/Assignment3/", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
     "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
   ];
     
