@@ -275,23 +275,23 @@
 
     const videoData = [
       [
-        { title: "📘 Lec1: Principle of Operation  ", url: "https://iframe.mediadelivery.net/embed/460802/dce4ee28-5099-44df-9760-dddcf3609a95" },
-        { title: "📘 Lec2: Solar Technology ", url: "https://iframe.mediadelivery.net/embed/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6" },
-        { title: "📘 Lec3: Area & Efficiency ", url: "https://iframe.mediadelivery.net/embed/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f" },
-        { title: "📘 Lec4: Data sheet and Nameplate ", url: "https://iframe.mediadelivery.net/embed/460802/4b7a1509-496d-4d39-ba3c-d635198fa551" },
-        { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8" }
+        { title: "📘 Lec1: Principle of Operation  ", url: "https://iframe.mediadelivery.net/embed/460802/dce4ee28-5099-44df-9760-dddcf3609a95?autoplay=0" },
+        { title: "📘 Lec2: Solar Technology ", url: "https://iframe.mediadelivery.net/embed/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6?autoplay=0" },
+        { title: "📘 Lec3: Area & Efficiency ", url: "https://iframe.mediadelivery.net/embed/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f?autoplay=0" },
+        { title: "📘 Lec4: Data sheet and Nameplate ", url: "https://iframe.mediadelivery.net/embed/460802/4b7a1509-496d-4d39-ba3c-d635198fa551?autoplay=0" },
+        { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8?autoplay=0" }
       ],
       [
-        { title: "📘 Lec1:Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be" },
-        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/66b5260c-5552-4a88-8abb-69defa6ac944" },
-        { title: "📘 Lec3 :Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8" },
-        { title: "📘 Lec4 :Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89" },
+        { title: "📘 Lec1:Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be?autoplay=0" },
+        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/66b5260c-5552-4a88-8abb-69defa6ac944?autoplay=0" },
+        { title: "📘 Lec3 :Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8?autoplay=0" },
+        { title: "📘 Lec4 :Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89?autoplay=0" },
         
       ],
       [
-        { title: "📘 Lec1: Tilt Angle", url: "https://iframe.mediadelivery.net/embed/460802/6483f8fa-5209-4896-889a-91f1dce33ed7" },
-        { title: "📘 Lec2: Inverters 1", url: "https://iframe.mediadelivery.net/embed/460802/bcc34246-6195-4724-b93d-398e7ae15303" },
-        { title: "📘 Lec3: Inverters 2", url: "https://iframe.mediadelivery.net/embed/460802/2e1ee203-6b18-4bb3-9f62-07d3d905f376" },
+        { title: "📘 Lec1: Tilt Angle", url: "https://iframe.mediadelivery.net/embed/460802/6483f8fa-5209-4896-889a-91f1dce33ed7?autoplay=0" },
+        { title: "📘 Lec2: Inverters 1", url: "https://iframe.mediadelivery.net/embed/460802/bcc34246-6195-4724-b93d-398e7ae15303?autoplay=0" },
+        { title: "📘 Lec3: Inverters 2", url: "https://iframe.mediadelivery.net/embed/460802/2e1ee203-6b18-4bb3-9f62-07d3d905f376?autoplay=0" },
     
       ],
        [
