@@ -204,33 +204,36 @@
 </head>
 <body>
 <script>
-  const username = localStorage.getItem("studentEmail");
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
+  const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // ضع رابط السكربت الصحيح
+  const username = localStorage.getItem("username");
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
-
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-      if (data.success && data.startDate) {
-        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
-        localStorage.setItem("courseStartDate", cleanDate);
-        startCourse(); // تابع تشغيل الدورة
-      } else {
-        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
-      }
-    } else {
-      alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
-    }
-  };
-
-  xhr.onerror = function () {
-    alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
-  };
-
-  xhr.send();
+  if (!username) {
+    alert("لم يتم العثور على اسم المستخدم. سيتم تحويلك إلى صفحة تسجيل الدخول.");
+    window.location.href = "login.html";
+  } else {
+    fetch(`${scriptURL}?username=${encodeURIComponent(username)}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP error");
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success && data.startDate) {
+          const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+          localStorage.setItem("courseStartDate", cleanDate);
+          startCourse(); // تابع تشغيل الدورة
+        } else {
+          alert("⚠️ تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+        }
+      })
+      .catch(error => {
+        console.error("❌ خطأ أثناء الاتصال:", error);
+        alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+      });
+  }
 </script>
+
 
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
