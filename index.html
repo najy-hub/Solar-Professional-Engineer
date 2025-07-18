@@ -207,29 +207,39 @@
   const username = localStorage.getItem("studentEmail");
   const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
+  if (!username) {
+    alert("⚠️ لم يتم العثور على البريد الإلكتروني للمتدرب. سيتم تحويلك إلى صفحة تسجيل الدخول.");
+    window.location.href = "https://najy-hub.github.io/Login-Course/";
+  } else {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-      if (data.success && data.startDate) {
-        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
-        localStorage.setItem("courseStartDate", cleanDate);
-        startCourse(); // تابع تشغيل الدورة
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        if (data.success && data.startDate) {
+          const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+          localStorage.setItem("courseStartDate", cleanDate);
+          startCourse(); // تابع تشغيل الدورة
+        } else {
+          alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+        }
       } else {
-        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+        alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
       }
-    } else {
-      alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
-    }
-  };
+    };
 
-  xhr.onerror = function () {
-    alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
-  };
+    xhr.onerror = function () {
+      alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+    };
 
-  xhr.send();
+    xhr.send();
+  }
+
+  function startCourse() {
+    changeWeekId(1);
+    updateProgressBar();
+  }
 </script>
 
   <header>
