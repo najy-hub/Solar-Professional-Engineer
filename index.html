@@ -204,33 +204,42 @@
 </head>
 <body>
 <script>
-  const username = localStorage.getItem("studentEmail");
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
-
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
-
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-      if (data.success && data.startDate) {
-        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
-        localStorage.setItem("courseStartDate", cleanDate);
-        startCourse(); // تابع تشغيل الدورة
-      } else {
-        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
-      }
-    } else {
-      alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
+  window.onload = function () {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      alert("لم يتم العثور على البريد الإلكتروني للمتدرب. سيتم تحويلك إلى صفحة تسجيل الدخول.");
+      window.location.href = "login.html";
+      return;
     }
-  };
 
-  xhr.onerror = function () {
-    alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
-  };
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzeO4zPScDZIi6FSjCo4ZEDJaJ8KOXFghSfaUhcF1Yb785kc56VuIgvoZTBjC9XOrkjVA/exec";
 
-  xhr.send();
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        if (data.success && data.startDate) {
+          const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+          localStorage.setItem("courseStartDate", cleanDate);
+          startCourse(); // تابع تشغيل الدورة
+        } else {
+          alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+        }
+      } else {
+        alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
+      }
+    };
+
+    xhr.onerror = function () {
+      alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+    };
+
+    xhr.send();
+  };
 </script>
+
 
 
 
