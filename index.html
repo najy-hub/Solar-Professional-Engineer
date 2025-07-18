@@ -205,7 +205,7 @@
 <body>
 <script>
   window.onload = function () {
-    const username = localStorage.getItem("username");
+    const username = localStorage.getItem("username", username);
     if (!username) {
       alert("لم يتم العثور على البريد الإلكتروني للمتدرب. سيتم تحويلك إلى صفحة تسجيل الدخول.");
       window.location.href = "https://login.najyacademia.com/";
