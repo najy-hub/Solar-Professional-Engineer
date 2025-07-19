@@ -203,39 +203,59 @@
   </style>
 </head>
 <body>
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbweSOnyEh8WdSocu7wYylHud1l2gLP4mWr-G721_JkTuiM5rglkEWm0U5Gmoceh9NOItA/exec";
+   <script>
+        // تهيئة Firebase بنفس الإعدادات
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
+            authDomain: "solar-engineer-43cbc.firebaseapp.com",
+            projectId: "solar-engineer-43cbc",
+            storageBucket: "solar-engineer-43cbc.firebasestorage.app",
+            messagingSenderId: "816573344174",
+            appId: "1:816573344174:web:b472b052d26b7be1d7003f"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-  document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    fetch(`${scriptURL}?login=true&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          localStorage.setItem("studentEmail", email);
-          localStorage.setItem("loggedIn", "true");
-          
-          // ✅ تخزين تاريخ بداية الدورة
-          if (data.firstStartDate) {
-            localStorage.setItem("courseStartDate", data.firstStartDate);
-          }
-
-          // ✅ التحويل لصفحة الكورس
-          window.location.href = "https://course.najyacademia.com";
-        } else {
-          alert("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة.");
-        }
-      })
-      .catch(error => {
-        console.error("خطأ أثناء تسجيل الدخول:", error);
-        alert("⚠️ حدث خطأ يرجى المحاولة مرة أخرى.");
-      });
-  });
-</script>
+        // تحقق من حالة المصادقة عند تحميل الصفحة
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // المستخدم مسجل الدخول
+                console.log('User is logged in:', user.email);
+                document.getElementById('loginBtn').style.display = 'none';
+                
+                // عرض محتوى إضافي للمستخدم المسجل
+                const additionalContent = document.createElement('div');
+                additionalContent.innerHTML = `
+                    <h2>مرحباً بك ${user.email}</h2>
+                    <p>هذا المحتوى متاح فقط للأعضاء المسجلين.</p>
+                    <button id="logoutBtn" style="background-color: #f44336;">تسجيل الخروج</button>
+                `;
+                document.getElementById('course-content').appendChild(additionalContent);
+                
+                // إضافة حدث لتسجيل الخروج
+                document.getElementById('logoutBtn').addEventListener('click', function() {
+                    auth.signOut().then(() => {
+                        window.location.href = ' https://login.najyacademia.com/';
+                    });
+                });
+            } else {
+                // المستخدم غير مسجل الدخول
+                console.log('User is not logged in');
+                
+                // تحقق من وجود token في URL (لحالة الانتقال من صفحة التسجيل)
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+                
+                if (token) {
+                    // تسجيل الدخول باستخدام token
+                    auth.signInWithCustomToken(token).catch((error) => {
+                        console.error('Error signing in with token:', error);
+                    });
+                }
+            }
+        });
+    </script>
 
 
   <header>
