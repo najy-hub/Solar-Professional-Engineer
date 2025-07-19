@@ -212,10 +212,12 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEv
     if (xhr.status === 200) {
       const data = JSON.parse(xhr.responseText);
       if (data.success && data.startDate) {
-        const cleanDate = newDate(data.startDate).toISOString().split("T")[0];
-        localStorage.setItem("courseStartDate",cleanDate);
+        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+        localStorage.setItem("courseStartDate", cleanDate);
+        
         startCourse(); // تابع تشغيل الدورة
-      } else {
+      } 
+      else {
         alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
       }
     } else {
