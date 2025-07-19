@@ -216,7 +216,7 @@
       if (data.success && data.startDate) {
         const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
         localStorage.setItem("courseStartDate", cleanDate);
-        startDate(); // تابع تشغيل الدورة
+       
       } else {
         alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
       }
