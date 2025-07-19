@@ -203,24 +203,21 @@
   </style>
 </head>
 <body>
-  <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbzto8g6mxZhfHx9kMqOrYrIOqkwia9raXcToRWt7M56ovBWpVIVr456kI0rhWVK_7jcPA/exec";
- const xhr = new XMLHttpRequest();
+ <script>
+  const username = localStorage.getItem("studentEmail");
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzto8g6mxZhfHx9kMqOrYrIOqkwia9raXcToRWt7M56ovBWpVIVr456kI0rhWVK_7jcPA/exec";
+
+  const xhr = new XMLHttpRequest();
   xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
   xhr.onload = function () {
     if (xhr.status === 200) {
       const data = JSON.parse(xhr.responseText);
-      console.log("📅 startDate from server:", data.startDate);
-
-
       if (data.success && data.startDate) {
         const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
         localStorage.setItem("courseStartDate", cleanDate);
-        
         startCourse(); // تابع تشغيل الدورة
-      } 
-      else {
+      } else {
         alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
       }
     } else {
@@ -233,8 +230,7 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbzto8g6mxZhfHx9kMqOrY
   };
 
   xhr.send();
-
-  </script>
+</script>
 
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
