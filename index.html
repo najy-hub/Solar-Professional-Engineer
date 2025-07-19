@@ -213,6 +213,7 @@
   xhr.onload = function () {
     if (xhr.status === 200) {
       const data = JSON.parse(xhr.responseText);
+      console.log("📦 بيانات السيرفر:", data);  
       if (data.success && data.startDate) {
         const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
         localStorage.setItem("courseStartDate", cleanDate);
