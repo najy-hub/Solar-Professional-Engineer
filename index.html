@@ -204,43 +204,35 @@
 </head>
 <body>
 <script>
-  // ✅ في أعلى أي صفحة (مثل صفحة الدورة)، تأكد من استرجاع اسم المستخدم
-  let username = localStorage.getItem("username");
+  // ✅ قراءة المتغيرات من الرابط
+  const params = new URLSearchParams(window.location.search);
+  const usernameFromURL = params.get("username");
+  const startDateFromURL = params.get("start");
 
-  // ✅ إذا لم يكن موجودًا في localStorage، نحاول استعادته من sessionStorage
-  if (!username && sessionStorage.getItem("tempUsername")) {
-    username = sessionStorage.getItem("tempUsername");
-    localStorage.setItem("username", username); // نعيد تخزينه في localStorage
+  if (usernameFromURL && startDateFromURL) {
+    // ✅ حفظها في localStorage
+    localStorage.setItem("username", usernameFromURL);
+    localStorage.setItem("courseStartDate", startDateFromURL);
+
+    // ✅ تنظيف الرابط من المعلمات
+    const cleanURL = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanURL);
   }
 
-  console.log("👤 اسم المستخدم من localStorage:", username);
+  // ✅ استخدام localStorage بعد ذلك في أي مكان
+  const username = localStorage.getItem("username");
+  const courseStartDate = localStorage.getItem("courseStartDate");
 
-  // ✅ مثال: عند تسجيل الدخول، خزّن الاسم بعد التحقق من النجاح
-  function login(username, password) {
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw1V0U_gJd0w9RB3ekQCbVKzOVcSOBeRJk8xJ44t99bYO_kT15LEVjnoWyWWwDxg1alzg/exec";
-    fetch(`${scriptURL}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          // ✅ تم تسجيل الدخول بنجاح
-          localStorage.setItem("loggedIn", "true");
-          localStorage.setItem("courseStartDate", data.startDate);
-          localStorage.setItem("username", username);
-          sessionStorage.setItem("tempUsername", username); // نسجل أيضًا في sessionStorage احتياطًا
-          location.href = data.redirectUrl;
-        } else {
-          alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
-        }
-      })
-      .catch(err => {
-        alert("⚠️ حدث خطأ أثناء الاتصال بالخادم");
-        console.error(err);
-      });
+  console.log("👤 اسم المستخدم:", username);
+  console.log("📅 تاريخ البدء:", courseStartDate);
+
+  if (!username || !courseStartDate) {
+    alert("⚠️ لا يوجد بيانات تسجيل دخول. الرجاء العودة لتسجيل الدخول.");
+    // يمكن إعادة التوجيه لصفحة تسجيل الدخول
+    // window.location.href = "https://login.najyacademia.com";
   }
-
-  // ✅ مثال لاستخدام الدالة
-  // login("admin@example.com", "123456");
 </script>
+
 
 
   <header>
