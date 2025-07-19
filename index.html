@@ -211,7 +211,8 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEv
   xhr.onload = function () {
     if (xhr.status === 200) {
       const data = JSON.parse(xhr.responseText);
-      console.log("startDate from server:", data.startDate);
+      console.log("📅 startDate from server:", data.startDate);
+
 
       if (data.success && data.startDate) {
         const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
