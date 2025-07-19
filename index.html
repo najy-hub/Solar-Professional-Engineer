@@ -204,45 +204,43 @@
 </head>
 <body>
 <script>
-  window.onload = function () {
-    const username = localStorage.getItem("username");
-    console.log("👤 اسم المستخدم من localStorage:", username);
+  // ✅ في أعلى أي صفحة (مثل صفحة الدورة)، تأكد من استرجاع اسم المستخدم
+  let username = localStorage.getItem("username");
 
+  // ✅ إذا لم يكن موجودًا في localStorage، نحاول استعادته من sessionStorage
+  if (!username && sessionStorage.getItem("tempUsername")) {
+    username = sessionStorage.getItem("tempUsername");
+    localStorage.setItem("username", username); // نعيد تخزينه في localStorage
+  }
+
+  console.log("👤 اسم المستخدم من localStorage:", username);
+
+  // ✅ مثال: عند تسجيل الدخول، خزّن الاسم بعد التحقق من النجاح
+  function login(username, password) {
     const scriptURL = "https://script.google.com/macros/s/AKfycbw1V0U_gJd0w9RB3ekQCbVKzOVcSOBeRJk8xJ44t99bYO_kT15LEVjnoWyWWwDxg1alzg/exec";
-
-    if (!username) {
-      alert("⚠️ لا يوجد اسم مستخدم محفوظ. الرجاء تسجيل الدخول أولاً.");
-      return;
-    }
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
-
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        console.log("📦 بيانات السيرفر:", data);
-
-        if (data.success && data.startDate) {
-          const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
-          localStorage.setItem("courseStartDate", cleanDate);
-          console.log("📅 تاريخ بداية الدورة:", cleanDate);
+    fetch(`${scriptURL}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // ✅ تم تسجيل الدخول بنجاح
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("courseStartDate", data.startDate);
+          localStorage.setItem("username", username);
+          sessionStorage.setItem("tempUsername", username); // نسجل أيضًا في sessionStorage احتياطًا
+          location.href = data.redirectUrl;
         } else {
-          alert("⚠️ تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
+          alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
         }
-      } else {
-        alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
-      }
-    };
+      })
+      .catch(err => {
+        alert("⚠️ حدث خطأ أثناء الاتصال بالخادم");
+        console.error(err);
+      });
+  }
 
-    xhr.onerror = function () {
-      alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
-    };
-
-    xhr.send();
-  };
+  // ✅ مثال لاستخدام الدالة
+  // login("admin@example.com", "123456");
 </script>
-
 
 
   <header>
