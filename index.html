@@ -205,29 +205,29 @@
 <body>
   <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbw2Ku6QKIpy8KZheZclEvg_tmaElEq-KQCcLy6_5P-vGxPx_8L5CadYGVLA3McYKcKZwQ/exec";
+ const xhr = new XMLHttpRequest();
+  xhr.open("GET", `${scriptURL}?username=${encodeURIComponent(username)}`, true);
 
-function login(e) {
-  e.preventDefault();
-  const username = document.getElementById("username",username).value;
-  const password = document.getElementById("password").value;
-  const startDate = data[i][4]; // عمود E
-  fetch(`${scriptURL}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        localStorage.setItem("loggedIn", "true");
-  localStorage.setItem("courseStartDate", data.startDate );
-  localStorage.setItem("studentEmail", data.username); // ✅ مهم جداً
-  location.href = data.redirectUrl;
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      if (data.success && data.startDate) {
+        const cleanDate = new Date(data.startDate).toISOString().split("T")[0];
+        localStorage.setItem("courseStartDate", cleanDate);
+        startCourse(); // تابع تشغيل الدورة
       } else {
-        alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
+        alert("تعذر الحصول على تاريخ بدء الدورة. الرجاء إعادة المحاولة.");
       }
-    })
-    .catch(err => {
-      alert("⚠️ حدث خطأ أثناء الاتصال بالخادم");
-      console.error(err);
-    });
-}
+    } else {
+      alert("⚠️ فشل الاتصال بالخادم (HTTP error).");
+    }
+  };
+
+  xhr.onerror = function () {
+    alert("⚠️ حدث خطأ أثناء محاولة الاتصال بالخادم.");
+  };
+
+  xhr.send();
 
   </script>
 
