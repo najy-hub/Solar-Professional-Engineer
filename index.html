@@ -204,35 +204,38 @@
 </head>
 <body>
 <script>
-  // ✅ قراءة المتغيرات من الرابط
-  const params = new URLSearchParams(window.location.search);
-  const usernameFromURL = params.get("username");
-  const startDateFromURL = params.get("start");
+  const scriptURL = "https://script.google.com/macros/s/AKfycbweSOnyEh8WdSocu7wYylHud1l2gLP4mWr-G721_JkTuiM5rglkEWm0U5Gmoceh9NOItA/exec";
 
-  if (usernameFromURL && startDateFromURL) {
-    // ✅ حفظها في localStorage
-    localStorage.setItem("username", usernameFromURL);
-    localStorage.setItem("courseStartDate", startDateFromURL);
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    // ✅ تنظيف الرابط من المعلمات
-    const cleanURL = window.location.origin + window.location.pathname;
-    window.history.replaceState({}, document.title, cleanURL);
-  }
+    fetch(`${scriptURL}?login=true&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem("studentEmail", email);
+          localStorage.setItem("loggedIn", "true");
+          
+          // ✅ تخزين تاريخ بداية الدورة
+          if (data.firstStartDate) {
+            localStorage.setItem("courseStartDate", data.firstStartDate);
+          }
 
-  // ✅ استخدام localStorage بعد ذلك في أي مكان
-  const username = localStorage.getItem("username");
-  const courseStartDate = localStorage.getItem("courseStartDate");
-
-  console.log("👤 اسم المستخدم:", username);
-  console.log("📅 تاريخ البدء:", courseStartDate);
-
-  if (!username || !courseStartDate) {
-    alert("⚠️ لا يوجد بيانات تسجيل دخول. الرجاء العودة لتسجيل الدخول.");
-    // يمكن إعادة التوجيه لصفحة تسجيل الدخول
-    // window.location.href = "https://login.najyacademia.com";
-  }
+          // ✅ التحويل لصفحة الكورس
+          window.location.href = "https://course.najyacademia.com";
+        } else {
+          alert("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+        }
+      })
+      .catch(error => {
+        console.error("خطأ أثناء تسجيل الدخول:", error);
+        alert("⚠️ حدث خطأ يرجى المحاولة مرة أخرى.");
+      });
+  });
 </script>
-
 
 
   <header>
