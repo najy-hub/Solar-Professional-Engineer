@@ -399,7 +399,10 @@
       messagingSenderId: "816573344174",
       appId: "1:816573344174:web:b472b052d26b7be1d7003f"
     };
-
+// أضف هذه الإعدادات بعد التهيئة
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => console.log("تم تعيين استمرارية الجلسة"))
+  .catch(err => console.error("خطأ في استمرارية الجلسة:", err));
     // تهيئة Firebase
     let auth, db;
     try {
