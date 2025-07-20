@@ -390,8 +390,12 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 
   <script>
+// أضف هذا الكود في بداية الصفحة الرئيسية
+if (window.location.search.includes('token')) {
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
     // تكوين Firebase
- // تكوين Firebase
+// تكوين Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
   authDomain: "solar-engineer-43cbc.firebaseapp.com",
@@ -401,15 +405,13 @@ const firebaseConfig = {
   appId: "1:816573344174:web:b472b052d26b7be1d7003f"
 };
 
-// تهيئة Firebase مع معالجة الأخطاء
-let auth, db;
+// التهيئة مع معالجة الأخطاء
+let app, auth, db;
 
 try {
-  // جرب تحميل التطبيق الموجود أولاً
   app = firebase.app();
   console.log("Using existing Firebase app");
-} catch (error) {
-  // إذا لم يوجد تطبيق، قم بتهيئته
+} catch (e) {
   app = firebase.initializeApp(firebaseConfig);
   console.log("Initialized new Firebase app");
 }
@@ -423,23 +425,13 @@ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
   .catch((error) => console.error("Error setting persistence:", error));
 // ضع هذا الكود في الصفحة الرئيسية بعد التهيئة
 auth.onAuthStateChanged((user) => {
-  console.log("Auth state changed:", user);
-  
   if (user) {
+    console.log("User signed in:", user.uid);
     currentUser = user;
-    console.log("User is signed in:", user.uid);
-    
-    // تأخير التوجيه إذا كان في صفحة تسجيل الدخول
-    if (window.location.pathname === "/login") {
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 300);
-    }
+    initPage();
   } else {
-    console.log("User is signed out");
-    if (window.location.pathname !== "/login") {
-      window.location.href = "/login";
-    }
+    console.log("User signed out");
+    window.location.href = 'https://login.najyacademia.com/';
   }
 });
     // بيانات الدورة
@@ -546,7 +538,19 @@ auth.onAuthStateChanged(async (user) => {
     window.location.href = 'https://login.najyacademia.com/';
   }
 });
-    
+    // أضف هذه الدالة في مكان واضح في الكود
+function toggleSection(sectionId) {
+  const section = document.getElementById(`${sectionId}-section`);
+  const icon = section.previousElementSibling.querySelector('i');
+  
+  if (section.style.display === 'block') {
+    section.style.display = 'none';
+    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+  } else {
+    section.style.display = 'block';
+    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+  }
+}
     // دالة تبديل الأقسام
     function toggleSection(sectionId) {
       const section = document.getElementById(`${sectionId}-section`);
@@ -600,7 +604,14 @@ auth.onAuthStateChanged(async (user) => {
   }
 }
     // أضف هذا في صفحة تسجيل الخروج
-await auth.signOut();
+async function logout() {
+  try {
+    await auth.signOut();
+    window.location.href = 'https://login.najyacademia.com/';
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+}
 window.localStorage.clear();
 window.sessionStorage.clear();
 if (window.indexedDB) {
