@@ -609,17 +609,29 @@ function toggleSection(sectionId) {
     // أضف هذا في صفحة تسجيل الخروج
 async function logout() {
   try {
+    // 1. تسجيل الخروج من Firebase
     await auth.signOut();
-    window.location.href = 'https://login.najyacademia.com/';
+    
+    // 2. مسح التخزين المحلي بالكامل
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    if (window.indexedDB) {
+      indexedDB.deleteDatabase("firebaseLocalStorageDb");
+    }
+    
+    // 3. إعادة التوجيه بعد تأخير بسيط
+    setTimeout(() => {
+      window.location.href = 'https://login.najyacademia.com/';
+    }, 500);
+    
   } catch (error) {
-    console.error("Logout error:", error);
+    console.error("خطأ في تسجيل الخروج:", error);
+    alert("حدث خطأ أثناء تسجيل الخروج. يرجى المحاولة مرة أخرى.");
   }
 }
-window.localStorage.clear();
-window.sessionStorage.clear();
-if (window.indexedDB) {
-  indexedDB.deleteDatabase("firebaseLocalStorageDb");
-}
+
+// ربط الحدث بالزر
+document.getElementById('logoutBtn').addEventListener('click', logout);
     // دالة عرض التقدم
     function renderProgress() {
       const progressText = document.getElementById('progressText');
