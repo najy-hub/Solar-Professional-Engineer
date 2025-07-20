@@ -508,20 +508,22 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       }
     }
 //كود ضفته انا لمعالجة الاخطاء يوم الاحد
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(async (user) => {
   if (user) {
-    console.log("User signed in:", user);
+    console.log("User signed in:", user.uid);
     currentUser = user;
-    loadUserData().then(() => {
-      initPage();
-    });
+    await loadUserData();
+    
+    // تأكد من حفظ البيانات الأولية
+    if (!(await db.collection('trainees').doc(user.uid).get()).exists) {
+      await saveUserData();
+    }
+    
+    initPage();
   } else {
     console.log("No user signed in");
     window.location.href = 'https://login.najyacademia.com/';
   }
-}, (error) => { // أضف معالج الأخطاء هذا
-  console.error("Auth state error:", error);
-  alert("حدث خطأ في المصادقة: " + error.message);
 });
     
     // دالة تبديل الأقسام
