@@ -586,22 +586,23 @@ function toggleSection(sectionId) {
    async function handleLogin(email, password) {
   try {
     // تأكد من تعيين الاستمرارية قبل تسجيل الدخول
+   async function login(email, password) {
+  try {
+    // 1. تعيين استمرارية الجلسة أولاً
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     
+    // 2. تسجيل الدخول
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     currentUser = userCredential.user;
     
-    // حفظ بيانات المستخدم الأولية
-    await initializeUserData();
-    
-    // تأخير التوجيه لضمان حفظ الحالة
+    // 3. تأخير التوجيه لضمان حفظ الحالة
     setTimeout(() => {
-      window.location.href = "/dashboard"; // غير المسار حسب حاجتك
-    }, 500);
+      window.location.href = 'https://course.najyacademia.com/';
+    }, 1500); // زيادة زمن التأخير
     
     return true;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("كود الخطأ:", error.code, "الرسالة:", error.message);
     alert(`فشل تسجيل الدخول: ${error.message}`);
     return false;
   }
