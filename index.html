@@ -538,7 +538,20 @@ auth.onAuthStateChanged((user) => {
         window.location.href = 'https://najy-hub.github.io/Login-Course/';
       });
     }
-
+// إضافة دالة تسجيل الدخول بعد الخروج
+    async function handleLogin(email, password) {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    currentUser = userCredential.user;
+    await loadUserData();
+    initPage();
+    return true;
+  } catch (error) {
+    console.error("Login error:", error);
+    alert(`فشل تسجيل الدخول: ${error.message}`);
+    return false;
+  }
+}
     // دالة عرض التقدم
     function renderProgress() {
       const progressText = document.getElementById('progressText');
