@@ -1,48 +1,193 @@
-
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة رحلة المهندس - المحتوى الأسبوعي</title>
+  <title>منصة رحلة المهندس - نظام الدرب</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --light-gray: #f8f9fa;
+      --text-color: #333;
+      --white: #ffffff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
     body {
       font-family: 'Cairo', sans-serif;
-      background: #111;
-      color: #fff;
+      background: var(--white);
+      color: var(--text-color);
       margin: 0;
       padding: 0;
     }
 
     header, footer {
-      background: #1c1c1c;
+      background: var(--light-gray);
       padding: 20px;
       text-align: center;
       position: relative;
+      border-bottom: 1px solid #e0e0e0;
     }
 
-    #logoutBtn {
+    .elegant-logout {
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
       position: absolute;
       left: 20px;
       top: 20px;
-      background: #e53935;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
+    }
+
+    .elegant-logout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+      background: linear-gradient(135deg, #ff5252, #ff7676);
+    }
+
+    .progress-container {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
       font-weight: bold;
     }
 
-    .category-label {
-      font-size: 20px;
-      margin: 20px;
-      color: #ffc107;
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #eee;
+      z-index: 1;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .step-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .step.completed .step-icon {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .step.current .step-icon {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .course-sections {
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .section-header h2 {
+      margin: 0;
+    }
+
+    .section-content {
+      background: var(--white);
+      padding: 15px;
+      display: none;
+    }
+
+    .week-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .week-item.unlocked {
+      background: var(--light-gray);
+    }
+
+    .week-item.locked {
+      opacity: 0.6;
+    }
+
+    .week-item button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
     .week-content {
       display: none;
       padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     .video-list {
@@ -52,397 +197,382 @@
 
     .video-item {
       margin-bottom: 30px;
-      background: #1a1a1a;
+      background: var(--white);
       border-radius: 10px;
       padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      box-shadow: var(--shadow);
     }
 
     .video-item h4 {
       margin-bottom: 10px;
       font-size: 18px;
-      color: #ffca28;
+      color: var(--primary-color);
     }
 
-.bunny-video-container {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  border: 1px solid #ccc;
-  transition: transform 0.3s ease;
-}
+    .bunny-video-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      border: 1px solid #eee;
+      transition: transform 0.3s ease;
+    }
 
-.bunny-video-container:hover {
-  transform: scale(1.01);
-}
+    .bunny-video-container:hover {
+      transform: scale(1.01);
+    }
 
-.bunny-video-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  border-radius: 0; /* مهم حتى لا يتعارض مع border-radius للحاوية */
-}
-
-/* تحسين إضافي لأصغر الشاشات */
-@media (max-width: 600px) {
-  .bunny-video-container {
-    aspect-ratio: 16 / 9;
-    border-radius: 12px;
-    margin: 16px 0;
-  }
-}
-
+    .bunny-video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
 
     .quiz {
-      background: #1a1a1a;
+      background: var(--light-gray);
       padding: 20px;
       border-radius: 10px;
       margin-top: 20px;
     }
 
     .quiz a {
-      color: #ffc107;
+      color: var(--primary-color);
       text-decoration: none;
+      font-weight: bold;
     }
 
     .quiz a:hover {
       text-decoration: underline;
     }
 
-    #progressBar {
-      width: 90%;
-      max-width: 600px;
-      margin: 20px auto;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-      height: 20px;
-    }
-
-    #progressBarInner {
-      height: 100%;
-      background: #ffc107;
-      width: 0%;
-      transition: width 0.5s ease-in-out;
-    }
-
     .week-navigation {
       text-align: center;
-      margin: 20px auto;
+      margin: 30px auto;
     }
 
     .week-navigation button {
-      padding: 10px 20px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
       margin: 0 10px;
-      background: #ffc107;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #000;
+      font-size: 16px;
+      transition: all 0.3s ease;
     }
 
-    .category-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      gap: 10px;
+    .week-navigation button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
-    .category-nav button {
-      background: #444;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .category-nav button:hover {
-      background: #666;
+    .lock-icon {
+      color: #999;
     }
 
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 20px;
+      .progress-steps {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
       }
-
-      .video-item h4 {
-        font-size: 16px;
-        text-align: center;
+      
+      .progress-steps::before {
+        display: none;
       }
-
-      .category-nav {
-        flex-direction: column;
-        align-items: center;
+      
+      .section-header {
+        padding: 12px 15px;
       }
-
-      #logoutBtn {
-        position: static;
-        margin-top: 10px;
-        display: block;
-      }
-
+      
       .week-navigation button {
         width: 100%;
         margin: 10px 0;
+      }
+      
+      .elegant-logout {
+        position: static;
+        margin: 10px auto;
+        display: inline-flex;
       }
     }
   </style>
 </head>
 <body>
-   <script>
-        // تهيئة Firebase بنفس الإعدادات
-        const firebaseConfig = {
-            apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
-            authDomain: "solar-engineer-43cbc.firebaseapp.com",
-            projectId: "solar-engineer-43cbc",
-            storageBucket: "solar-engineer-43cbc.firebasestorage.app",
-            messagingSenderId: "816573344174",
-            appId: "1:816573344174:web:b472b052d26b7be1d7003f"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // تحقق من حالة المصادقة عند تحميل الصفحة
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // المستخدم مسجل الدخول
-                console.log('User is logged in:', user.email);
-                document.getElementById('loginBtn').style.display = 'none';
-                
-                // عرض محتوى إضافي للمستخدم المسجل
-                const additionalContent = document.createElement('div');
-                additionalContent.innerHTML = `
-                    <h2>مرحباً بك ${user.email}</h2>
-                    <p>هذا المحتوى متاح فقط للأعضاء المسجلين.</p>
-                    <button id="logoutBtn" style="background-color: #f44336;">تسجيل الخروج</button>
-                `;
-                document.getElementById('course-content').appendChild(additionalContent);
-                
-                // إضافة حدث لتسجيل الخروج
-                document.getElementById('logoutBtn').addEventListener('click', function() {
-                    auth.signOut().then(() => {
-                        window.location.href = ' https://login.najyacademia.com/';
-                    });
-                });
-            } else {
-                // المستخدم غير مسجل الدخول
-                console.log('User is not logged in');
-                
-                // تحقق من وجود token في URL (لحالة الانتقال من صفحة التسجيل)
-                const urlParams = new URLSearchParams(window.location.search);
-                const token = urlParams.get('token');
-                
-                if (token) {
-                    // تسجيل الدخول باستخدام token
-                    auth.signInWithCustomToken(token).catch((error) => {
-                        console.error('Error signing in with token:', error);
-                    });
-                }
-            }
-        });
-    </script>
-
-
   <header>
     <h1>مرحبا بك في دورة رحلة المهندس المحترف</h1>
-    <button id="logoutBtn" onclick="logout()">🚪 تسجيل الخروج</button>
+    <button id="logoutBtn" class="elegant-logout">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>تسجيل الخروج</span>
+    </button>
   </header>
 
-  <div class="category-nav">
-    <button onclick="jumpToCategory('Basic')">🧱 Basic</button>
-    <button onclick="jumpToCategory('Professional')">🚀 Professional</button>
+  <div class="progress-container">
+    <div class="progress-header">
+      <span>تقدمك في الدورة</span>
+      <span id="progressText">0 من 14 أسابيع</span>
+    </div>
+    <div class="progress-steps" id="progressSteps"></div>
   </div>
 
-  <div id="progressBar">
-    <div id="progressBarInner"></div>
+  <div class="course-sections">
+    <div class="section">
+      <div class="section-header" onclick="toggleSection('basic')">
+        <h2>القسم الأساسي (1-7)</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content" id="basic-section"></div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header" onclick="toggleSection('pro')">
+        <h2>القسم الاحترافي (8-14)</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content" id="pro-section"></div>
+    </div>
   </div>
 
   <main id="weeks"></main>
 
   <div class="week-navigation">
-    <button onclick="navigateWeek(-1)">⬅️ السابق</button>
-    <button onclick="navigateWeek(1)">التالي ➡️</button>
+    <button onclick="navigateWeek(-1)"><i class="fas fa-arrow-right"></i> السابق</button>
+    <button onclick="navigateWeek(1)">التالي <i class="fas fa-arrow-left"></i></button>
   </div>
 
   <footer>
     جميع الحقوق محفوظة &copy; 2025
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <script>
-    function logout() {
-      localStorage.removeItem("loggedIn");
-      localStorage.removeItem("courseStartDate");
-      window.location.href = "https://najy-hub.github.io/Login-Course/";
-    }
-
-    if (!localStorage.getItem("courseStartDate")) {
-      localStorage.setItem("courseStartDate", new Date().toISOString());
-    }
-
-    const weeksContainer = document.getElementById("weeks");
-    let currentWeek = null;
-    const categoryIndexes = { Basic: 1, Professional: 8 };
-
-    const videoData = [
-      [
-        { title: "📘 Lec1: Principle of Operation  ", url: "https://iframe.mediadelivery.net/embed/460802/dce4ee28-5099-44df-9760-dddcf3609a95?autoplay=0" },
-        { title: "📘 Lec2: Solar Technology ", url: "https://iframe.mediadelivery.net/embed/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6?autoplay=0" },
-        { title: "📘 Lec3: Area & Efficiency ", url: "https://iframe.mediadelivery.net/embed/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f?autoplay=0" },
-        { title: "📘 Lec4: Data sheet and Nameplate ", url: "https://iframe.mediadelivery.net/embed/460802/4b7a1509-496d-4d39-ba3c-d635198fa551?autoplay=0" },
-        { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8?autoplay=0" }
-      ],
-      [
-        { title: "📘 Lec1:Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be?autoplay=0" },
-        { title: "📘 Lec2:Energy Bands ", url: "https://iframe.mediadelivery.net/embed/460802/66b5260c-5552-4a88-8abb-69defa6ac944?autoplay=0" },
-        { title: "📘 Lec3 :Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8?autoplay=0" },
-        { title: "📘 Lec4 :Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89?autoplay=0" },
-        
-      ],
-      [
-        { title: "📘 Lec1: Tilt Angle", url: "https://iframe.mediadelivery.net/embed/460802/6483f8fa-5209-4896-889a-91f1dce33ed7?autoplay=0" },
-        { title: "📘 Lec2: Inverters 1", url: "https://iframe.mediadelivery.net/embed/460802/bcc34246-6195-4724-b93d-398e7ae15303?autoplay=0" },
-        { title: "📘 Lec3: Inverters 2", url: "https://iframe.mediadelivery.net/embed/460802/2e1ee203-6b18-4bb3-9f62-07d3d905f376?autoplay=0" },
+    // تهيئة Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
+      authDomain: "solar-engineer-43cbc.firebaseapp.com",
+      projectId: "solar-engineer-43cbc",
+      storageBucket: "solar-engineer-43cbc.firebasestorage.app",
+      messagingSenderId: "816573344174",
+      appId: "1:816573344174:web:b472b052d26b7be1d7003f"
+    };
     
-      ],
-       [
-        { title: "📘 المحاضرة 1", url: "https://www.youtube.com/embed/vid6" },
-        { title: "📘 المحاضرة 2", url: "https://www.youtube.com/embed/mNPXseyrxMU" },
-        { title: "📘 المحاضرة 3", url: "https://www.youtube.com/embed/vid8" },
-        { title: "📘 المحاضرة 4", url: "https://www.youtube.com/embed/vid9" },
-        { title: "📘 المحاضرة 5", url: "https://www.youtube.com/embed/vid10" }
-      ],
-    ];
-const quizLinks = [
-    "https://najy-hub.github.io/Assignment1/", " https://najy-hub.github.io/Assignment2/", "https://najy-hub.github.io/Assignment3/", "quiz4.html", "quiz5.html", "quiz6.html", "quiz7.html",
-    "quiz8.html", "quiz9.html", "quiz10.html", "quiz11.html", "quiz12.html", "quiz13.html", "quiz14.html"
-  ];
-    
-    for (let i = 1; i <= videoData.length; i++) {
-      const weekDiv = document.createElement("div");
-      weekDiv.className = "week-content";
-      weekDiv.id = `week${i}`;
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-      const type = i <= 7 ? 'Basic' : 'Professional';
-      const startDate = new Date(localStorage.getItem("courseStartDate"));
-      const allowedDate = new Date(startDate);
-      allowedDate.setDate(startDate.getDate() + (i - 1) * 7);
-      const currentDate = new Date();
-
-      const title = document.createElement("h2");
-      title.textContent = `الأسبوع ${i} - ${type}`;
-
-      if (currentDate < allowedDate) {
-        title.innerHTML += " 🔒";
-      } else {
-        title.innerHTML += " ✅";
+    // بيانات الدورة
+    const courseData = {
+      weeks: {
+        1: {
+          videos: [
+            { title: "📘 Lec1: Principle of Operation", url: "https://iframe.mediadelivery.net/embed/460802/dce4ee28-5099-44df-9760-dddcf3609a95?autoplay=0" },
+            { title: "📘 Lec2: Solar Technology", url: "https://iframe.mediadelivery.net/embed/460802/5c9229c6-4dc8-45cf-9b71-e6e4fce12da6?autoplay=0" },
+            { title: "📘 Lec3: Area & Efficiency", url: "https://iframe.mediadelivery.net/embed/460802/7082d1ef-61a6-4ee4-82c0-ced096b8188f?autoplay=0" },
+            { title: "📘 Lec4: Data sheet and Nameplate", url: "https://iframe.mediadelivery.net/embed/460802/4b7a1509-496d-4d39-ba3c-d635198fa551?autoplay=0" },
+            { title: "📘 Lec5: Strategy Of Select Pv Panels", url: "https://iframe.mediadelivery.net/embed/460802/cfe04177-caf9-4e6c-a873-9691897b0fc8?autoplay=0" }
+          ],
+          quiz: "https://najy-hub.github.io/Assignment1/"
+        },
+        2: {
+          videos: [
+            { title: "📘 Lec1: Behaviour of Electron", url: "https://iframe.mediadelivery.net/embed/460802/96a7baa2-15e4-46af-b385-a5ffdfa2e9be?autoplay=0" },
+            { title: "📘 Lec2: Energy Bands", url: "https://iframe.mediadelivery.net/embed/460802/66b5260c-5552-4a88-8abb-69defa6ac944?autoplay=0" },
+            { title: "📘 Lec3: Electron Journey1", url: "https://iframe.mediadelivery.net/embed/460802/747b6fb2-bc35-4b71-929c-fb16e82806c8?autoplay=0" },
+            { title: "📘 Lec4: Electron Journey2", url: "https://iframe.mediadelivery.net/embed/460802/93af94fd-39b6-4527-9cac-5ca25bc6cd89?autoplay=0" }
+          ],
+          quiz: "https://najy-hub.github.io/Assignment2/"
+        },
+        // يمكنك إضافة الأسابيع من 3 إلى 14 بنفس الهيكل
       }
+    };
 
-      const ul = document.createElement("ul");
-      ul.className = "video-list";
-      videoData[i - 1].forEach(video => {
-        const li = document.createElement("li");
-        li.className = "video-item";
-    li.innerHTML = `
-  <h4>${video.title}</h4>
-  <div class="bunny-video-container">
-    <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
-  </div>
-`;
+    // المتغيرات العامة
+    let currentUser = null;
+    let currentWeek = 1;
+    let unlockedWeeks = [1];
+    let completedWeeks = [];
 
-        ul.appendChild(li);
+    // عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          currentUser = user;
+          await loadUserData();
+          initPage();
+        } else {
+          window.location.href = 'https://login.najyacademia.com/';
+        }
       });
 
-      const quiz = document.createElement("div");
-      quiz.className = "quiz";
-    
-      quiz.innerHTML = `<h3>📝 اختبار الأسبوع</h3><p><a href="${quizLinks[i - 1]}" target="_blank">رابط الاختبار</a></p>`;
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+    });
 
+    // دالات النظام الأساسية
+    async function loadUserData() {
+      const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        unlockedWeeks = userData.unlockedWeeks || [1];
+        completedWeeks = userData.completedWeeks || [];
+        
+        // إذا لم يكن هناك تاريخ بدء، ضع التاريخ الحالي
+        if (!userData.dripStartDate) {
+          await db.collection('trainees').doc(currentUser.uid).update({
+            dripStartDate: new Date().toISOString()
+          });
+        }
+      }
+    }
 
+    function initPage() {
+      renderProgress();
+      renderWeekList();
+      loadWeek(currentWeek);
+    }
+
+    function renderProgress() {
+      const progressText = document.getElementById('progressText');
+      const progressSteps = document.getElementById('progressSteps');
+      
+      progressText.textContent = `${completedWeeks.length} من 14 أسابيع`;
+      
+      progressSteps.innerHTML = '';
+      for (let i = 1; i <= 14; i++) {
+        const step = document.createElement('div');
+        step.className = `step ${completedWeeks.includes(i) ? 'completed' : ''} ${i === currentWeek ? 'current' : ''}`;
+        step.innerHTML = `
+          <div class="step-icon">${completedWeeks.includes(i) ? '✓' : i}</div>
+          <div class="step-label">الأسبوع ${i}</div>
+        `;
+        progressSteps.appendChild(step);
+      }
+    }
+
+    function renderWeekList() {
+      const basicSection = document.getElementById('basic-section');
+      const proSection = document.getElementById('pro-section');
+      
+      basicSection.innerHTML = '';
+      proSection.innerHTML = '';
+      
+      for (let i = 1; i <= 14; i++) {
+        const weekItem = document.createElement('div');
+        weekItem.className = `week-item ${unlockedWeeks.includes(i) ? 'unlocked' : 'locked'}`;
+        weekItem.innerHTML = `
+          <span>الأسبوع ${i}</span>
+          ${unlockedWeeks.includes(i) ? 
+            `<button onclick="loadWeek(${i})">فتح</button>` : 
+            `<span class="lock-icon">🔒</span>`}
+        `;
+        
+        if (i <= 7) {
+          basicSection.appendChild(weekItem);
+        } else {
+          proSection.appendChild(weekItem);
+        }
+      }
+    }
+
+    function loadWeek(weekNumber) {
+      if (!unlockedWeeks.includes(weekNumber)) {
+        alert('هذا الأسبوع غير متاح لك بعد');
+        return;
+      }
+      
+      currentWeek = weekNumber;
+      const weekData = courseData.weeks[weekNumber];
+      const weeksContainer = document.getElementById('weeks');
+      
+      weeksContainer.innerHTML = '';
+      
+      if (!weekData) {
+        weeksContainer.innerHTML = '<p>المحتوى قيد التجهيز</p>';
+        return;
+      }
+      
+      const weekDiv = document.createElement('div');
+      weekDiv.className = 'week-content';
+      weekDiv.style.display = 'block';
+      
+      const title = document.createElement('h2');
+      title.textContent = `الأسبوع ${weekNumber} - ${weekNumber <= 7 ? 'الأساسي' : 'الاحترافي'}`;
       weekDiv.appendChild(title);
-      weekDiv.appendChild(ul);
-      weekDiv.appendChild(quiz);
+      
+      const videoList = document.createElement('ul');
+      videoList.className = 'video-list';
+      
+      weekData.videos.forEach(video => {
+        const videoItem = document.createElement('li');
+        videoItem.className = 'video-item';
+        videoItem.innerHTML = `
+          <h4>${video.title}</h4>
+          <div class="bunny-video-container">
+            <iframe src="${video.url}" allowfullscreen loading="lazy"></iframe>
+          </div>
+        `;
+        videoList.appendChild(videoItem);
+      });
+      
+      weekDiv.appendChild(videoList);
+      
+      const quizDiv = document.createElement('div');
+      quizDiv.className = 'quiz';
+      quizDiv.innerHTML = `
+        <h3>📝 اختبار الأسبوع</h3>
+        <p><a href="${weekData.quiz}" target="_blank">رابط الاختبار</a></p>
+      `;
+      weekDiv.appendChild(quizDiv);
+      
       weeksContainer.appendChild(weekDiv);
+      renderProgress();
     }
-
-    function updateProgressBar() {
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const diffInDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-  const weekUnlocked = Math.min(14, Math.ceil((diffInDays + 1) / 7)); // أضف 1 حتى يبدأ من اليوم الأول
-  const percentage = (weekUnlocked / 14) * 100;
-  document.getElementById("progressBarInner").style.width = `${percentage}%`;
-}
-
-
-function changeWeekId(weekNumber) {
-  const allWeeks = document.querySelectorAll(".week-content");
-  allWeeks.forEach(div => div.style.display = "none");
-
-  const startDate = new Date(localStorage.getItem("courseStartDate"));
-  const currentDate = new Date();
-  const allowedDate = new Date(startDate);
-  allowedDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
-
-  if (currentDate >= allowedDate) {
-    document.getElementById(`week${weekNumber}`).style.display = "block";
-    currentWeek = weekNumber;
-  } else {
-    alert("🔒 هذا الأسبوع لم يتم فتحه بعد. سيتم فتحه تلقائيًا في: " + allowedDate.toLocaleDateString());
-    if (currentWeek !== null) {
-      document.getElementById(`week${currentWeek}`).style.display = "block";
-    }
-  }
-}
-
 
     function navigateWeek(step) {
-      if (currentWeek === null) return;
-      const nextWeek = currentWeek + step;
-      if (nextWeek >= 1 && nextWeek <= videoData.length) {
-        changeWeekId(nextWeek);
+      const newWeek = currentWeek + step;
+      if (newWeek >= 1 && newWeek <= 14) {
+        loadWeek(newWeek);
       }
     }
 
-    function expandVideo(button) {
-      const iframe = button.previousElementSibling;
-      if (iframe.style.width !== "100vw") {
-        iframe.style.width = "100vw";
-        iframe.style.height = "90vh";
-        iframe.style.position = "fixed";
-        iframe.style.top = "5vh";
-        iframe.style.left = "0";
-        iframe.style.zIndex = "9999";
-        iframe.style.borderRadius = "0";
-        button.textContent = "❌ إغلاق الفيديو";
+    function toggleSection(sectionId) {
+      const section = document.getElementById(`${sectionId}-section`);
+      const icon = section.previousElementSibling.querySelector('i');
+      
+      if (section.style.display === 'block') {
+        section.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
       } else {
-        iframe.removeAttribute("style");
-        button.textContent = "🔍 توسيع الفيديو";
+        section.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
       }
     }
 
-    function jumpToCategory(category) {
-      const week = categoryIndexes[category];
-      changeWeekId(week);
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = 'https://najy-hub.github.io/Login-Course/';
+      });
     }
 
-    changeWeekId(1);
-    updateProgressBar();
+    // فتح القسم الأساسي تلقائياً عند التحميل
+    window.onload = function() {
+      document.getElementById('basic-section').style.display = 'block';
+      document.querySelector('.section-header i').classList.replace('fa-chevron-down', 'fa-chevron-up');
+    };
   </script>
 </body>
 </html>
-
