@@ -556,12 +556,22 @@ auth.onAuthStateChanged(async (user) => {
       });
     }
 // إضافة دالة تسجيل الدخول بعد الخروج
-    async function handleLogin(email, password) {
+   async function handleLogin(email, password) {
   try {
+    // تأكد من تعيين الاستمرارية قبل تسجيل الدخول
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     currentUser = userCredential.user;
-    await loadUserData();
-    initPage();
+    
+    // حفظ بيانات المستخدم الأولية
+    await initializeUserData();
+    
+    // تأخير التوجيه لضمان حفظ الحالة
+    setTimeout(() => {
+      window.location.href = "/dashboard"; // غير المسار حسب حاجتك
+    }, 500);
+    
     return true;
   } catch (error) {
     console.error("Login error:", error);
