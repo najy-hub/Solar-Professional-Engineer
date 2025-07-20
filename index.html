@@ -384,59 +384,11 @@
     جميع الحقوق محفوظة &copy; 2025
   </footer>
 
-  <!-- تحميل مكتبات Firebase بالترتيب الصحيح -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-
+ 
   <script>
-// أضف هذا الكود في بداية الصفحة الرئيسية
-if (window.location.search.includes('token')) {
-  window.history.replaceState({}, document.title, window.location.pathname);
-}
-    // تكوين Firebase
-// تكوين Firebase
-// في ملف التهيئة الرئيسي (يجب تنفيذه مرة واحدة فقط)
-const firebaseConfig = {
-  apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
-  authDomain: "solar-engineer-43cbc.firebaseapp.com",
-  projectId: "solar-engineer-43cbc",
-  storageBucket: "solar-engineer-43cbc.appspot.com",
-  messagingSenderId: "816573344174",
-  appId: "1:816573344174:web:b472b052d26b7be1d7003f"
-};
+    const API_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
 
-// التهيئة مع معالجة الأخطاء
-let app;
-try {
-  app = firebase.initializeApp(firebaseConfig);
-} catch (error) {
-  if (error.code === 'app/duplicate-app') {
-    app = firebase.app();
-  } else {
-    console.error("Firebase init error:", error);
-    throw error;
-  }
-}
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// تعيين استمرارية الجلسة (مهم جداً)
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => console.log("تم تعيين استمرارية الجلسة"))
-  .catch((error) => console.error("خطأ في استمرارية الجلسة:", error));
-// ضع هذا الكود في الصفحة الرئيسية بعد التهيئة
-auth.onAuthStateChanged((user) => {
-  if (user) {
-    console.log("User signed in:", user.uid);
-    currentUser = user;
-    initPage();
-  } else {
-    console.log("User signed out");
-    window.location.href = 'https://login.najyacademia.com/';
-  }
-});
     // بيانات الدورة
     const courseData = {
       weeks: [
@@ -470,77 +422,105 @@ auth.onAuthStateChanged((user) => {
     let unlockedWeeks = [1];
     let completedWeeks = [];
 
-    // دالة تحميل بيانات المستخدم
-    async function loadUserData() {
-  try {
-    console.log("Loading data for user:", currentUser.uid);
-    const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
-    
-    if (!userDoc.exists) {
-      console.log("No user document, creating new one");
-      await db.collection('trainees').doc(currentUser.uid).set({
-        dripStartDate: new Date().toISOString(),
-        unlockedWeeks: [1],
-        completedWeeks: [],
-        currentWeek: 1
-      });
-    } else {
-      const userData = userDoc.data();
-      console.log("User data loaded:", userData);
-      unlockedWeeks = userData.unlockedWeeks || [1];
-      completedWeeks = userData.completedWeeks || [];
-      currentWeek = userData.currentWeek || 1;
+   // دالة تسجيل الدخول باستخدام Google Sheets
+    async function login(email, password) {
+      try {
+        const response = await fetch(`${API_URL}?action=login`, {
+          method: 'POST',
+          body: JSON.stringify({ email, password }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const userData = await response.json();
+        
+        if (userData === "FAILED") {
+          throw new Error("بيانات الدخول غير صحيحة");
+        }
+        
+        // حفظ بيانات المستخدم في localStorage
+        currentUser = {
+          email: userData.email,
+          uid: userData.email // نستخدم البريد كمعرف فريد
+        };
+        
+        unlockedWeeks = userData.unlockedWeeks;
+        completedWeeks = userData.completedWeeks;
+        currentWeek = userData.currentWeek;
+        
+        localStorage.setItem('userData', JSON.stringify({
+          email: userData.email,
+          unlockedWeeks: userData.unlockedWeeks,
+          completedWeeks: userData.completedWeeks,
+          currentWeek: userData.currentWeek
+        }));
+        
+        window.location.href = '/dashboard';
+        
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("فشل تسجيل الدخول: " + error.message);
+      }
     }
-  } catch (error) {
-    console.error("Error loading user data:", error);
-    alert("حدث خطأ في تحميل بيانات المستخدم");
-  }
-}
-// اضفت دالة حفظ البيانات 
-    async function saveUserData() {
-  try {
-    await db.collection('trainees').doc(currentUser.uid).update({
-      unlockedWeeks: unlockedWeeks,
-      completedWeeks: completedWeeks,
-      currentWeek: currentWeek,
-      lastUpdated: new Date().toISOString()
-    });
-    console.log("User data saved successfully");
-  } catch (error) {
-    console.error("Error saving user data:", error);
-  }
-}
+
+    // دالة تسجيل الخروج
+    function logout() {
+      localStorage.removeItem('userData');
+      currentUser = null;
+      window.location.href = '/login';
+    }
+
     // دالة حفظ التقدم
     async function saveProgress() {
+      if (!currentUser) return;
+      
       try {
-        await db.collection('trainees').doc(currentUser.uid).update({
-          unlockedWeeks: unlockedWeeks,
-          completedWeeks: completedWeeks,
-          currentWeek: currentWeek,
-          lastActive: new Date().toISOString()
+        await fetch(`${API_URL}?action=save`, {
+          method: 'POST',
+          body: JSON.stringify({
+            email: currentUser.email,
+            unlockedWeeks: unlockedWeeks,
+            completedWeeks: completedWeeks,
+            currentWeek: currentWeek
+          }),
+          headers: { 'Content-Type': 'application/json' }
         });
       } catch (error) {
         console.error("Error saving progress:", error);
       }
     }
-//كود ضفته انا لمعالجة الاخطاء يوم الاحد
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    console.log("User signed in:", user.uid);
-    currentUser = user;
-    await loadUserData();
-    
-    // تأكد من حفظ البيانات الأولية
-    if (!(await db.collection('trainees').doc(user.uid).get()).exists) {
-      await saveUserData();
+
+    // دالة تحميل بيانات المستخدم
+    function loadUserData() {
+      const data = localStorage.getItem('userData');
+      if (data) {
+        const userData = JSON.parse(data);
+        currentUser = { email: userData.email, uid: userData.email };
+        unlockedWeeks = userData.unlockedWeeks || [1];
+        completedWeeks = userData.completedWeeks || [];
+        currentWeek = userData.currentWeek || 1;
+        return true;
+      }
+      return false;
     }
-    
-    initPage();
-  } else {
-    console.log("No user signed in");
-    window.location.href = 'https://login.najyacademia.com/';
-  }
-});
+
+    // تعديل دالة initPage للعمل مع النظام الجديد
+    function initPage() {
+      if (loadUserData()) {
+        renderProgress();
+        renderWeekList();
+        loadWeek(currentWeek);
+      } else {
+        window.location.href = '/login';
+      }
+    }
+
+    // بقية الدوال تبقى كما هي (renderProgress, renderWeekList, loadWeek, completeWeek, ...)
+
+    // عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
+      initPage();
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+    });
     // أضف هذه الدالة في مكان واضح في الكود
 function toggleSection(sectionId) {
   const section = document.getElementById(`${sectionId}-section`);
@@ -689,16 +669,7 @@ async function logout() {
         return false;
       }
     }
-// أضف هذا في أي مكان في الكود
-db.enablePersistence()
-  .then(() => console.log("Offline persistence enabled"))
-  .catch((err) => {
-    if (err.code == 'failed-precondition') {
-      console.log("Persistence can only be enabled in one tab at a time");
-    } else if (err.code == 'unimplemented') {
-      console.log("The current browser does not support offline persistence");
-    }
-  });
+
     // دالة تحميل محتوى الأسبوع
     async function loadWeek(weekNumber) {
       if (!unlockedWeeks.includes(weekNumber)) {
