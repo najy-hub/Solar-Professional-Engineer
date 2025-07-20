@@ -459,7 +459,7 @@
            
         // إذا لم يكن هناك تاريخ بدء، ضع التاريخ الحالي
         if (!userData.dripStartDate) {
-          await db.collection('Trainee').doc(currentUser.uid).update({
+          await db.collection('trainees').doc(currentUser.uid).update({
             dripStartDate: new Date().toISOString()
           });
         }
