@@ -355,31 +355,50 @@
     جميع الحقوق محفوظة &copy; 2025
   </footer>
 
-  // تهيئة Firebase
-  <!-- تحميل مكتبات Firebase compat -->
+ <!-- تحميل مكتبات Firebase بالترتيب الصحيح -->
 <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 
 <!-- تهيئة Firebase -->
 <script>
- const firebaseConfig = {
-  apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
-  authDomain: "solar-engineer-43cbc.firebaseapp.com",
-  projectId: "solar-engineer-43cbc",
-  storageBucket: "solar-engineer-43cbc.firebasestorage.app",
-  messagingSenderId: "816573344174",
-  appId: "1:816573344174:web:b472b052d26b7be1d7003f",
-  
-};
+  // تكوين Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
+    authDomain: "solar-engineer-43cbc.firebaseapp.com",
+    projectId: "solar-engineer-43cbc",
+    storageBucket: "solar-engineer-43cbc.firebasestorage.app",
+    messagingSenderId: "816573344174",
+    appId: "1:816573344174:web:b472b052d26b7be1d7003f"
+  };
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-
-  console.log("Firebase Initialized");
+  try {
+    // تهيئة Firebase
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+    
+    // تهيئة خدمات Firebase
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    // إعدادات Firestore (مهمة للتشغيل السليم)
+    db.settings({
+      experimentalForceLongPolling: true, // مهم للتشغيل في بعض البيئات
+      merge: true
+    });
+    
+    console.log("Firebase initialized successfully");
+    
+    // تصدير المتغيرات للاستخدام في ملفات أخرى إذا لزم الأمر
+    window.firebaseAuth = auth;
+    window.firebaseDb = db;
+    
+  } catch (error) {
+    console.error("Firebase initialization error:", error);
+    
+    // يمكنك إضافة معالجة إضافية للخطأ هنا
+    alert("حدث خطأ في تهيئة النظام. يرجى تحديث الصفحة أو المحاولة لاحقاً.");
+  }
 </script>
-
    
     // بيانات الدورة
     const courseData = {
