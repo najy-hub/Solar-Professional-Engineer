@@ -480,7 +480,20 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     alert("حدث خطأ في تحميل بيانات المستخدم");
   }
 }
-
+// اضفت دالة حفظ البيانات 
+    async function saveUserData() {
+  try {
+    await db.collection('trainees').doc(currentUser.uid).update({
+      unlockedWeeks: unlockedWeeks,
+      completedWeeks: completedWeeks,
+      currentWeek: currentWeek,
+      lastUpdated: new Date().toISOString()
+    });
+    console.log("User data saved successfully");
+  } catch (error) {
+    console.error("Error saving user data:", error);
+  }
+}
     // دالة حفظ التقدم
     async function saveProgress() {
       try {
