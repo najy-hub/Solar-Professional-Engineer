@@ -356,22 +356,30 @@
   </footer>
 
   // تهيئة Firebase
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { firebaseConfig } from './firebaseConfig.js';
+  <!-- تحميل مكتبات Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+<!-- تهيئة Firebase -->
+<script>
+ const firebaseConfig = {
+  apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
+  authDomain: "solar-engineer-43cbc.firebaseapp.com",
+  projectId: "solar-engineer-43cbc",
+  storageBucket: "solar-engineer-43cbc.firebasestorage.app",
+  messagingSenderId: "816573344174",
+  appId: "1:816573344174:web:b472b052d26b7be1d7003f",
+  
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
   console.log("Firebase Initialized");
 </script>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-  <script>
-    
    
     // بيانات الدورة
     const courseData = {
