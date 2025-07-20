@@ -421,7 +421,27 @@ db = firebase.firestore();
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
   .then(() => console.log("Auth persistence set to LOCAL"))
   .catch((error) => console.error("Error setting persistence:", error));
-
+// ضع هذا الكود في الصفحة الرئيسية بعد التهيئة
+auth.onAuthStateChanged((user) => {
+  console.log("Auth state changed:", user);
+  
+  if (user) {
+    currentUser = user;
+    console.log("User is signed in:", user.uid);
+    
+    // تأخير التوجيه إذا كان في صفحة تسجيل الدخول
+    if (window.location.pathname === "/login") {
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 300);
+    }
+  } else {
+    console.log("User is signed out");
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
+  }
+});
     // بيانات الدورة
     const courseData = {
       weeks: [
