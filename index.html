@@ -622,7 +622,16 @@ auth.onAuthStateChanged(async (user) => {
         return false;
       }
     }
-
+// أضف هذا في أي مكان في الكود
+db.enablePersistence()
+  .then(() => console.log("Offline persistence enabled"))
+  .catch((err) => {
+    if (err.code == 'failed-precondition') {
+      console.log("Persistence can only be enabled in one tab at a time");
+    } else if (err.code == 'unimplemented') {
+      console.log("The current browser does not support offline persistence");
+    }
+  });
     // دالة تحميل محتوى الأسبوع
     async function loadWeek(weekNumber) {
       if (!unlockedWeeks.includes(weekNumber)) {
