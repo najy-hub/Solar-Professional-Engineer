@@ -404,7 +404,19 @@
     let currentWeek = 1;
     let unlockedWeeks = [1];
     let completedWeeks = [];
-
+ // دالة تحميل بيانات المستخدم
+    async function loadUserData() {
+      try {
+        const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          unlockedWeeks = userData.unlockedWeeks || [1];
+          completedWeeks = userData.completedWeeks || [];
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+      }
+    }
     // عند تحميل الصفحة
     document.addEventListener('DOMContentLoaded', () => {
       auth.onAuthStateChanged(async (user) => {
@@ -421,13 +433,7 @@
     });
 
     // دالات النظام الأساسية
-    async function loadUserData() {
-      const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
-      if (userDoc.exists) {
-        const userData = userDoc.data();
-        unlockedWeeks = userData.unlockedWeeks || [1];
-        completedWeeks = userData.completedWeeks || [];
-        
+           
         // إذا لم يكن هناك تاريخ بدء، ضع التاريخ الحالي
         if (!userData.dripStartDate) {
           await db.collection('trainees').doc(currentUser.uid).update({
