@@ -599,6 +599,13 @@ auth.onAuthStateChanged(async (user) => {
     return false;
   }
 }
+    // أضف هذا في صفحة تسجيل الخروج
+await auth.signOut();
+window.localStorage.clear();
+window.sessionStorage.clear();
+if (window.indexedDB) {
+  indexedDB.deleteDatabase("firebaseLocalStorageDb");
+}
     // دالة عرض التقدم
     function renderProgress() {
       const progressText = document.getElementById('progressText');
