@@ -391,7 +391,7 @@
 
   <script>
     // تكوين Firebase
-  // تأكد من أن هذا الكود موجود قبل أي استخدام لـ Firebase
+ // تكوين Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
   authDomain: "solar-engineer-43cbc.firebaseapp.com",
@@ -401,22 +401,26 @@ const firebaseConfig = {
   appId: "1:816573344174:web:b472b052d26b7be1d7003f"
 };
 
-// تهيئة Firebase
-let app;
+// تهيئة Firebase مع معالجة الأخطاء
+let auth, db;
+
 try {
-  app = firebase.initializeApp(firebaseConfig);
-  console.log("Firebase initialized successfully");
+  // جرب تحميل التطبيق الموجود أولاً
+  app = firebase.app();
+  console.log("Using existing Firebase app");
 } catch (error) {
-  console.error("Firebase initialization error:", error);
-  if (error.code === 'app/duplicate-app') {
-    app = firebase.app();
-  } else {
-    throw error;
-  }
+  // إذا لم يوجد تطبيق، قم بتهيئته
+  app = firebase.initializeApp(firebaseConfig);
+  console.log("Initialized new Firebase app");
 }
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+auth = firebase.auth();
+db = firebase.firestore();
+
+// تعيين استمرارية الجلسة
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => console.log("Auth persistence set to LOCAL"))
+  .catch((error) => console.error("Error setting persistence:", error));
 
     // بيانات الدورة
     const courseData = {
