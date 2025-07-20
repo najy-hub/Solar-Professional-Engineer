@@ -405,18 +405,41 @@
     let unlockedWeeks = [1];
     let completedWeeks = [];
  // دالة تحميل بيانات المستخدم
-    async function loadUserData() {
-      try {
-        const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
-        if (userDoc.exists) {
-          const userData = userDoc.data();
-          unlockedWeeks = userData.unlockedWeeks || [1];
-          completedWeeks = userData.completedWeeks || [];
-        }
-      } catch (error) {
-        console.error("Error loading user data:", error);
+
+ async function loadUserData() {
+    try {
+      const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        unlockedWeeks = userData.unlockedWeeks || [1];
+        completedWeeks = userData.completedWeeks || [];
       }
+    } catch (error) {
+      console.error("Error loading user data:", error);
     }
+  }
+
+  function toggleSection(sectionId) {
+    const section = document.getElementById(`${sectionId}-section`);
+    const icon = section.previousElementSibling.querySelector('i');
+    
+    if (section.style.display === 'block') {
+      section.style.display = 'none';
+      icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+    } else {
+      section.style.display = 'block';
+      icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+    }
+  }
+
+  function navigateWeek(step) {
+    const newWeek = currentWeek + step;
+    if (newWeek >= 1 && newWeek <= 14) {
+      loadWeek(newWeek);
+    }
+  }
+
+    
     // عند تحميل الصفحة
     document.addEventListener('DOMContentLoaded', () => {
       auth.onAuthStateChanged(async (user) => {
@@ -492,13 +515,13 @@
       }
     }
 
-    function loadWeek(weekNumber) {
-      if (!unlockedWeeks.includes(weekNumber)) {
-        alert('هذا الأسبوع غير متاح لك بعد');
-        return;
-      }
-      
-      currentWeek = weekNumber;
+    async function loadWeek(weekNumber) {
+    if (!unlockedWeeks.includes(weekNumber)) {
+      alert('هذا الأسبوع غير متاح لك بعد');
+      return;
+    }
+    
+    currentWeek = weekNumber;
       const weekData = courseData.weeks[weekNumber];
       const weeksContainer = document.getElementById('weeks');
       
@@ -546,28 +569,7 @@
       renderProgress();
     }
 
-    function navigateWeek(step) {
-      const newWeek = currentWeek + step;
-      if (newWeek >= 1 && newWeek <= 14) {
-        loadWeek(newWeek);
-      }
-    }
-
-    function toggleSection(sectionId) {
-      const section = document.getElementById(`${sectionId}-section`);
-      const icon = section.previousElementSibling.querySelector('i');
-      
-      if (section.style.display === 'block') {
-        section.style.display = 'none';
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
-      } else {
-        section.style.display = 'block';
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
-      }
-    }
-
+       
     function logout() {
       auth.signOut().then(() => {
         window.location.href = 'https://najy-hub.github.io/Login-Course/';
