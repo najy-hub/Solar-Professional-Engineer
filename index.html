@@ -396,6 +396,7 @@ if (window.location.search.includes('token')) {
 }
     // تكوين Firebase
 // تكوين Firebase
+// في ملف التهيئة الرئيسي (يجب تنفيذه مرة واحدة فقط)
 const firebaseConfig = {
   apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
   authDomain: "solar-engineer-43cbc.firebaseapp.com",
@@ -406,23 +407,25 @@ const firebaseConfig = {
 };
 
 // التهيئة مع معالجة الأخطاء
-let app, auth, db;
-
+let app;
 try {
-  app = firebase.app();
-  console.log("Using existing Firebase app");
-} catch (e) {
   app = firebase.initializeApp(firebaseConfig);
-  console.log("Initialized new Firebase app");
+} catch (error) {
+  if (error.code === 'app/duplicate-app') {
+    app = firebase.app();
+  } else {
+    console.error("Firebase init error:", error);
+    throw error;
+  }
 }
 
-auth = firebase.auth();
-db = firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-// تعيين استمرارية الجلسة
+// تعيين استمرارية الجلسة (مهم جداً)
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => console.log("Auth persistence set to LOCAL"))
-  .catch((error) => console.error("Error setting persistence:", error));
+  .then(() => console.log("تم تعيين استمرارية الجلسة"))
+  .catch((error) => console.error("خطأ في استمرارية الجلسة:", error));
 // ضع هذا الكود في الصفحة الرئيسية بعد التهيئة
 auth.onAuthStateChanged((user) => {
   if (user) {
