@@ -493,7 +493,23 @@
         console.error("Error saving progress:", error);
       }
     }
-
+//كود ضفته انا لمعالجة الاخطاء يوم الاحد
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User signed in:", user);
+    currentUser = user;
+    loadUserData().then(() => {
+      initPage();
+    });
+  } else {
+    console.log("No user signed in");
+    window.location.href = 'https://login.najyacademia.com/';
+  }
+}, (error) => { // أضف معالج الأخطاء هذا
+  console.error("Auth state error:", error);
+  alert("حدث خطأ في المصادقة: " + error.message);
+});
+    
     // دالة تبديل الأقسام
     function toggleSection(sectionId) {
       const section = document.getElementById(`${sectionId}-section`);
