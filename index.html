@@ -391,35 +391,32 @@
 
   <script>
     // تكوين Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
-      authDomain: "solar-engineer-43cbc.firebaseapp.com",
-      projectId: "solar-engineer-43cbc",
-      storageBucket: "solar-engineer-43cbc.firebasestorage.app",
-      messagingSenderId: "816573344174",
-      appId: "1:816573344174:web:b472b052d26b7be1d7003f"
-    };
-// أضف هذه الإعدادات بعد التهيئة
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => console.log("تم تعيين استمرارية الجلسة"))
-  .catch(err => console.error("خطأ في استمرارية الجلسة:", err));
-    // تهيئة Firebase
-    let auth, db;
-    try {
-      const firebaseApp = firebase.initializeApp(firebaseConfig);
-      auth = firebase.auth();
-      db = firebase.firestore();
-      
-      db.settings({
-        experimentalForceLongPolling: true,
-        merge: true
-      });
-      
-      console.log("Firebase initialized successfully");
-    } catch (error) {
-      console.error("Firebase initialization error:", error);
-      alert("حدث خطأ في تهيئة النظام. يرجى تحديث الصفحة أو المحاولة لاحقاً.");
-    }
+  // تأكد من أن هذا الكود موجود قبل أي استخدام لـ Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBWdrUtLP4fVKHDmQDC6nUJzBMPA7AmbMc",
+  authDomain: "solar-engineer-43cbc.firebaseapp.com",
+  projectId: "solar-engineer-43cbc",
+  storageBucket: "solar-engineer-43cbc.appspot.com",
+  messagingSenderId: "816573344174",
+  appId: "1:816573344174:web:b472b052d26b7be1d7003f"
+};
+
+// تهيئة Firebase
+let app;
+try {
+  app = firebase.initializeApp(firebaseConfig);
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  console.error("Firebase initialization error:", error);
+  if (error.code === 'app/duplicate-app') {
+    app = firebase.app();
+  } else {
+    throw error;
+  }
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
 
     // بيانات الدورة
     const courseData = {
