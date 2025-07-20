@@ -453,32 +453,30 @@
 
     // دالة تحميل بيانات المستخدم
     async function loadUserData() {
-      try {
-        const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
-        if (userDoc.exists) {
-          const userData = userDoc.data();
-          unlockedWeeks = userData.unlockedWeeks || [1];
-          completedWeeks = userData.completedWeeks || [];
-          currentWeek = userData.currentWeek || 1;
-          
-          if (!userData.dripStartDate) {
-            await db.collection('trainees').doc(currentUser.uid).update({
-              dripStartDate: new Date().toISOString()
-            });
-          }
-        } else {
-          // إنشاء مستند جديد إذا لم يكن موجوداً
-          await db.collection('trainees').doc(currentUser.uid).set({
-            dripStartDate: new Date().toISOString(),
-            unlockedWeeks: [1],
-            completedWeeks: [],
-            currentWeek: 1
-          });
-        }
-      } catch (error) {
-        console.error("Error loading user data:", error);
-      }
+  try {
+    console.log("Loading data for user:", currentUser.uid);
+    const userDoc = await db.collection('trainees').doc(currentUser.uid).get();
+    
+    if (!userDoc.exists) {
+      console.log("No user document, creating new one");
+      await db.collection('trainees').doc(currentUser.uid).set({
+        dripStartDate: new Date().toISOString(),
+        unlockedWeeks: [1],
+        completedWeeks: [],
+        currentWeek: 1
+      });
+    } else {
+      const userData = userDoc.data();
+      console.log("User data loaded:", userData);
+      unlockedWeeks = userData.unlockedWeeks || [1];
+      completedWeeks = userData.completedWeeks || [];
+      currentWeek = userData.currentWeek || 1;
     }
+  } catch (error) {
+    console.error("Error loading user data:", error);
+    alert("حدث خطأ في تحميل بيانات المستخدم");
+  }
+}
 
     // دالة حفظ التقدم
     async function saveProgress() {
